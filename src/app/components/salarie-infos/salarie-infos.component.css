@@ -1,0 +1,18 @@
+.mat-expansion-panel-header-description, .mat-expansion-panel-header-title {
+  width: 0px;
+}
+
+.detail-item {
+  display: flex;
+  margin-bottom: 15px;
+  flex-grow: 1;
+}
+
+.detail-name {
+  /*flex-grow: 1.2;*/
+  width: 356px;
+  font-weight: bold;
+}
+.detail-content {
+  flex-grow: 2;
+}

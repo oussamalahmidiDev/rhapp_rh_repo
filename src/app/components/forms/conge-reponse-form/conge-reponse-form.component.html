@@ -1,0 +1,53 @@
+<div class="form">
+  <div class="mat-title">Répondre au congé de {{ data.salarie.nom }}</div>
+  <!-- <p class="mat-body">Formualaire de virement. Verifiez bien les informations avant de valider !</p> -->
+  <div class="line-header">
+    <div class="mat-body-2">Motif</div>
+  </div>
+  <div class="mat-body">{{ data.motif }}</div>  
+  <div class="line-header">
+    <div class="mat-body-2">Type du congé</div>
+  </div>
+  <div class="mat-body">{{ data.type }}</div>  
+  <div class="line-header">
+    <div class="mat-body-2">Motif</div>
+  </div>
+  <div class="mat-body">{{ data.motif }}</div>  
+  <div class="line-header">
+    <div class="mat-body-2">Date de début</div>
+  </div>
+  <div class="mat-body">{{ data.dateDeDebut }}</div>  
+  <div class="line-header">
+    <div class="mat-body-2">Date de fin</div>
+  </div>
+  <div class="mat-body">{{ data.dateDeFin }}</div>  
+  <div class="line-header">
+    <div class="mat-body-2">État</div>
+  </div>
+  <div class="mat-body">{{ data.etat.etat }}</div>  
+
+  <form style="margin-top: 10px;">
+    <mat-form-field style="width: -webkit-fill-available; width: -moz-available;">
+      
+      <mat-label>Votre réponse :</mat-label>
+      <mat-select>
+        <mat-option  value="Acceptée">Accepter</mat-option>
+        <mat-option value="Refusée">Refuser</mat-option>
+      </mat-select>
+    </mat-form-field>
+    <mat-form-field style="width: -webkit-fill-available; width: -moz-available;">
+      <mat-label>Specifier le motif</mat-label>
+      <!-- <input matInput formControlName="secondCtrl" placeholder="Ex : 120.00" type="text"> -->
+            <textarea rows="3" style="resize: none;" formControlName="secondCtrl" type="text" matInput></textarea>
+    </mat-form-field>
+  </form>
+
+
+
+
+    <!-- <mat-card-actions class="container pr-5 mb-0" *ngIf="formIsValid && formIsApproved"> -->
+    <mat-card-actions class="container  mb-0" >
+      <button mat-raised-button style="width: 421px;" color="primary"(click)="createVirement()" >Valider la réponse</button>
+    </mat-card-actions>
+  </div>
+  

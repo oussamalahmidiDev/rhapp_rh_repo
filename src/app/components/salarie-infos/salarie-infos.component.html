@@ -1,0 +1,107 @@
+<mat-accordion>
+  <mat-expansion-panel>
+    <mat-expansion-panel-header>
+      <mat-panel-title>
+        État civile
+      </mat-panel-title>
+      <mat-panel-description>
+        Informations personnelles, le contact principal
+      </mat-panel-description>
+    </mat-expansion-panel-header>
+    <div class="detail-item">
+      <div class="detail-name">Nom et prénom</div>
+      <div class="detail-content">{{ salarie.nom }}</div>
+    </div>
+    <div class="detail-item">
+      <div class="detail-name">Adresse éléctronique</div>
+      <div class="detail-content">{{ salarie.email }}</div>
+    </div>
+    <div class="detail-item">
+      <div class="detail-name">Adresse</div>
+      <div class="detail-content">{{ salarie.adresse }}</div>
+    </div>
+    <div class="detail-item">
+      <div class="detail-name">Numero de somme</div>
+      <div class="detail-content">{{ salarie.numDeSomme }}</div>
+    </div>
+    <div class="detail-item">
+      <div class="detail-name">Date de naissance</div>
+      <div class="detail-content">{{ salarie.dateNaissance }}</div>
+    </div>
+    <div class="detail-item">
+      <div class="detail-name">Lieu de naissance</div>
+      <div class="detail-content">{{ salarie.lieuNaissance }}</div>
+    </div>
+
+  </mat-expansion-panel>
+  <mat-expansion-panel>
+    <mat-expansion-panel-header>
+      <mat-panel-title>
+        Cursus professionnel
+      </mat-panel-title>
+      <mat-panel-description>
+        Diplôme obtenu, direction, division, service
+      </mat-panel-description>
+    </mat-expansion-panel-header>
+    <div class="detail-item">
+      <div class="detail-name">Diplôme obtenu</div>
+      <div class="detail-content">Oussama Lahmidi</div>
+    </div>
+    <div class="detail-item">
+      <div class="detail-name">Direction</div>
+      <div class="detail-content">{{ salarie.direction }}</div>
+    </div>
+    <div class="detail-item">
+      <div class="detail-name">Division</div>
+      <div class="detail-content">{{ salarie.division }}</div>
+    </div>
+    <div class="detail-item">
+      <div class="detail-name">Service</div>
+      <div class="detail-content">{{ salarie.service }}</div>
+    </div>
+
+  </mat-expansion-panel>
+  <mat-expansion-panel>
+    <mat-expansion-panel-header>
+      <mat-panel-title>
+        Contact d'urgence
+      </mat-panel-title>
+      <mat-panel-description>CIN, adresse d'urgence, téléphone et email d'urgence</mat-panel-description>
+    </mat-expansion-panel-header>
+    <div class="detail-item">
+      <div class="detail-name">CIN</div>
+      <div class="detail-content">U6337899</div>
+    </div>
+    <div class="detail-item">
+      <div class="detail-name">Nom et prénom</div>
+      <div class="detail-content">LAHMIDI Oussama</div>
+    </div>
+    <div class="detail-item">
+      <div class="detail-name">Adresse d'urgence</div>
+      <div class="detail-content">U6337899</div>
+    </div>
+    <div class="detail-item">
+      <div class="detail-name">Téléphone</div>
+      <div class="detail-content">U6337899</div>
+    </div>
+    <div class="detail-item">
+      <div class="detail-name">Email d'urgence</div>
+      <div class="detail-content">U6337899</div>
+    </div>
+
+  </mat-expansion-panel>
+  <mat-expansion-panel>
+    <mat-expansion-panel-header>
+      <mat-panel-title>
+        Pièces jointes
+      </mat-panel-title>
+      <mat-panel-description>Document du CV</mat-panel-description>
+    </mat-expansion-panel-header>
+    <div class="detail-item">
+      <div class="detail-name">Document CV</div>
+      <a href="" class="detail-content">Télécharger le fichier</a>
+    </div>
+
+
+  </mat-expansion-panel>
+</mat-accordion>

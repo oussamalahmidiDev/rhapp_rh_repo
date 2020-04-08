@@ -1,0 +1,23 @@
+.accounts {
+  width: 100%;
+}
+button.mat-fab.mat-accent {
+  position: fixed;
+  bottom: 50px;
+  /* margin-left: auto; */
+  right: 50px;
+}
+button.mat-raised-button.mat-accent {
+  position: fixed;
+  bottom: 50px;
+  /* margin-left: auto; */
+  right: 50px;
+}
+
+td.mat-cell:first-of-type {
+  padding-left: 0;
+}
+
+th.mat-header-cell:first-of-type {
+  padding-left: 0;
+}

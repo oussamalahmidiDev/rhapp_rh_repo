@@ -1,0 +1,47 @@
+.salarie-header {
+  display: flex;
+  margin-bottom: 30px;
+  align-items: center;
+  justify-content: space-between;
+}
+.header-left {
+  display: flex;
+  align-items: center;
+}
+
+strong.detail-name {
+  font-weight: bold;
+  margin-right: 10px;
+}
+h3.sal-name {
+  font-weight: bold;
+  font-size: 35px;
+  margin-bottom: 15px;
+}
+
+.avatar {
+  height: 150px;
+  width: 150px;
+  background: grey;
+  border-radius: 90px;
+  margin-right: 35px;
+  background-size: contain;
+}
+
+.poste-top {
+  margin-bottom: 20px;
+}
+
+h3.poste-header {
+  font-size: 30px;
+  font-weight: bold;
+  text-transform: uppercase;
+}
+
+h4.poste-name {
+  opacity: 0.8;
+  font-size: 20px;
+}
+.header-right > * {
+  text-align: end;
+}

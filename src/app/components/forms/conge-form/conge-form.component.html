@@ -1,0 +1,66 @@
+<div class="form">
+  <div class="mat-title">Créer un nouveau poste</div>
+  <p class="mat-body">Formualaire de virement. Verifiez bien les informations avant de valider !</p>
+    <mat-vertical-stepper   linear>
+      <mat-step [stepControl]="firstFormGroup"*ngIf="!formIsValid">
+        <form [formGroup]="firstFormGroup">
+          <ng-template matStepLabel>Préciser la direction, la division et le service</ng-template>
+          <mat-form-field [style.width.px]=327>
+            <mat-label>Préciser la direction</mat-label>
+            <input [(ngModel)]="poste.direction" matInput placeholder="Ex : 678951948581479" formControlName="firstCtrl" required>
+          </mat-form-field>
+          <mat-form-field [style.width.px]=327>
+            <mat-label>Préciser la division</mat-label>
+            <input [(ngModel)]="poste.division" matInput placeholder="Ex : 678951948581479" formControlName="firstCtrl" required>
+          </mat-form-field>
+          <mat-form-field [style.width.px]=327>
+            <mat-label>Préciser la service</mat-label>
+            <input [(ngModel)]="poste.service" matInput placeholder="Ex : 678951948581479" formControlName="firstCtrl" required>
+          </mat-form-field>
+          <div>
+            <button mat-button matStepperNext>Suivant</button>
+          </div>
+        </form>
+      </mat-step>
+      <mat-step [stepControl]="secondFormGroup"*ngIf="!formIsValid">
+        <form >
+          <ng-template matStepLabel>informations sur le poste</ng-template>
+          <mat-form-field [style.width.px]=327>
+            <mat-label>Le nom du poste</mat-label>
+            <input matInput [(ngModel)]="poste.nom" formControlName="secondCtrl" placeholder="Ex : 678951948581479"
+                   required>
+          </mat-form-field>
+          <mat-form-field [style.width.px]=327 *ngFor="let comp of competences">
+            <mat-label>Ajouter la compétance requise</mat-label>
+            <input autofocus matInput [(ngModel)]="comp" formControlName="secondCtrl" placeholder="Ex : 678951948581479"
+                   required>
+          </mat-form-field>
+          <button type="button" style="display: block;" mat-button (click)="addCompetence(); false">Ajouter une compétance</button>
+          
+          <div>
+            <button mat-button matStepperPrevious>Retour</button>
+            <button mat-button matStepperNext  (click)="formIsValid = true">Suivant</button>
+          </div>
+        </form>
+      </mat-step>
+      <mat-step *ngIf="formIsValid && !formIsApproved">
+        <form [formGroup]="secondFormGroup">
+          <ng-template matStepLabel>Verification</ng-template>
+          <mat-form-field [style.width.px]=327>
+            <mat-label>Rentrer le code secret</mat-label>
+            <input matInput formControlName="secondCtrl" placeholder="Votre code secret" type="password"
+                   required>
+          </mat-form-field>
+          <div>
+            <!-- <button mat-button matStepperPrevious>Retour</button> -->
+            <button mat-button  matStepperNext (click)="formIsApproved = true">Valider</button>
+          </div>
+        </form>
+      </mat-step>
+    </mat-vertical-stepper>
+    <mat-card-actions class="container pr-5 mb-0" *ngIf="formIsValid && formIsApproved">
+      <button mat-button class="ml-3 mt-3" color="primary"(click)="createVirement()" >Valider le virement</button>
+      <button mat-button class="ml-3 mt-3" color="primary"  (click)="formIsValid = false">Revoir les détails</button>
+    </mat-card-actions>
+  </div>
+  

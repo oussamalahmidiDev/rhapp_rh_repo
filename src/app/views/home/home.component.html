@@ -1,0 +1,66 @@
+<mat-toolbar color="primary" class="navbar sticky-top navb">
+  <!-- <mat-toolbar-row> -->
+  <span> LOGO </span>
+  <form class="example-form navbar-nav mr-auto">
+    <div class="example-full-width">
+      <!-- <mat-label>Favorite food</mat-label> -->
+      <input class="search" placeholder="Rechercher par nom de salarié, divison, direction">
+    </div>
+  </form>
+  <div class="right-items">
+    <button mat-icon-button class="mr-2">
+      <mat-icon>notifications</mat-icon>
+    </button>
+    <div class="inline-avatar">
+      <div class="avatar"></div>
+      <div class="user-name">LAHMIDI Oussama</div>
+    </div>
+  </div>
+  <!-- </mat-toolbar-row> -->
+</mat-toolbar>
+<nav mat-tab-nav-bar class="" *ngIf="this.router.url !== '/home/dashboard'">
+  <a mat-tab-link
+     routerLinkActive #dashboard="routerLinkActive"
+     routerLink="dashboard"
+     [active]="dashboard.isActive">
+    Page d'accueil
+  </a>
+
+  <a mat-tab-link
+     routerLink="postes"
+     routerLinkActive #postes="routerLinkActive"
+     [active]="postes.isActive">
+    Postes
+  </a>
+  <a mat-tab-link
+     routerLink="conges"
+     routerLinkActive #conges="routerLinkActive"
+     [active]="conges.isActive">
+    Congés
+  </a>
+  <a mat-tab-link
+     routerLink="absences"
+     routerLinkActive #absences="routerLinkActive"
+     [active]="absences.isActive">
+    Absences
+  </a>
+  <a mat-tab-link
+     routerLink="retraites"
+     routerLinkActive #retraites="routerLinkActive"
+     [active]="retraites.isActive">
+    Retraites
+  </a>
+  <a mat-tab-link
+     routerLinkActive #avtg="routerLinkActive"
+     [active]="avtg.isActive">
+    Avantages en nature
+  </a>
+  <a mat-tab-link
+     routerLink="salaries"
+     routerLinkActive #salaries="routerLinkActive"
+     [active]="salaries.isActive">
+    Salariés
+  </a>
+
+</nav>
+<router-outlet></router-outlet>
