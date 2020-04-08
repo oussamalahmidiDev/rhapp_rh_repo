@@ -1,5 +1,4 @@
-
-
-export default (req, res) => {
-  res.json({ name: 'John', email: 'john@example.com' })
+module.exports = (req, res) => {
+  const { name = 'World' } = req.query
+  res.status(200).send(`Hello ${name}!`)
 }
