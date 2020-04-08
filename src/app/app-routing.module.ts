@@ -109,10 +109,12 @@ const routes: Routes = [
       // { path: "**", redirectTo: "dashboard", pathMatch: "full" },
     ],
   },
+  { path: "", redirectTo: "home/dashboard", pathMatch: "full" },
+
 
   // { path: 'home', component: HomeComponent,  },
   // { path: '**', redirectTo: 'dashboard', pathMatch: 'full' },
-  { path: "", component: WelcomePageComponent, /* canActivate: [GuestGuard] */ },
+  // { path: "", component: WelcomePageComponent, /* canActivate: [GuestGuard] */ },
 ];
 
 
