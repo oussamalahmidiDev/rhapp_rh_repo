@@ -1,18 +1,18 @@
-import { NgModule } from "@angular/core";
-import { Routes, RouterModule } from "@angular/router";
-import { DashboardComponent } from "./components/dashboard/dashboard.component";
-import { SettingsComponent } from "./components/settings/settings.component";
+import {NgModule} from '@angular/core';
+import {Routes, RouterModule} from '@angular/router';
+import {DashboardComponent} from './components/dashboard/dashboard.component';
+import {SettingsComponent} from './components/settings/settings.component';
 // import { RechargesComponent } from "./components/recharges/recharges.component";
-import { AuthenticatedGuard } from "./guards/authenticated.guard";
-import { WelcomePageComponent } from "./views/welcome-page/welcome-page.component";
-import { HomeComponent } from "./views/home/home.component";
+import {AuthenticatedGuard} from './guards/authenticated.guard';
+import {WelcomePageComponent} from './views/welcome-page/welcome-page.component';
+import {HomeComponent} from './views/home/home.component';
 
-import { AUTH_PROVIDERS } from "./services/user.service";
-import { GuestGuard } from "./guards/guest.guard";
-import { PostesComponent } from './components/postes/postes.component';
-import { CongesComponent } from './components/conges/conges.component';
-import { RetraitesComponent } from './components/retraites/retraites.component';
-import { SalarieComponent } from './components/salarie/salarie.component';
+import {AUTH_PROVIDERS} from './services/user.service';
+import {GuestGuard} from './guards/guest.guard';
+import {PostesComponent} from './components/postes/postes.component';
+import {CongesComponent} from './components/conges/conges.component';
+import {RetraitesComponent} from './components/retraites/retraites.component';
+import {SalarieComponent} from './components/salarie/salarie.component';
 import {SalarieInfosComponent} from './components/salarie-infos/salarie-infos.component';
 import {SalarieAbsencesComponent} from './components/salarie-absences/salarie-absences.component';
 import {SalarieCongesComponent} from './components/salarie-conges/salarie-conges.component';
@@ -21,54 +21,54 @@ import {SalariesListComponent} from './components/salaries-list/salaries-list.co
 
 const routes: Routes = [
   {
-    path: "home",
+    path: 'home',
     component: HomeComponent,
     // canActivate: [AuthenticatedGuard],
     children: [
       {
-        path: "dashboard",
+        path: 'dashboard',
         component: DashboardComponent,
         // canActivate: [AuthenticatedGuard],
       },
       {
-        path: "postes",
+        path: 'postes',
         component: PostesComponent,
         // canActivate: [AuthenticatedGuard],
       },
       {
-        path: "conges",
+        path: 'conges',
         component: CongesComponent,
         // canActivate: [AuthenticatedGuard],
       },
       {
-        path: "absences",
+        path: 'absences',
         component: AbsencesComponent,
         // canActivate: [AuthenticatedGuard],
       },
       {
-        path: "retraites",
+        path: 'retraites',
         component: RetraitesComponent,
         // canActivate: [AuthenticatedGuard],
       },
       {
-        path: "salaries",
+        path: 'salaries',
         component: SalariesListComponent
       },
       {
-        path: "salaries/:id",
+        path: 'salaries/:id',
         component: SalarieComponent,
         children: [
-          { path: "", redirectTo: "infos", pathMatch: "full" },
+          {path: '', redirectTo: 'infos', pathMatch: 'full'},
           {
-            path: "infos",
+            path: 'infos',
             component: SalarieInfosComponent
           },
           {
-            path: "absences",
+            path: 'absences',
             component: SalarieAbsencesComponent
           },
           {
-            path: "conges",
+            path: 'conges',
             component: SalarieCongesComponent
           }
         ]
@@ -97,7 +97,7 @@ const routes: Routes = [
       //   ]
       // },
       {
-        path: "settings",
+        path: 'settings',
         component: SettingsComponent,
         // canActivate: [AuthenticatedGuard],
       },
@@ -109,7 +109,7 @@ const routes: Routes = [
       // { path: "**", redirectTo: "dashboard", pathMatch: "full" },
     ],
   },
-  { path: "", redirectTo: "home/dashboard", pathMatch: "full" },
+  {path: '', redirectTo: 'home/dashboard', pathMatch: 'full'},
 
 
   // { path: 'home', component: HomeComponent,  },
@@ -122,4 +122,5 @@ const routes: Routes = [
   imports: [RouterModule.forRoot(routes)],
   exports: [RouterModule],
 })
-export class AppRoutingModule {}
+export class AppRoutingModule {
+}

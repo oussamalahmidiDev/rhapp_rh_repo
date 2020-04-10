@@ -1,10 +1,11 @@
 import {Component, OnInit, Inject, EventEmitter, Output} from '@angular/core';
-import {Validators, FormGroup, FormBuilder} from '@angular/forms';
+import {Validators, FormGroup, FormBuilder, FormArray, FormControl} from '@angular/forms';
 import {MatDialogRef, MAT_DIALOG_DATA} from '@angular/material';
 import {Virement} from 'src/app/models/virement';
 import {Poste} from 'src/app/models/poste';
 import {copyStyles} from '@angular/animations/browser/src/util';
 import {SalariesService} from '../../../services/salaries.service';
+import {PosteService} from '../../../services/poste.service';
 
 @Component({
   selector: 'app-poste-form',
@@ -13,73 +14,65 @@ import {SalariesService} from '../../../services/salaries.service';
 })
 export class PosteFormComponent implements OnInit {
 
-  isLinear = false;
   firstFormGroup: FormGroup;
   secondFormGroup: FormGroup;
-  formIsValid = false;
-  formIsApproved = false;
 
-  compteExp: string = '';
-  compteDest: string = '';
-  montant: string = '';
 
-  competences: string[] = [];
-  poste: Poste = {
-    nom: 'Gestion de RH',
-    direction: 'Direction X',
-    division: 'Div X',
-    service: 'Service RH',
-    competences: ['Cmp 1', 'Comp2'],
-    salarie: this.salariesService.getSalarie('U73540990')
-  };
+  competences: FormArray;
 
-  constructor(private _formBuilder: FormBuilder, public dialogRef: MatDialogRef<PosteFormComponent>, @Inject(MAT_DIALOG_DATA) public data: Poste[], private salariesService: SalariesService) {
+
+  constructor(
+    private _formBuilder: FormBuilder,
+    public dialogRef: MatDialogRef<PosteFormComponent>,
+    @Inject(MAT_DIALOG_DATA) public data: Poste[],
+    private salariesService: SalariesService,
+    private posteService: PosteService) {
   }
 
-  createVirement() {
-    const newVirement: Virement = {
-      id: '1',
-      compteExp: this.compteExp,
-      compteDest: this.compteDest,
-      montant: this.montant,
-      dateOperation: new Date().toString().substr(0, 15),
-      statut: 'PENDING'
+
+  addCompetence() {
+    this.competences = this.secondFormGroup.get('competences') as FormArray;
+    this.competences.push(this._formBuilder.group({
+      comp: ['']
+    }));
+    const c = this.competences.value.map(comp => comp.comp);
+    console.log(this.competences.value);
+    console.log(c);
+  }
+
+
+  submitForm() {
+    console.log(this.firstFormGroup, this.secondFormGroup);
+    const {comp} = this.competences.value;
+
+    const newPoste: Poste = {
+      competences: this.competences.value.map(compentence => compentence.comp),
+      direction: this.firstFormGroup.get('direction').value,
+      division: this.firstFormGroup.get('division').value,
+      nom: this.secondFormGroup.get('posteName').value,
+      salarie: undefined,
+      service: this.firstFormGroup.get('service').value
     };
-
-    this.formIsValid = true;
-    // console.log
-    this.dialogRef.close(newVirement);
+    console.log(newPoste);
+    this.posteService.postes.push(newPoste);
+    this.dialogRef.close(newPoste);
   }
 
-  addCompetence($event) {
-    event.preventDefault();
-    this.competences = this.competences.filter(comp => comp !== '');
-    this.competences.push('');
-    console.log(this.competences);
-  }
-
-  createPoste() {
-    const poste: Poste = {
-      nom: 'Gestion de RH',
-      direction: 'Direction X',
-      division: 'Div X',
-      service: 'Service RH',
-      competences: ['Cmp 1', 'Comp2'],
-      salarie: this.salariesService.getSalarie('U73540990')
-    };
-    this.formIsValid = true;
-    this.dialogRef.close(this.poste);
-
-  }
 
   ngOnInit() {
     console.log(this.data);
     this.firstFormGroup = this._formBuilder.group({
-      firstCtrl: ['', Validators.required]
+      service: [''],
+      division: [''],
+      direction: ['']
     });
     this.secondFormGroup = this._formBuilder.group({
-      secondCtrl: ['', Validators.required]
+      posteName: [''],
+      competences: this._formBuilder.array([])
+      // competences: ['']
     });
+
+    this.competences = this.secondFormGroup.get('competences') as FormArray;
   }
 
 }

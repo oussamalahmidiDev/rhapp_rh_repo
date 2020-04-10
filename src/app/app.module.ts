@@ -57,11 +57,11 @@ import { SalarieInfosComponent } from './components/salarie-infos/salarie-infos.
 import { SalarieAbsencesComponent } from './components/salarie-absences/salarie-absences.component';
 import { SalarieCongesComponent } from './components/salarie-conges/salarie-conges.component';
 import {AbsencesComponent} from './components/absences/absences.component';
-import {PosteFormComponent} from './components/forms/conge-form/conge-form.component';
 import {CongeReponseFormComponent} from './components/forms/conge-reponse-form/conge-reponse-form.component';
 import {RetraiteFormComponent} from './components/forms/retraite-form/retraite-form.component';
 import { SalariesListComponent } from './components/salaries-list/salaries-list.component';
 import { SalariesComponent } from './salaries/salaries.component';
+import {PosteFormComponent} from './components/forms/poste-form/poste-form.component';
 
 @NgModule({
   declarations: [
