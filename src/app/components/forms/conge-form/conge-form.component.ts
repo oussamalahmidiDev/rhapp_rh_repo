@@ -37,7 +37,7 @@ export class CongeFormComponent implements OnInit {
     salarie: this.salarie
   };
 
-  constructor(private _formBuilder: FormBuilder, public dialogRef: MatDialogRef<PosteFormComponent>, @Inject(MAT_DIALOG_DATA) public data: Poste[], private salariesService: SalariesService) {
+  constructor(private _formBuilder: FormBuilder, public dialogRef: MatDialogRef<CongeFormComponent>, @Inject(MAT_DIALOG_DATA) public data: Poste[], private salariesService: SalariesService) {
   }
 
   createVirement() {

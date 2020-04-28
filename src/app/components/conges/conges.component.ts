@@ -2,7 +2,7 @@ import {Component, OnInit, Injectable, ViewChild} from '@angular/core';
 import {MatSnackBar, MatDialog, MatTableDataSource, MatSort} from '@angular/material';
 import {Conge} from 'src/app/models/conge';
 import {CongeReponseFormComponent} from '../forms/conge-reponse-form/conge-reponse-form.component';
-import {PosteFormComponent} from '../forms/conge-form/conge-form.component';
+import {CongeFormComponent} from '../forms/conge-form/conge-form.component';
 import {Salarie} from '../../models/salarie';
 import {SalariesService} from '../../services/salaries.service';
 
@@ -90,7 +90,7 @@ export class CongesComponent implements OnInit {
   }
 
   openVirementForm(): void {
-    this.dialog.open(PosteFormComponent, {
+    this.dialog.open(CongeFormComponent, {
       width: '500px',
       // data: this.mesVirements
       // virement: this.newVirement
