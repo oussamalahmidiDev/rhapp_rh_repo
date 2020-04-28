@@ -12,7 +12,7 @@ import {SalariesService} from '../../../services/salaries.service';
   templateUrl: './conge-form.component.html',
   styleUrls: ['./conge-form.component.css']
 })
-export class PosteFormComponent implements OnInit {
+export class CongeFormComponent implements OnInit {
 
   isLinear = false;
   firstFormGroup: FormGroup;

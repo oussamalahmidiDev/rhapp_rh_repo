@@ -83,16 +83,14 @@ export class CongesComponent implements OnInit {
 
   openCongeReponseForm(conge: Conge): void {
     console.log('CONG', conge);
-    const dialogRef = this.dialog.open(CongeReponseFormComponent, {
+    this.dialog.open(CongeReponseFormComponent, {
       width: '460px',
       data: conge
-      // data: this.mesVirements
-      // virement: this.newVirement
     });
   }
 
   openVirementForm(): void {
-    const dialogRef = this.dialog.open(PosteFormComponent, {
+    this.dialog.open(PosteFormComponent, {
       width: '500px',
       // data: this.mesVirements
       // virement: this.newVirement
