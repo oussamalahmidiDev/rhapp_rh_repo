@@ -44,8 +44,8 @@ export class SalariesListComponent implements OnInit {
       this.salaries = data;
       this.salariesDs.data = this.salaries;
       this.salariesDs.sort = this.sort;
-      
-    })
+
+    });
   }
 
   openSnackBar() {
