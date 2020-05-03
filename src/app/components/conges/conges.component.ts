@@ -5,6 +5,8 @@ import {CongeReponseFormComponent} from '../forms/conge-reponse-form/conge-repon
 import {CongeFormComponent} from '../forms/conge-form/conge-form.component';
 import {Salarie} from '../../models/salarie';
 import {SalariesService} from '../../services/salaries.service';
+import {CongesService} from '../../services/conges.service';
+
 
 
 @Injectable()
@@ -24,7 +26,7 @@ export class CongesComponent implements OnInit {
   // @ts-ignore
   @ViewChild(MatSort, {static: true}) sort: MatSort;
 
-  constructor(private _snackBar: MatSnackBar, private dialog: MatDialog, private salariesService: SalariesService) {
+  constructor(private congesService:CongesService , private _snackBar: MatSnackBar, private dialog: MatDialog, private salariesService: SalariesService) {
     this.congesDs = new MatTableDataSource<Conge>();
     this.congesDs.filterPredicate = (data: any, filter) => {
       const dataStr = JSON.stringify(data).toLowerCase();
@@ -35,42 +37,44 @@ export class CongesComponent implements OnInit {
 
   // dataSource: MatTableDataSource < Element[] > ;
   ngOnInit() {
-    this.conges = [
-      {
-        motif: 'Motif X',
-        type: 'Voyage',
-        dateDeDebut: new Date(),
-        dateDeFin: new Date(),
-        etat: {etat: 'En attente', motif: null},
-        salarie: this.salarie
-      },
-      {
-        motif: 'Motif X',
-        type: 'Autre',
-        dateDeDebut: new Date(),
-        dateDeFin: new Date(),
-        etat: {etat: 'En cours', motif: null},
-        salarie: this.salarie
-      },
-      {
-        motif: 'Motif X',
-        type: 'Voyage',
-        dateDeDebut: new Date(),
-        dateDeFin: new Date(),
-        etat: {etat: 'Refusée', motif: 'Pour la raison ...'},
-        salarie: this.salarie
-      },
-      {
-        motif: 'Motif X',
-        type: 'Voyage',
-        dateDeDebut: new Date(),
-        dateDeFin: new Date(),
-        etat: {etat: 'Acceptée', motif: null},
-        salarie: this.salarie
-      },
-    ];
-    this.congesDs.data = this.conges;
-    this.congesDs.sort = this.sort;
+
+    this.getConges();
+    // this.conges = [
+    //   {
+    //     motif: 'Motif X',
+    //     type: 'Voyage',
+    //     dateDeDebut: new Date(),
+    //     dateDeFin: new Date(),
+    //     etat: {etat: 'En attente', motif: null},
+    //     salarie: this.salarie
+    //   },
+    //   {
+    //     motif: 'Motif X',
+    //     type: 'Autre',
+    //     dateDeDebut: new Date(),
+    //     dateDeFin: new Date(),
+    //     etat: {etat: 'En cours', motif: null},
+    //     salarie: this.salarie
+    //   },
+    //   {
+    //     motif: 'Motif X',
+    //     type: 'Voyage',
+    //     dateDeDebut: new Date(),
+    //     dateDeFin: new Date(),
+    //     etat: {etat: 'Refusée', motif: 'Pour la raison ...'},
+    //     salarie: this.salarie
+    //   },
+    //   {
+    //     motif: 'Motif X',
+    //     type: 'Voyage',
+    //     dateDeDebut: new Date(),
+    //     dateDeFin: new Date(),
+    //     etat: {etat: 'Acceptée', motif: null},
+    //     salarie: this.salarie
+    //   },
+    // ];
+    // this.congesDs.data = this.conges;
+    // this.congesDs.sort = this.sort;
 
 
   }
@@ -101,6 +105,17 @@ export class CongesComponent implements OnInit {
   search($event) {
     const filterValue = (event.target as HTMLInputElement).value;
     this.congesDs.filter = filterValue.trim().toLowerCase();
+  }
+
+  getConges(){
+    this.congesService.getConges().subscribe(data=>{
+      // @ts-ignore
+      this.conges = data;
+      this.congesDs.data= this.conges;
+      console.log(data);
+    },error => {
+      console.log(error);
+    })
   }
 
 

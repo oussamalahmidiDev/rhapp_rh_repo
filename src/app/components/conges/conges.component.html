@@ -18,13 +18,13 @@
         <!-- Position Column -->
         <ng-container matColumnDef="salarie">
           <th mat-header-cell *matHeaderCellDef style="padding-left: 20px;" mat-sort-header> Demande de</th>
-          <td mat-cell *matCellDef="let element">
+          <td mat-cell *matCellDef="let conge">
             <div class="account-inline" >
-              <div class="avatar" [ngStyle]="{ 'background-image': 'url(' + element.salarie.photo + ')'}"></div>
+              <div class="avatar" [ngStyle]="{ 'background-image': 'url(' + conge.salarie.photo + ')'}"></div>
               <div class="account-labels">
-                <div class="account-name">{{element.salarie.nom}}</div>
+                <div class="account-name">{{conge.salarie.nom}}</div>
                 <div class="account-details">
-                  {{element.salarie.numDeSomme}}
+                  {{conge.salarie.numDeSomme}}
                 </div>
               </div>
             </div>
@@ -34,39 +34,39 @@
         <!-- Name Column -->
         <ng-container matColumnDef="motif">
           <th mat-header-cell *matHeaderCellDef mat-sort-header> Motif</th>
-          <td mat-cell *matCellDef="let element"> {{element.motif}} </td>
+          <td mat-cell *matCellDef="let conge"> {{conge.motif}} </td>
         </ng-container>
 
         <!-- Weight Column -->
         <ng-container matColumnDef="type">
           <th mat-header-cell *matHeaderCellDef mat-sort-header> Type</th>
-          <td mat-cell *matCellDef="let element"> {{element.type}} </td>
+          <td mat-cell *matCellDef="let conge"> {{conge.type}} </td>
         </ng-container>
         <ng-container matColumnDef="datedebut">
           <th mat-header-cell *matHeaderCellDef mat-sort-header> Date de début</th>
-          <td mat-cell *matCellDef="let element"> {{element.dateDeDebut.toDateString()}} </td>
+          <td mat-cell *matCellDef="let conge"> {{conge.dateDebut}} </td>
         </ng-container>
 
         <!-- Symbol Column -->
         <ng-container matColumnDef="datefin">
           <th mat-header-cell *matHeaderCellDef mat-sort-header> Date de fin</th>
-          <td mat-cell *matCellDef="let element"> {{element.dateDeFin.toDateString()}} </td>
+          <td mat-cell *matCellDef="let conge"> {{conge.dateFin}} </td>
         </ng-container>
 
         <ng-container matColumnDef="etat">
           <th mat-header-cell *matHeaderCellDef mat-sort-header> Etat</th>
-          <td mat-cell *matCellDef="let element">
-            <strong>{{element.etat.etat}} </strong>
-            <br><small *ngIf="element.etat.etat === 'Refusée'">{{element.etat.motif}}</small>
+          <td mat-cell *matCellDef="let conge">
+            <strong>{{conge.etat}} </strong>
+<!--            <br><small *ngIf="conge.etat === 'Refusée'">{{conge.etat}}</small>-->
           </td>
         </ng-container>
         <ng-container matColumnDef="actions">
           <th mat-header-cell *matHeaderCellDef style="padding-left: 20px;"></th>
-          <td mat-cell *matCellDef="let element">
-            <button mat-stroked-button color="primary" (click)="openCongeReponseForm(element)"
-                    *ngIf="element.etat.etat == 'En attente'">Répondre
+          <td mat-cell *matCellDef="let conge">
+            <button mat-stroked-button color="primary" (click)="openCongeReponseForm(conge)"
+                    *ngIf="conge.etat == 'En attente'">Répondre
             </button>
-            <button mat-stroked-button color="primary" *ngIf="element.etat.etat == 'En cours'">Déclarer le retour
+            <button mat-stroked-button color="primary" *ngIf="conge.etat == 'En cours'">Déclarer le retour
             </button>
           </td>
         </ng-container>

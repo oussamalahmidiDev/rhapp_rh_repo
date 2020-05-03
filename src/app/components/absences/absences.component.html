@@ -10,7 +10,7 @@
       <!-- <button class="ml-auto" color="primary" mat-flat-button>Voir plus</button> -->
     </mat-card-header>
     <mat-card-content class="pr-5 container">
-      <table mat-table [dataSource]="absencesDs" class="accounts" matSort>
+      <table mat-table [dataSource]="absences" class="accounts" matSort>
 
         <!--- Note that these columns can be defined in any order.
   The actual rendered columns are set as a property on the row definition" -->
@@ -18,13 +18,13 @@
         <!-- Position Column -->
         <ng-container matColumnDef="salarie">
           <th mat-header-cell *matHeaderCellDef style="padding-left: 20px;"  mat-sort-header> Nom du salarié</th>
-          <td mat-cell *matCellDef="let element">
+          <td mat-cell *matCellDef="let absence">
             <div class="account-inline" >
-              <div class="avatar" [ngStyle]="{ 'background-image': 'url(' + element.salarie.photo + ')'}"></div>
+              <div class="avatar" [ngStyle]="{ 'background-image': 'url(' + absence.salarie.photo + ')'}"></div>
               <div class="account-labels">
-                <div class="account-name">{{element.salarie.nom}}</div>
+                <div class="account-name">{{absence.salarie.nom}}</div>
                 <div class="account-details">
-                  {{element.salarie.numDeSomme}}
+                  {{absence.salarie.numDeSomme}}
                 </div>
               </div>
             </div>
@@ -32,23 +32,23 @@
         </ng-container>
         <ng-container matColumnDef="datedebut">
           <th mat-header-cell *matHeaderCellDef  mat-sort-header> Date de début</th>
-          <td mat-cell *matCellDef="let element"> {{element.dateDeDebut.toDateString()}} </td>
+          <td mat-cell *matCellDef="let absence"> {{absence.dateDebut}} </td>
         </ng-container>
         <ng-container matColumnDef="datefin">
           <th mat-header-cell *matHeaderCellDef  mat-sort-header> Date de fin</th>
-          <td mat-cell *matCellDef="let element"> {{element.dateDeFin.toDateString()}} </td>
+          <td mat-cell *matCellDef="let absence"> {{absence.dateFin}} </td>
         </ng-container>
         <ng-container matColumnDef="type">
           <th mat-header-cell *matHeaderCellDef  mat-sort-header> Type d'absence</th>
-          <td mat-cell *matCellDef="let element"> {{element.type}} </td>
+          <td mat-cell *matCellDef="let absence"> {{absence.type}} </td>
         </ng-container>
 
         <!-- Name Column -->
         <ng-container matColumnDef="justificatif">
           <th mat-header-cell *matHeaderCellDef> Reference</th>
-          <td mat-cell *matCellDef="let element">
-            <a href="" *ngIf="element.justificatif">{{element.justificatif}} </a>
-            <span *ngIf="!element.justificatif">Pas de justificatif</span>
+          <td mat-cell *matCellDef="let absence">
+            <a href="" *ngIf="absence.justificatif">{{absence.justificatif}} </a>
+            <span *ngIf="!absence.justificatif">Pas de justificatif</span>
           </td>
         </ng-container>
 
@@ -59,7 +59,7 @@
     </mat-card-content>
   </mat-card>
   <div class="footer">
-    <button mat-fab (click)="openRetraiteFrom()">
+    <button mat-fab>
       <mat-icon>create</mat-icon>
     </button>
   </div>
