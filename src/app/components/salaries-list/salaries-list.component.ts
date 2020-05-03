@@ -20,13 +20,14 @@ export class SalariesListComponent implements OnInit {
   salariesDs: MatTableDataSource<Salarie>;
   salarieCols: string[] = ['salarie', 'numsomme', 'direction', 'division', 'service'];
 
-  salaries: Salarie[] = this.salariesService.salaries;
+  salaries: Salarie[];
+  // salaries: Salarie[] = this.salariesService.salaries;
 
   // @ts-ignore
   @ViewChild(MatSort, {static: true}) sort: MatSort;
 
 
-  constructor(private _snackBar: MatSnackBar, private dialog: MatDialog, private salariesService: SalariesService) {
+  constructor(private _snackBar: MatSnackBar, private dialog: MatDialog, private service: SalariesService) {
     this.salariesDs = new MatTableDataSource<Salarie>();
 
     this.salariesDs.filterPredicate = (data: any, filter) => {
@@ -38,9 +39,13 @@ export class SalariesListComponent implements OnInit {
   // dataSource: MatTableDataSource < Element[] > ;
   ngOnInit() {
 
-
-    this.salariesDs.data = this.salaries;
-    this.salariesDs.sort = this.sort;
+    this.service.getSalaries()
+    .subscribe(data => {
+      this.salaries = data;
+      this.salariesDs.data = this.salaries;
+      this.salariesDs.sort = this.sort;
+      
+    })
   }
 
   openSnackBar() {

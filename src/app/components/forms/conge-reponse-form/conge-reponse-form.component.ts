@@ -60,16 +60,8 @@ export class CongeReponseFormComponent implements OnInit {
   }
 
   createPoste() {
-    const poste: Poste = {
-      nom: 'Gestion de RH',
-      direction: 'Direction X',
-      division: 'Div X',
-      service: 'Service RH',
-      competences: ['Cmp 1', 'Comp2'],
-      salarie: this.salariesService.getSalarie('U73540990')
-  }
     this.formIsValid = true;
-    this.dialogRef.close(poste);
+    this.dialogRef.close();
 
   }
 

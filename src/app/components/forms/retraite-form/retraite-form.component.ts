@@ -27,14 +27,7 @@ export class RetraiteFormComponent implements OnInit {
   salaries: Salarie[] = this.salariesService.salaries;
 
   competences: string[] = [];
-  poste: Poste = {
-    nom: 'Gestion de RH',
-    direction: 'Direction X',
-    division: 'Div X',
-    service: 'Service RH',
-    competences: ['Cmp 1', 'Comp2'],
-    salarie: this.salariesService.getSalarie('U73540990')
-  };
+  poste: Poste;
 
   constructor(private _formBuilder: FormBuilder, public dialogRef: MatDialogRef<RetraiteFormComponent>, @Inject(MAT_DIALOG_DATA) public data: Poste[], private salariesService: SalariesService) {
   }
@@ -62,14 +55,7 @@ export class RetraiteFormComponent implements OnInit {
   }
 
   createPoste() {
-    const poste: Poste = {
-      nom: 'Gestion de RH',
-      direction: 'Direction X',
-      division: 'Div X',
-      service: 'Service RH',
-      competences: ['Cmp 1', 'Comp2'],
-      salarie: this.salariesService.getSalarie('U73540990')
-    };
+  
     this.formIsValid = true;
     this.dialogRef.close(this.poste);
 

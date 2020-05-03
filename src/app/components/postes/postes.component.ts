@@ -28,10 +28,10 @@ export class PostesComponent implements OnInit {
   constructor(private _snackBar: MatSnackBar,
               private dialog: MatDialog,
               private salariesService: SalariesService,
-              private posteService: PosteService
+              private service: PosteService
   ) {
-    this.postes = this.posteService.postes;
-    this.postesDs = new MatTableDataSource(this.postes);
+    // this.postes = this.service.postes;
+    // this.postesDs = new MatTableDataSource(this.postes);
 
     this.postesDs.filterPredicate = (data: any, filter) => {
       const dataStr = JSON.stringify(data).toLowerCase();
@@ -44,7 +44,12 @@ export class PostesComponent implements OnInit {
     // this.
     // this.
     // this.postesDs.data = this.postes;
-    this.postesDs.sort = this.sort;
+    this.service.getPostes()
+    .subscribe(data => {
+      this.postes = data;
+      this.postesDs.data = this.postes;
+      this.postesDs.sort = this.sort;
+    })
   }
 
   openSnackBar() {

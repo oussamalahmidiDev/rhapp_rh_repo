@@ -45,17 +45,17 @@ export class PosteFormComponent implements OnInit {
     console.log(this.firstFormGroup, this.secondFormGroup);
     const {comp} = this.competences.value;
 
-    const newPoste: Poste = {
-      competences: this.competences.value.map(compentence => compentence.comp),
-      direction: this.firstFormGroup.get('direction').value,
-      division: this.firstFormGroup.get('division').value,
-      nom: this.secondFormGroup.get('posteName').value,
-      salarie: undefined,
-      service: this.firstFormGroup.get('service').value
-    };
-    console.log(newPoste);
-    this.posteService.postes.push(newPoste);
-    this.dialogRef.close(newPoste);
+    // const newPoste: Poste = {
+    //   competences: this.competences.value.map(compentence => compentence.comp),
+    //   direction: this.firstFormGroup.get('direction').value,
+    //   division: this.firstFormGroup.get('division').value,
+    //   nom: this.secondFormGroup.get('posteName').value,
+    //   salarie: undefined,
+    //   service: this.firstFormGroup.get('service').value
+    // };
+    // console.log(newPoste);
+    // this.posteService.postes.push(newPoste);
+    this.dialogRef.close();
   }
 
 
