@@ -26,38 +26,7 @@ export class SalarieCongesComponent implements OnInit {
   // dataSource: MatTableDataSource < Element[] > ;
   ngOnInit() {
     this.conges = [
-      {
-        motif: 'Motif X',
-        type: 'Voyage',
-        dateDeDebut: new Date(),
-        dateDeFin: new Date(),
-        etat: {etat: 'En attente', motif: null},
-        salarie: this.salarie
-      },
-      {
-        motif: 'Motif X',
-        type: 'Voyage',
-        dateDeDebut: new Date(),
-        dateDeFin: new Date(),
-        etat: {etat: 'En cours', motif: null},
-        salarie: this.salarie
-      },
-      {
-        motif: 'Motif X',
-        type: 'Voyage',
-        dateDeDebut: new Date(),
-        dateDeFin: new Date(),
-        etat: {etat: 'Refusée', motif: 'Pour la raison ...'},
-        salarie: this.salarie
-      },
-      {
-        motif: 'Motif X',
-        type: 'Voyage',
-        dateDeDebut: new Date(),
-        dateDeFin: new Date(),
-        etat: {etat: 'Acceptée', motif: null},
-        salarie: this.salarie
-      },
+    
     ];
     this.congesDs.data = this.conges;
   }

@@ -21,14 +21,12 @@
           <th mat-header-cell *matHeaderCellDef style="padding-left: 20px;"  mat-sort-header> Nom du salarié</th>
           <td mat-cell *matCellDef="let element">
 
-              <a [routerLink]="['./', element.numDeSomme]">
+              <a [routerLink]="['./', element.id]">
                 <div class="account-inline" >
-                  <div class="avatar" [ngStyle]="{ 'background-image': 'url(' + element.photo + ')'}"></div>
+                  <div class="avatar" *ngIf="element.photo" [ngStyle]="{ 'background-image': 'url(' + element.photo + ')'}"></div>
                   <div class="account-labels">
                     <div class="account-name">{{element.nom}}</div>
-<!--                    <div class="account-details">-->
-<!--                      {{element.numDeSomme}}-->
-<!--                    </div>-->
+          
                   </div>
                 </div>
               </a>

@@ -38,10 +38,6 @@ export class RetraitesComponent implements OnInit {
 
 
     this.retraites = [
-      {ref: 'REF2020', type: 'Retraite', date: new Date(), etat: 'INVALID', salarie: this.salarie},
-      {ref: 'REF2010', type: 'Retraite', date: new Date(), etat: 'VALID', salarie: this.salarie},
-      {ref: 'REF2020', type: 'Retraite', date: new Date(), etat: 'AVTG_NOTRETIRED', salarie: this.salarie},
-
     ];
     this.retraitesDs.data = this.retraites;
     this.retraitesDs.sort = this.sort;

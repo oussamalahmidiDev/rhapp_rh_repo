@@ -73,7 +73,7 @@
 <!--                </p>-->
 <!--              </mat-list-item>-->
 <!--            </mat-list>-->
-            <div class="account-inline" *ngIf="element.salarie !== null">
+            <div class="account-inline" *ngIf="element.salarie != null">
               <div class="avatar" [ngStyle]="{ 'background-image': 'url(' + element.salarie.photo + ')'}"></div>
               <div class="account-labels">
                 <div class="account-name">{{element.salarie.nom}}</div>

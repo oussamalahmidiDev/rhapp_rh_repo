@@ -23,7 +23,7 @@ export class PostesComponent implements OnInit {
   // @ts-ignore
   @ViewChild(MatSort, {static: true}) sort: MatSort;
 
-  constructor(private service: PosteService) {
+  constructor(private service: PosteService,  private dialog: MatDialog,  private _snackBar: MatSnackBar) {
     this.postesDs = new MatTableDataSource<Poste>();
 
     this.postesDs.filterPredicate = (data: any, filter) => {
@@ -45,25 +45,27 @@ export class PostesComponent implements OnInit {
       });
   }
 
-  // openSnackBar() {
-  //   this._snackBar.open('Poste ajouté', 'OK', {
-  //     duration: 2000,
-  //   });
-  // }
-  //
-  // openPosteForm(): void {
-  //   const dialogRef = this.dialog.open(PosteFormComponent, {
-  //     width: '500px',
-  //
-  //   });
-  //   dialogRef.afterClosed().subscribe(data => {
-  //     console.log('Subtask Dialog output:', data);
-  //
-  //     // this.postesDs.data = this.postes;
-  //     this.openSnackBar();
-  //   });
-  //
-  // };
+  openSnackBar(message: string) {
+    this._snackBar.open('Poste ajouté', 'OK', {
+      duration: 2000,
+    });
+  }
+  
+  openPosteForm(): void {
+    const dialogRef = this.dialog.open(PosteFormComponent, {
+      width: '500px',
+  
+    });
+    dialogRef.afterClosed().subscribe(data => {
+      if (data !== undefined) {
+        console.log('Subtask Dialog output:', data);
+        this.postes.unshift(data);
+        this.postesDs.data = this.postes;
+        this.openSnackBar("Poste ajouté");
+      }
+    });
+  
+  };
   //
   //
   // search($event) {

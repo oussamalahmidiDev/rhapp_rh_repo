@@ -11,6 +11,6 @@ export class CongesService {
   constructor(private http: HttpClient) { }
 
   public getConges(){
-    return this.http.get(this.host+"/conges");
+    return this.http.get(this.host+"/api/conges");
   }
 }

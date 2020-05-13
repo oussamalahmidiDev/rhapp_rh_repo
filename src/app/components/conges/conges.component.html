@@ -20,11 +20,11 @@
           <th mat-header-cell *matHeaderCellDef style="padding-left: 20px;" mat-sort-header> Demande de</th>
           <td mat-cell *matCellDef="let conge">
             <div class="account-inline" >
-              <div class="avatar" [ngStyle]="{ 'background-image': 'url(' + conge.salarie.photo + ')'}"></div>
+              <div class="avatar" *ngIf="conge.salarie.photo" [ngStyle]="{ 'background-image': 'url(' + conge.salarie.photo + ')'}"></div>
               <div class="account-labels">
-                <div class="account-name">{{conge.salarie.nom}}</div>
+                <div class="account-name">{{conge.salarie.nom}} {{conge.salarie.prenom}}</div>
                 <div class="account-details">
-                  {{conge.salarie.numDeSomme}}
+                  {{conge.salarie.numSomme}}
                 </div>
               </div>
             </div>
@@ -40,17 +40,17 @@
         <!-- Weight Column -->
         <ng-container matColumnDef="type">
           <th mat-header-cell *matHeaderCellDef mat-sort-header> Type</th>
-          <td mat-cell *matCellDef="let conge"> {{conge.type}} </td>
+          <td mat-cell *matCellDef="let conge"> {{conge.type.typeConge}} </td>
         </ng-container>
         <ng-container matColumnDef="datedebut">
           <th mat-header-cell *matHeaderCellDef mat-sort-header> Date de début</th>
-          <td mat-cell *matCellDef="let conge"> {{conge.dateDebut}} </td>
+          <td mat-cell *matCellDef="let conge"> {{conge.dateDebut | date:'medium'}} </td>
         </ng-container>
 
         <!-- Symbol Column -->
         <ng-container matColumnDef="datefin">
           <th mat-header-cell *matHeaderCellDef mat-sort-header> Date de fin</th>
-          <td mat-cell *matCellDef="let conge"> {{conge.dateFin}} </td>
+          <td mat-cell *matCellDef="let conge"> {{conge.dateFin | date:'medium'}} </td>
         </ng-container>
 
         <ng-container matColumnDef="etat">

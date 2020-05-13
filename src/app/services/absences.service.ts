@@ -11,6 +11,6 @@ export class AbsencesService {
   constructor(private http: HttpClient) { }
 
   public getAbsences(){
-    return this.http.get(this.host+"/absences");
+    return this.http.get(this.host+"/api/absences");
   }
 }

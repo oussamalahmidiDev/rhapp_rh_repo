@@ -4,8 +4,8 @@ import {Service} from './service';
 
 export interface Poste {
   id?: number;
-  dateCreation: Date;
-  dateModification: Date;
+  dateCreation?: Date;
+  dateModification?: Date;
 
   nom: string;
   direction: Direction;
