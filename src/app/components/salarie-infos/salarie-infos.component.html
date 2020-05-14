@@ -1,4 +1,8 @@
-<mat-accordion>
+<div class="row" *ngIf = "!salarieLoaded" >
+  <mat-spinner class="mr-2" strokeWidth="3" [diameter]="25"></mat-spinner>
+  <span>Chargement des Informations du salarié</span>
+</div>
+<mat-accordion *ngIf="salarieLoaded">
   <mat-expansion-panel>
     <mat-expansion-panel-header>
       <mat-panel-title>
@@ -10,7 +14,7 @@
     </mat-expansion-panel-header>
     <div class="detail-item">
       <div class="detail-name">Nom et prénom</div>
-      <div class="detail-content">{{ salarie.nom }}</div>
+      <div class="detail-content">{{ salarie.nom }} {{ salarie.prenom }}</div>
     </div>
     <div class="detail-item">
       <div class="detail-name">Adresse éléctronique</div>
@@ -22,7 +26,7 @@
     </div>
     <div class="detail-item">
       <div class="detail-name">Numero de somme</div>
-      <div class="detail-content">{{ salarie.numDeSomme }}</div>
+      <div class="detail-content">{{ salarie.numSomme }}</div>
     </div>
     <div class="detail-item">
       <div class="detail-name">Date de naissance</div>
@@ -49,7 +53,7 @@
     </div>
     <div class="detail-item">
       <div class="detail-name">Direction</div>
-      <div class="detail-content">{{ salarie.direction }}</div>
+      <div class="detail-content">{{ salarie.direction?.nom }}</div>
     </div>
     <div class="detail-item">
       <div class="detail-name">Division</div>
@@ -57,7 +61,7 @@
     </div>
     <div class="detail-item">
       <div class="detail-name">Service</div>
-      <div class="detail-content">{{ salarie.service }}</div>
+      <div class="detail-content">{{ salarie.service?.nom }}</div>
     </div>
 
   </mat-expansion-panel>
@@ -70,23 +74,23 @@
     </mat-expansion-panel-header>
     <div class="detail-item">
       <div class="detail-name">CIN</div>
-      <div class="detail-content">U6337899</div>
+      <div class="detail-content">{{ salarie.cinUrg }}</div>
     </div>
     <div class="detail-item">
       <div class="detail-name">Nom et prénom</div>
-      <div class="detail-content">LAHMIDI Oussama</div>
+      <div class="detail-content">{{ salarie.nomUrg }} {{ salarie.prenomUrg }}</div>
     </div>
     <div class="detail-item">
       <div class="detail-name">Adresse d'urgence</div>
-      <div class="detail-content">U6337899</div>
+      <div class="detail-content">{{ salarie.adresseUrg }}</div>
     </div>
     <div class="detail-item">
       <div class="detail-name">Téléphone</div>
-      <div class="detail-content">U6337899</div>
+      <div class="detail-content">{{ salarie.adresseUrg }}</div>
     </div>
     <div class="detail-item">
       <div class="detail-name">Email d'urgence</div>
-      <div class="detail-content">U6337899</div>
+      <div class="detail-content">{{ salarie.emailUrg }}</div>
     </div>
 
   </mat-expansion-panel>

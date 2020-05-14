@@ -2,8 +2,8 @@ import { Salarie } from './salarie';
 
 export interface Absence {
       type: string;
-      dateDeDebut: Date;
-      dateDeFin: Date;
+      dateDebut: Date;
+      dateFin: Date;
       justificatif: string;
       // etat: string,
       salarie: Salarie;

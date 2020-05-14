@@ -10,8 +10,9 @@ import {ActivatedRoute} from '@angular/router';
 })
 export class SalarieComponent implements OnInit {
 
-  id: string;
+  id: number;
   salarie: Salarie;
+  salarieLoaded = false;
 
 
   constructor(private salariesService: SalariesService, private route: ActivatedRoute) {
@@ -19,8 +20,19 @@ export class SalarieComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.salarie = this.salariesService.getSalarie(this.route.snapshot.paramMap.get('id'));
-    console.log("HOME", this.salarie);
+    this.id = parseInt(this.route.snapshot.paramMap.get('id'));
+    console.log("SAL ID = ", this.id, this.route.snapshot.paramMap.get('id'));
+    // this.salarie = null;
+    this.salariesService.getSalarie(this.id).subscribe(
+      data => {
+        this.salarie = data;
+        this.salarieLoaded = true;
+      },
+      error => {
+        this.salarieLoaded = true;
+        alert("error loading page");
+      }
+    );
   }
 
 }

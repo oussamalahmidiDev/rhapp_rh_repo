@@ -14,8 +14,8 @@ export class SalariesService {
 
 
 
-  getSalarie(id): Salarie {
-    return this.salaries.find(salarie => id === salarie.numSomme);
+  getSalarie(id: number): Observable<Salarie> {
+    return this.http.get<Salarie>(`${this.BASE_URL}/api/salaries/${id}`);
   }
 
   getSalaries(): Observable<Salarie[]> {

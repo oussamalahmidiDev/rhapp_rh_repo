@@ -13,7 +13,7 @@ import {PosteFormComponent} from '../forms/poste-form/poste-form.component';
 })
 export class SalarieCongesComponent implements OnInit {
 
-  salarie: Salarie = this.salariesService.getSalarie('U73540990');
+  // salarie: Salarie = this.salariesService.getSalarie('U73540990');
 
   conges: Conge[];
   congesDs: MatTableDataSource<Conge>;

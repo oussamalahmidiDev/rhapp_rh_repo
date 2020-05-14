@@ -12,12 +12,24 @@ import {Observable} from 'rxjs';
 })
 export class SalarieInfosComponent implements OnInit {
 
-  id: string;
+  id: number;
   salarie: Salarie;
+  salarieLoaded: boolean;
 
   constructor(private salariesService: SalariesService, private route: ActivatedRoute) {}
 
   ngOnInit() {
-    this.salarie = this.salariesService.getSalarie(this.route.parent.snapshot.paramMap.get('id'));
+    this.salarieLoaded = false;
+    this.id = parseInt(this.route.parent.snapshot.paramMap.get('id'));
+    this.salariesService.getSalarie(this.id).subscribe(
+      data => {
+        this.salarie = data;
+        this.salarieLoaded = true;
+      },
+      error => {
+        this.salarieLoaded = true;
+        alert("error loading page");
+      }
+    );
   }
 }

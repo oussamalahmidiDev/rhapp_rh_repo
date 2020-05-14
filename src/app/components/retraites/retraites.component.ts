@@ -16,7 +16,6 @@ import {SalariesService} from '../../services/salaries.service';
 })
 export class RetraitesComponent implements OnInit {
 
-  salarie: Salarie = this.salariesService.getSalarie('U73540990');
 
   retraites: Retraite[];
   retraitesDs: MatTableDataSource<Retraite>;

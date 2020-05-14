@@ -17,8 +17,6 @@ import {CongesService} from '../../services/conges.service';
 })
 export class CongesComponent implements OnInit {
 
-  salarie: Salarie = this.salariesService.getSalarie('U73540990');
-
   conges: Conge[];
   congesDs: MatTableDataSource<Conge>;
   congeCols: string[] = ['salarie', 'motif', 'type', 'datedebut', 'datefin', 'etat', 'actions'];
@@ -39,44 +37,7 @@ export class CongesComponent implements OnInit {
   ngOnInit() {
 
     this.getConges();
-    // this.conges = [
-    //   {
-    //     motif: 'Motif X',
-    //     type: 'Voyage',
-    //     dateDeDebut: new Date(),
-    //     dateDeFin: new Date(),
-    //     etat: {etat: 'En attente', motif: null},
-    //     salarie: this.salarie
-    //   },
-    //   {
-    //     motif: 'Motif X',
-    //     type: 'Autre',
-    //     dateDeDebut: new Date(),
-    //     dateDeFin: new Date(),
-    //     etat: {etat: 'En cours', motif: null},
-    //     salarie: this.salarie
-    //   },
-    //   {
-    //     motif: 'Motif X',
-    //     type: 'Voyage',
-    //     dateDeDebut: new Date(),
-    //     dateDeFin: new Date(),
-    //     etat: {etat: 'Refusée', motif: 'Pour la raison ...'},
-    //     salarie: this.salarie
-    //   },
-    //   {
-    //     motif: 'Motif X',
-    //     type: 'Voyage',
-    //     dateDeDebut: new Date(),
-    //     dateDeFin: new Date(),
-    //     etat: {etat: 'Acceptée', motif: null},
-    //     salarie: this.salarie
-    //   },
-    // ];
-    // this.congesDs.data = this.conges;
-    // this.congesDs.sort = this.sort;
-
-
+  
   }
 
   openSnackBar() {

@@ -26,8 +26,6 @@ export class CongeFormComponent implements OnInit {
 
   competences: string[] = [];
 
-  salarie: Salarie = this.salariesService.getSalarie('U73540990');
-
   poste: Poste;
 
   constructor(private _formBuilder: FormBuilder, public dialogRef: MatDialogRef<CongeFormComponent>, @Inject(MAT_DIALOG_DATA) public data: Poste[], private salariesService: SalariesService) {

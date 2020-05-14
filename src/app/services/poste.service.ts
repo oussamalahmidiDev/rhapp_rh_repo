@@ -16,8 +16,6 @@ export class PosteService {
 
   BASE_URL: string = environment.BASE_URL;
 
-  salarie: Salarie = this.salariesService.getSalarie('U73540990');
-
   postes: Poste[] = [
    
   ];

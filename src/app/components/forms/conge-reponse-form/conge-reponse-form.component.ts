@@ -15,8 +15,6 @@ import {SalariesService} from '../../../services/salaries.service';
 })
 export class CongeReponseFormComponent implements OnInit {
 
-  salarie: Salarie = this.salariesService.getSalarie('U73540990');
-
   isLinear = false;
   firstFormGroup: FormGroup;
   secondFormGroup: FormGroup;

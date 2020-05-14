@@ -8,6 +8,7 @@ import {RetraiteFormComponent} from '../forms/retraite-form/retraite-form.compon
 import {Salarie} from '../../models/salarie';
 import {SalariesService} from '../../services/salaries.service';
 import {AbsencesService} from '../../services/absences.service';
+import { AbsenceFormComponent } from '../forms/absence-form/absence-form.component';
 
 
 @Injectable()
@@ -28,7 +29,11 @@ export class AbsencesComponent implements OnInit {
   @ViewChild(MatSort, {static: true}) sort: MatSort;
 
 
-  constructor( private absencesService:AbsencesService,private _snackBar: MatSnackBar, private dialog: MatDialog, private salariesService: SalariesService) {
+  constructor(
+    private absencesService:AbsencesService,
+    private _snackBar: MatSnackBar, 
+    private dialog: MatDialog, 
+    private salariesService: SalariesService) {
     this.absencesDs = new MatTableDataSource<Absence>();
 
     this.absencesDs.filterPredicate = (data: any, filter) => {
@@ -40,30 +45,29 @@ export class AbsencesComponent implements OnInit {
   // dataSource: MatTableDataSource < Element[] > ;
   ngOnInit() {
     this.getAbsences();
-
-    // this.absences = [
-    //   {dateDeDebut: new Date(), dateDeFin: new Date(), type: 'Urgence', justificatif: null, salarie: this.salarie},
-    //   {dateDeDebut: new Date(), dateDeFin: new Date(), type: 'Maladie', justificatif: null, salarie: this.salarie},
-    //   {dateDeDebut: new Date(), dateDeFin: new Date(), type: 'Urgence', justificatif: null, salarie: this.salarie},
-    // ];
-    // this.absencesDs.data = this.absences;
-    // this.absencesDs.sort = this.sort;
   }
 
-  openSnackBar() {
-    this._snackBar.open('Virements ajouté', 'OK', {
+  openSnackBar(message: string) {
+    this._snackBar.open(message, 'OK', {
       duration: 2000,
     });
   }
 
-  openRetraiteFrom(conge: Conge): void {
-    console.log('CONG', conge);
-    const dialogRef = this.dialog.open(RetraiteFormComponent, {
-      width: '460px',
-      data: conge
-      // data: this.mesVirements
-      // virement: this.newVirement
+  openAbsenceForm() {
+    const dialogRef = this.dialog.open(AbsenceFormComponent, {
+      width: '500px',
+      disableClose: true
     });
+    dialogRef.afterClosed().subscribe(
+      data => {
+        if (data !== undefined) {
+          console.log('Subtask Dialog output:', data);
+          this.absences.unshift(data);
+          this.absencesDs.data = this.absences;
+          this.openSnackBar(`L'absence de  ${data.salarie.nom} a été enregistré`);
+        }
+      }
+    );
   }
 
   search($event) {
