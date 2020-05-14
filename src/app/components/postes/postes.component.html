@@ -42,9 +42,12 @@
         <ng-container matColumnDef="competences">
           <th mat-header-cell *matHeaderCellDef mat-sort-header> Competences</th>
           <td mat-cell *matCellDef="let element">
-            <ol class="list-group list-group-flush">
-              <li class="list-group-item" *ngFor="let comp of element.competences"> {{ comp }} </li>
-            </ol>
+            <mat-chip-list style="flex-wrap: nowrap;width: 300px;overflow: auto;">
+              <mat-chip  *ngFor="let comp of element.competences">{{ comp }}</mat-chip>
+            </mat-chip-list>
+            <!-- <ol class="list-group list-group-flush">
+              <li class="list-group-item"> {{ comp }} </li>
+            </ol> -->
             <!-- <mat-list>
                 <mat-list-item *ngFor="let comp of element.competences">
                   <p matLine>

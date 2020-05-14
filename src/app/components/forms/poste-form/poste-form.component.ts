@@ -1,6 +1,6 @@
 import {Component, OnInit, Inject, EventEmitter, Output} from '@angular/core';
 import {Validators, FormGroup, FormBuilder, FormArray, FormControl} from '@angular/forms';
-import {MatDialogRef, MAT_DIALOG_DATA} from '@angular/material';
+import {MatDialogRef, MAT_DIALOG_DATA, MatChipInputEvent} from '@angular/material';
 import {Virement} from 'src/app/models/virement';
 import {Poste} from 'src/app/models/poste';
 import {copyStyles} from '@angular/animations/browser/src/util';
@@ -8,6 +8,8 @@ import {SalariesService} from '../../../services/salaries.service';
 import {PosteService} from '../../../services/poste.service';
 import { Service } from 'src/app/models/service';
 import { Direction } from 'src/app/models/direction';
+
+import {COMMA, ENTER} from '@angular/cdk/keycodes';
 
 @Component({
   selector: 'app-poste-form',
@@ -19,13 +21,17 @@ export class PosteFormComponent implements OnInit {
   firstFormGroup: FormGroup;
   secondFormGroup: FormGroup;
 
+  readonly separatorKeysCodes: number[] = [ENTER, COMMA];
+
   services: Service[];
   directions: Direction[];
 
   selectedDirection: Direction;
   selectedService: Service;
 
-  competences: FormArray;
+  // competences: FormArray;
+
+  competences: string[];
 
 
   constructor(
@@ -37,14 +43,27 @@ export class PosteFormComponent implements OnInit {
   }
 
 
-  addCompetence() {
-    this.competences = this.secondFormGroup.get('competences') as FormArray;
-    this.competences.push(this._formBuilder.group({
-      comp: ['']
-    }));
-    const c = this.competences.value.map(comp => comp.comp);
-    console.log(this.competences.value);
-    console.log(c);
+  addCompetence(event: MatChipInputEvent) {
+    const input = event.input;
+    const value = event.value;
+
+    // Add competence
+    if ((value || '').trim()) {
+      this.competences.push(value.trim());
+    }
+
+    // Reset the input value
+    if (input) {
+      input.value = '';
+    }
+    console.log(this.competences);
+  }
+
+  remove(compentence: string): void {
+    const index = this.competences.indexOf(compentence);
+    if (index >= 0) {
+      this.competences.splice(index, 1);
+    }
   }
 
   handleDirectionSelect(direction: Direction) {
@@ -83,10 +102,11 @@ export class PosteFormComponent implements OnInit {
   submitForm() {
     console.log(this.firstFormGroup, this.secondFormGroup, this.selectedDirection);
 
-    const {comp} = this.competences.value;
+    // const {comp} = this.competences.value;
 
     const newPoste: Poste = {
-      competences: this.competences.value.map(compentence => compentence.comp),
+      competences: this.competences,
+      // competences: this.competences.value.map(compentence => compentence.comp),
       direction: this.selectedDirection,
       division: this.firstFormGroup.get('division').value,
       nom: this.secondFormGroup.get('posteName').value,
@@ -122,8 +142,8 @@ export class PosteFormComponent implements OnInit {
       competences: this._formBuilder.array([])
       // competences: ['']
     });
-
-    this.competences = this.secondFormGroup.get('competences') as FormArray;
+    this.competences = [];
+    // this.competences = this.secondFormGroup.get('competences') as FormArray;
   }
 
 }

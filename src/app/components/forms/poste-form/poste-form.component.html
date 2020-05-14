@@ -36,7 +36,7 @@
             <input matInput  formControlName="posteName" placeholder="Ex : 678951948581479"
                    required>
           </mat-form-field>
-            <mat-form-field
+            <!-- <mat-form-field
               formArrayName="competences" [style.width.px]=327
               *ngFor="let comp of secondFormGroup.get('competences').controls; let i = index">
               <div [formGroupName]="i">
@@ -44,10 +44,22 @@
                 <input  matInput formControlName="comp"  placeholder="Ex : 678951948581479"
                         required>
               </div>
+            </mat-form-field> -->
+            <mat-form-field [style.width.px]=327>
+              <mat-label>Les competences requises</mat-label>
+              <mat-chip-list #competencesList aria-label="Competence du poste">
+                <mat-chip *ngFor="let comp of competences" 
+                         removable=true (removed)="remove(fruit)">
+                  {{comp}}
+                  <mat-icon matChipRemove>cancel</mat-icon>
+                </mat-chip>
+                <input placeholder="Ajouter une competence..."
+                       [matChipInputFor]="competencesList"
+                       [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+                       [matChipInputAddOnBlur]="addOnBlur"
+                       (matChipInputTokenEnd)="addCompetence($event)">
+              </mat-chip-list>
             </mat-form-field>
-
-
-          <button type="button" style="display: block;" mat-button (click)="addCompetence()" >Ajouter une compétance</button>
 
           <div>
             <button mat-button matStepperPrevious>Retour</button>

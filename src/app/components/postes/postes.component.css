@@ -35,3 +35,21 @@ mat-card-header.mat-card-header {
 .account-name {
   font-weight: bold;
 }
+mat-chip{
+  display: inline-block;
+}
+mat-chip-list {
+  width: 200px;
+    overflow: auto;
+    white-space: nowrap;
+}
+
+.mat-chip {
+  overflow: none !important;
+}
+
+.mat-chip-list-wrapper {
+  flex-wrap: nowrap !important;
+  width: 300px !important;
+  overflow: auto !important;
+}

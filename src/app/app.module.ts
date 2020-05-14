@@ -36,7 +36,7 @@ import {
   MatNativeDateModule,
   MAT_DATE_LOCALE,
   MatDatepicker,
-  MatExpansionModule, MatSortModule, MatProgressSpinnerModule, MatTooltipModule
+  MatExpansionModule, MatSortModule, MatProgressSpinnerModule, MatTooltipModule, MatChipsModule
 } from '@angular/material';
 import { DashboardComponent } from './components/dashboard/dashboard.component';
 // import { VirementsComponent } from './components/virements/virements.component';
@@ -123,7 +123,8 @@ import { PosteAffectationFormComponent } from './components/forms/poste-affectat
     MatExpansionModule,
     MatSortModule,
     MatProgressSpinnerModule,
-    MatTooltipModule
+    MatTooltipModule,
+    MatChipsModule
 
 
     // MDBBootstrapModule.forRoot()
