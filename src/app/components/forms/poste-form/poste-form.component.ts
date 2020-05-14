@@ -92,7 +92,7 @@ export class PosteFormComponent implements OnInit {
       nom: this.secondFormGroup.get('posteName').value,
       service: this.selectedService
     };
-    console.log(newPoste);
+    console.log("POSTE : ", newPoste);
     this.posteService.createPoste(newPoste).subscribe(
       data => {
         console.log(data);

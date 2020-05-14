@@ -7,6 +7,7 @@ import { environment } from 'src/environments/environment';
 import { Observable } from 'rxjs';
 import { Service } from '../models/service';
 import { Direction } from '../models/direction';
+import { AffectationRequest } from '../models/affectationRequest';
 
 @Injectable({
   providedIn: 'root'
@@ -35,6 +36,14 @@ export class PosteService {
 
   createPoste(poste: Poste): Observable<Poste> {
     return this.http.post<Poste>(`${this.BASE_URL}/api/postes/create`, poste);
+  }
+
+  affecterSalarie(id: number, request: AffectationRequest): Observable<Poste> {
+    return this.http.post<Poste>(`${this.BASE_URL}/api/postes/${id}/affecter`, request);
+  }
+
+  deleteSalarie(id: number): Observable<Poste> {
+    return this.http.put<Poste>(`${this.BASE_URL}/api/postes/${id}/salarie/supprimer`, {});
   }
 
   constructor(private salariesService: SalariesService, private http: HttpClient) {

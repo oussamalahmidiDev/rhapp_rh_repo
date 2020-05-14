@@ -61,29 +61,18 @@
         <ng-container matColumnDef="salarie">
           <th mat-header-cell *matHeaderCellDef mat-sort-header style="padding-left: 20px;"> Salarie</th>
           <td mat-cell *matCellDef="let element">
-<!--            <mat-list *ngIf="element.salarie !== undefined">-->
-<!--              <mat-list-item>-->
-<!--                <mat-icon matListIcon>-->
-<!--                  <div class="avatar"></div>-->
-<!--                </mat-icon>-->
-<!--                <h3 matLine> {{element.salarie.nom}} </h3>-->
-<!--                <p matLine>-->
-<!--                  <span> {{element.salarie.nom}} </span>-->
-<!--                  <span class="demo-2"> &#45;&#45; {{element.salarie.nom}} </span>-->
-<!--                </p>-->
-<!--              </mat-list-item>-->
-<!--            </mat-list>-->
-            <div class="account-inline" *ngIf="element.salarie != null">
-              <div class="avatar" [ngStyle]="{ 'background-image': 'url(' + element.salarie.photo + ')'}"></div>
+            <div class="account-inline" *ngIf="element.salarie != null" matTooltipPosition="left" [matTooltip]="element.salarie.fonction? 'Fonctions :\n' + element.salarie.fonction : 'Fonctions :\n Pas specifiée'">
+              <div class="avatar" *ngIf="element.salarie.photo" [ngStyle]="{ 'background-image': 'url(' + element.salarie.photo + ')'}"></div>
               <div class="account-labels">
-                <div class="account-name">{{element.salarie.nom}}</div>
+                <div class="account-name">{{element.salarie.nom}} {{element.salarie.prenom}}</div>
                 <div class="account-details">
-                  {{element.salarie.numSomme}}
+                  <span style="cursor: pointer;" class="text-primary" (click)="openPosteAffectationForm(element)">Affecter un autre</span> •
+                  <span style="cursor: pointer;" class="text-danger" (click)="deleteSelectedSalarie(element)">Supprimer</span>
                 </div>
               </div>
             </div>
             <mat-action-list *ngIf="element.salarie == null">
-              <button style="margin-left: 20px;" mat-stroked-button color="primary"> Affecter à un salarié</button>
+              <button style="margin-left: 20px;" (click)="openPosteAffectationForm(element)" mat-stroked-button color="primary"> Affecter à un salarié</button>
             </mat-action-list>
           </td>
         </ng-container>

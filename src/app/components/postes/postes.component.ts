@@ -4,6 +4,7 @@ import {Poste} from 'src/app/models/poste';
 import {PosteFormComponent} from '../forms/poste-form/poste-form.component';
 import {PosteService} from '../../services/poste.service';
 import {Salarie} from '../../models/salarie';
+import { PosteAffectationFormComponent } from '../forms/poste-affectation-form/poste-affectation-form.component';
 
 
 @Injectable()
@@ -34,7 +35,10 @@ export class PostesComponent implements OnInit {
 
   // dataSource: MatTableDataSource < Element[] > ;
   ngOnInit() {
+    this.loadPostes();
+  }
 
+  loadPostes() {
     console.log('LOading postes ...');
     this.service.getPostes()
       .subscribe(data => {
@@ -46,15 +50,15 @@ export class PostesComponent implements OnInit {
   }
 
   openSnackBar(message: string) {
-    this._snackBar.open('Poste ajouté', 'OK', {
+    this._snackBar.open(message, 'OK', {
       duration: 2000,
     });
   }
-  
+
   openPosteForm(): void {
     const dialogRef = this.dialog.open(PosteFormComponent, {
       width: '500px',
-  
+
     });
     dialogRef.afterClosed().subscribe(data => {
       if (data !== undefined) {
@@ -64,8 +68,45 @@ export class PostesComponent implements OnInit {
         this.openSnackBar("Poste ajouté");
       }
     });
-  
   };
+
+  openPosteAffectationForm(poste: Poste): void {
+    const dialogRef = this.dialog.open(PosteAffectationFormComponent, {
+      width: '500px',
+      data: poste
+    });
+    dialogRef.afterClosed().subscribe(data => {
+      if (data !== undefined) {
+        console.log('Subtask Dialog output:', data);
+        this.postes = this.postes.map(poste => {
+          if (poste.salarie && poste.id !== data.id) {
+            if (poste.salarie.id === data.salarie.id) {
+              poste.salarie = null;
+            }
+          } else if (poste.id === data.id)
+            poste = data;
+
+          return poste;
+        });
+        this.postesDs.data = this.postes;
+        this.openSnackBar(`Le salarié ${data.salarie.nom} a été affecté au poste ${data.nom}`);
+      }
+    });
+  }
+
+  deleteSelectedSalarie(poste: Poste) {
+    if (confirm(`Voulez vous désaffecter le salarié ${poste.salarie.nom} du poste de ${poste.nom} ?`)) {
+      this.service.deleteSalarie(poste.id)
+      .subscribe(
+        data => {
+
+          this.postes = this.postes.map(poste => poste.id === data.id ? poste = data : poste);
+          this.postesDs.data = this.postes;
+          this.openSnackBar(`Le salarié ${data.salarie.nom} a été désaffecté du poste ${data.nom}`);
+        }
+      )
+    }
+  }
   //
   //
   // search($event) {

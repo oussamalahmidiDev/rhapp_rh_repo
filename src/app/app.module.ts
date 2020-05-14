@@ -36,7 +36,7 @@ import {
   MatNativeDateModule,
   MAT_DATE_LOCALE,
   MatDatepicker,
-  MatExpansionModule, MatSortModule
+  MatExpansionModule, MatSortModule, MatProgressSpinnerModule, MatTooltipModule
 } from '@angular/material';
 import { DashboardComponent } from './components/dashboard/dashboard.component';
 // import { VirementsComponent } from './components/virements/virements.component';
@@ -63,6 +63,7 @@ import { SalariesListComponent } from './components/salaries-list/salaries-list.
 import { SalariesComponent } from './salaries/salaries.component';
 import {PosteFormComponent} from './components/forms/poste-form/poste-form.component';
 import {CongeFormComponent} from './components/forms/conge-form/conge-form.component';
+import { PosteAffectationFormComponent } from './components/forms/poste-affectation-form/poste-affectation-form.component';
 
 @NgModule({
   declarations: [
@@ -87,6 +88,7 @@ import {CongeFormComponent} from './components/forms/conge-form/conge-form.compo
     SalarieCongesComponent,
     SalariesListComponent,
     SalariesComponent,
+    PosteAffectationFormComponent,
 
   ],
   imports: [
@@ -119,7 +121,9 @@ import {CongeFormComponent} from './components/forms/conge-form/conge-form.compo
     MatDatepickerModule,
     MatNativeDateModule,
     MatExpansionModule,
-    MatSortModule
+    MatSortModule,
+    MatProgressSpinnerModule,
+    MatTooltipModule
 
 
     // MDBBootstrapModule.forRoot()
@@ -140,6 +144,6 @@ import {CongeFormComponent} from './components/forms/conge-form/conge-form.compo
 
   ],
   bootstrap: [AppComponent],
-  entryComponents: [PosteFormComponent, CongeReponseFormComponent, RetraiteFormComponent, CongeFormComponent]
+  entryComponents: [PosteFormComponent, PosteAffectationFormComponent, CongeReponseFormComponent, RetraiteFormComponent, CongeFormComponent]
 })
 export class AppModule { }
