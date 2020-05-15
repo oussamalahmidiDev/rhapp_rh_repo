@@ -11,10 +11,18 @@
     <button mat-icon-button class="mr-2">
       <mat-icon>notifications</mat-icon>
     </button>
-    <div class="inline-avatar">
-      <div class="avatar"></div>
+    <div class="inline-avatar"  [matMenuTriggerFor]="appMenu" [matMenuTriggerData]="{name: 'Sally'}">
+      <div class="avatar"  [ngStyle]="{ 'background-image': 'url(' + 'assets/images/default.jpg' + ')'}"></div>
       <div class="user-name">LAHMIDI Oussama</div>
     </div>
+    <mat-menu #appMenu="matMenu"  xPosition="before"  class="top-menu">
+      <ng-template matMenuContent let-name="name">
+        <button mat-menu-item (click) = "openProfileModal()">Voir votre profil</button>
+        <button mat-menu-item>Historique d'activités</button>
+        <mat-divider></mat-divider>
+        <button mat-menu-item class="text-danger" >Deconnexion</button>
+      </ng-template>
+    </mat-menu>
   </div>
   <!-- </mat-toolbar-row> -->
 </mat-toolbar>

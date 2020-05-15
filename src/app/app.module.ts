@@ -65,6 +65,8 @@ import {PosteFormComponent} from './components/forms/poste-form/poste-form.compo
 import {CongeFormComponent} from './components/forms/conge-form/conge-form.component';
 import { PosteAffectationFormComponent } from './components/forms/poste-affectation-form/poste-affectation-form.component';
 import { AbsenceFormComponent } from './components/forms/absence-form/absence-form.component';
+import { CongeMaladieFormComponent } from './components/forms/conge-maladie-form/conge-maladie-form.component';
+import { ProfileModalComponent } from './components/forms/profile-modal/profile-modal.component';
 
 @NgModule({
   declarations: [
@@ -91,6 +93,8 @@ import { AbsenceFormComponent } from './components/forms/absence-form/absence-fo
     SalariesComponent,
     PosteAffectationFormComponent,
     AbsenceFormComponent,
+    CongeMaladieFormComponent,
+    ProfileModalComponent,
 
   ],
   imports: [
@@ -126,7 +130,8 @@ import { AbsenceFormComponent } from './components/forms/absence-form/absence-fo
     MatSortModule,
     MatProgressSpinnerModule,
     MatTooltipModule,
-    MatChipsModule
+    MatChipsModule,
+    MatMenuModule
 
 
     // MDBBootstrapModule.forRoot()
@@ -153,7 +158,9 @@ import { AbsenceFormComponent } from './components/forms/absence-form/absence-fo
     CongeReponseFormComponent, 
     RetraiteFormComponent, 
     CongeFormComponent,
-    AbsenceFormComponent
+    AbsenceFormComponent,
+    CongeMaladieFormComponent,
+    ProfileModalComponent
   ]
 })
 export class AppModule { }
