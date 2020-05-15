@@ -1,0 +1,89 @@
+<div class="form">
+  <div class="mat-title">Enregistrer un congé de maladie d'un salarié</div>
+  <p class="mat-body">
+    Formualaire d'enregistrement congé de maladie des salariés. Verifiez bien les
+    informations avant de valider !
+  </p>
+  <mat-vertical-stepper linear>
+    <mat-step [stepControl]="congeMaladieForm">
+      <form [formGroup]="congeMaladieForm">
+        <ng-template matStepLabel>Selectionner le salarié concerné</ng-template>
+        <div class="row" *ngIf="!salariesLoaded">
+          <mat-spinner
+            class="mr-2"
+            strokeWidth="3"
+            [diameter]="25"
+          ></mat-spinner>
+          <span>Chargement de liste de salariés</span>
+        </div>
+        <mat-form-field [style.width.px]="327" *ngIf="salariesLoaded">
+          <mat-label>Selectionner le salarié</mat-label>
+          <mat-select formControlName="salarieId">
+            <mat-option
+              class="account-inline"
+              *ngFor="let salarie of salaries"
+              [value]="salarie.id"
+            >
+              <span
+                matTooltipPosition="right"
+                [matTooltip]="
+                  salarie.direction && salarie.service
+                    ? salarie.direction.nom + ' / ' + salarie.service.nom
+                    : 'Aucune information sur la direction et le service.'
+                "
+                >{{ salarie.nom }} {{ salarie.prenom }}</span
+              >
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+        <div *ngIf="salariesLoaded">
+          <mat-form-field [style.width.px]="327">
+            <mat-label>Préciser le motif de maladie</mat-label>
+            <input
+              type="text"
+              matInput
+              formControlName="motif"
+            />
+          </mat-form-field>
+          <mat-form-field [style.width.px]="327">
+            <mat-label>Date de début</mat-label>
+            <input
+              matInput
+              formControlName="dateDebut"
+              [matDatepicker]="dateDebutPicker"
+            />
+            <mat-datepicker-toggle
+              matSuffix
+              [for]="dateDebutPicker"
+            ></mat-datepicker-toggle>
+            <mat-datepicker #dateDebutPicker></mat-datepicker>
+          </mat-form-field>
+          <mat-form-field [style.width.px]="327">
+            <mat-label>Date de fin</mat-label>
+            <input
+              matInput
+              formControlName="dateFin"
+              [min]="congeMaladieForm.value.dateDebut"
+              [matDatepicker]="dateFinPicker"
+            />
+            <mat-datepicker-toggle
+              matSuffix
+              [for]="dateFinPicker"
+            ></mat-datepicker-toggle>
+            <mat-datepicker #dateFinPicker></mat-datepicker>
+          </mat-form-field>
+          <div class="mt-3">
+            <button
+              type="submit"
+              (click)="onSubmit()"
+              mat-button
+              matStepperNext
+            >
+              Enregistrer
+            </button>
+          </div>
+        </div>
+      </form>
+    </mat-step>
+  </mat-vertical-stepper>
+</div>

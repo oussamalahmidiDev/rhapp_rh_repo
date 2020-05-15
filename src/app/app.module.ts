@@ -67,6 +67,7 @@ import { PosteAffectationFormComponent } from './components/forms/poste-affectat
 import { AbsenceFormComponent } from './components/forms/absence-form/absence-form.component';
 import { CongeMaladieFormComponent } from './components/forms/conge-maladie-form/conge-maladie-form.component';
 import { ProfileModalComponent } from './components/forms/profile-modal/profile-modal.component';
+import { SalarieFormComponent } from './components/forms/salarie-form/salarie-form.component';
 
 @NgModule({
   declarations: [
@@ -95,6 +96,7 @@ import { ProfileModalComponent } from './components/forms/profile-modal/profile-
     AbsenceFormComponent,
     CongeMaladieFormComponent,
     ProfileModalComponent,
+    SalarieFormComponent
 
   ],
   imports: [
@@ -160,7 +162,8 @@ import { ProfileModalComponent } from './components/forms/profile-modal/profile-
     CongeFormComponent,
     AbsenceFormComponent,
     CongeMaladieFormComponent,
-    ProfileModalComponent
+    ProfileModalComponent,
+    SalarieFormComponent
   ]
 })
 export class AppModule { }

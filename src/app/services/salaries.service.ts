@@ -22,6 +22,10 @@ export class SalariesService {
     return this.http.get<Salarie[]>(`${this.BASE_URL}/api/salaries`);
   }
 
+  createSalarie(salarie: Salarie): Observable<Salarie> {
+    return this.http.post<Salarie>(`${this.BASE_URL}/api/salaries/create`, salarie);
+  }
+
 
   constructor(private http: HttpClient) { }
 }

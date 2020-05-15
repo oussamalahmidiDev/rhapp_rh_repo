@@ -7,6 +7,7 @@ import {Absence} from '../../models/absence';
 import {RetraiteFormComponent} from '../forms/retraite-form/retraite-form.component';
 import {SalariesService} from '../../services/salaries.service';
 import {Salarie} from '../../models/salarie';
+import { SalarieFormComponent } from '../forms/salarie-form/salarie-form.component';
 
 
 @Injectable()
@@ -52,6 +53,21 @@ export class SalariesListComponent implements OnInit {
     this._snackBar.open('Virements ajouté', 'OK', {
       duration: 2000,
     });
+  }
+
+  openSalarieForm() {
+    const dialogRef = this.dialog.open(SalarieFormComponent, {
+      width: '600px',
+      disableClose: true
+    });
+    dialogRef.afterClosed().subscribe(
+      data => {
+        if (data !== undefined) {
+          this.salaries.push(data);
+          this.salariesDs.data = this.salaries;
+        }
+      }
+    )
   }
 
   openRetraiteFrom(conge: Conge): void {

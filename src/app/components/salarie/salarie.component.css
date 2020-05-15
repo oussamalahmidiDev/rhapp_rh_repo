@@ -25,7 +25,9 @@ h3.sal-name {
   background: grey;
   border-radius: 90px;
   margin-right: 35px;
-  background-size: contain;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
 }
 
 .poste-top {

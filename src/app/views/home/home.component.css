@@ -72,14 +72,15 @@ transition: all ease-in-out 0.5s;
 
 .avatar {
   background-color: #eee;
-  background-size: contain;
   height: 37px;
   width: 150px;
   width: 37px;
   border-radius: 90px;
   /* margin: 15px 0 20px 0; */
   margin-right: 10px;
-  background-image: url("https://picsum.photos/300");
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
 
 }
 

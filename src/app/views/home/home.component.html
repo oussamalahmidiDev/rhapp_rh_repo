@@ -12,8 +12,9 @@
       <mat-icon>notifications</mat-icon>
     </button>
     <div class="inline-avatar"  [matMenuTriggerFor]="appMenu" [matMenuTriggerData]="{name: 'Sally'}">
-      <div class="avatar"  [ngStyle]="{ 'background-image': 'url(' + 'assets/images/default.jpg' + ')'}"></div>
-      <div class="user-name">LAHMIDI Oussama</div>
+      <div class="avatar"  *ngIf="currentUser.photo"  [ngStyle]="{ 'background-image': 'url(' + currentUser.avatar_link + ')'}"></div>
+      <div class="avatar" *ngIf="!currentUser.photo" [ngStyle]="{ 'background-image': 'url(' + 'assets/images/default.jpg' + ')'}"></div>
+      <div class="user-name">{{ currentUser.nom }} {{ currentUser.prenom }}</div>
     </div>
     <mat-menu #appMenu="matMenu"  xPosition="before"  class="top-menu">
       <ng-template matMenuContent let-name="name">

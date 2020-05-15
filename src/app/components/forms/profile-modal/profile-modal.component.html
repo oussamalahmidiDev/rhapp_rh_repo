@@ -1,0 +1,96 @@
+<div class="container">
+  <div class="modal-top">
+    <h4>Votre profil</h4>
+    <mat-icon  class="close-btn" (click) = "closeModal()">cancel</mat-icon>
+  </div>
+  <div class="profil-top">
+    <div class="avatar"  *ngIf="currentUser.photo"  [ngStyle]="{ 'background-image': 'url(' + currentUser.avatar_link + ')'}"></div>
+    <div class="avatar" *ngIf="!currentUser.photo" [ngStyle]="{ 'background-image': 'url(' + 'assets/images/default.jpg' + ')'}"></div>
+    <h5 style="margin-top: 10px;">{{ currentUser.nom }} {{ currentUser.prenom }}</h5>
+    <div class="buttons-row">
+      <mat-progress-spinner
+          *ngIf = "uploading"
+          mode="determinate"
+          strokeWidth="3" [diameter]="25"
+          [value]="uploadProgress">
+      </mat-progress-spinner>
+      <div class="upload-btn-wrapper" *ngIf="!uploading">
+        <button class="mr-2" mat-stroked-button>
+          <mat-icon class="mr-2">backup</mat-icon>
+          Charger une photo
+        </button>
+        <input type="file" (change)="handlePhotoUpload($event)" name="avatar" accept="jpg,jpeg,png">
+      </div>
+      <div class="upload-btn-wrapper" *ngIf="!uploading">
+        <button mat-stroked-button color="warn"  *ngIf="currentUser.photo"
+          (click)="deletePhoto()">
+          <mat-icon>delete</mat-icon>
+          Supprimer
+        </button>
+      </div>
+    </div>
+  </div>
+  <mat-vertical-stepper linear #stepper>
+    <mat-step >
+      <form [style.fontSize.px]="14" [formGroup] = "profileForm">
+        <ng-template matStepLabel>Vos informations personnelles</ng-template>
+        <mat-form-field  appearance="outline"  [style.width.px]=327>
+          <mat-label>Nom</mat-label>
+          <input matInput placeholder="Votre nom" formControlName="nom" required>
+        </mat-form-field>
+        <mat-form-field  appearance="outline"  [style.width.px]=327>
+          <mat-label>Prenom</mat-label>
+          <input matInput placeholder="Votre prénom" formControlName="prenom" required>
+        </mat-form-field>
+        <mat-form-field  appearance="outline"  [style.width.px]=327>
+          <mat-label>Numero de téléphone</mat-label>
+          <input matInput placeholder="06 12 34 56 78" formControlName="telephone" >
+        </mat-form-field>
+        <div>
+          <button mat-button mat-flat-button [disabled] = "this.profileForm.invalid" *ngIf = "this.profileForm.dirty" color="accent"(click)="onSubmitProfileForm()" >Enregistrer</button>
+        </div>
+      </form>
+    </mat-step>
+    <mat-step >
+      <form  [style.fontSize.px]="14" [formGroup] = "compteForm">
+        <ng-template matStepLabel>Paramètres du compte</ng-template>
+        <mat-form-field appearance="outline"  [style.width.px]=327>
+          <mat-label>Ancien mot de passe</mat-label>
+          <input matInput formControlName="oldPassword" 
+              [type]="hide ? 'password' : 'text'"    required>
+          <button mat-icon-button matSuffix (click)="hide = !hide" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hide">
+            <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
+            </button>
+        </mat-form-field>
+        <div formGroupName = "passwords">
+        <mat-form-field appearance="outline"  [style.width.px]=327>
+          <mat-label>Nouveau mot de passe</mat-label>
+          <input matInput formControlName="newPassword" 
+              [type]="hide ? 'password' : 'text'"    required>
+              <button mat-icon-button matSuffix (click)="hide = !hide" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hide">
+                <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
+                </button>
+        </mat-form-field>
+        <mat-form-field  appearance="outline" [style.width.px]=327>
+          <mat-label>Confirmation de mot de passe</mat-label>
+          <input matInput formControlName="newPasswordConf"
+              [type]="hide ? 'password' : 'text'"    required>
+              <button mat-icon-button matSuffix (click)="hide = !hide" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hide">
+                <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
+                </button>
+                <mat-error *ngIf="compteForm.get('passwords').invalid">
+                  Les mots de passes ne sont pas identiques
+                </mat-error>
+        </mat-form-field>
+      </div>
+        <mat-error class="mb-2" *ngFor="let error of compteFormErrors">
+            {{ error }}
+        </mat-error>
+        <div>
+          <button mat-button mat-flat-button color="accent" [disabled] = "this.compteForm.invalid" *ngIf = "this.compteForm.dirty" (click)="onSubmitCompteForm()">Enregistrer</button>
+        </div>
+      </form>
+    </mat-step>
+    
+  </mat-vertical-stepper>
+</div>

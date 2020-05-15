@@ -15,7 +15,10 @@ export class HomeComponent implements OnInit {
   currentUser: User;
 
   ngOnInit() {
-    // this.currentUser = this.userService.currentUser;
+    this.userService.getCurrentUser().subscribe(
+      data => this.currentUser = data,
+      error => console.log(error.error)
+    );
   }
 
   logout() : void {
@@ -26,10 +29,17 @@ export class HomeComponent implements OnInit {
 
   openProfileModal () {
     const dialogRef = this.dialog.open(ProfileModalComponent, {
+      data: this.currentUser,
       disableClose: true,
       width: '500px',
       position: { top: '15px', right: '10px' }
     });
+    dialogRef.afterClosed().subscribe(
+      data => {
+        if (data !== undefined) 
+          this.currentUser = data;
+      }
+    )
   }
 
 }
