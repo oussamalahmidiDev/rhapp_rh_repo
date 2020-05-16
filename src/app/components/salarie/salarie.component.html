@@ -5,8 +5,8 @@
   </div>
 </div>
 <div class="mt-5 container" *ngIf="salarieLoaded">
-  <a class="row mb-4"  routerLink="../../salaries">
-    <button mat-icon-button >
+  <a class="row mb-4" (click)="goBack()" >
+    <button  mat-icon-button  >
       <mat-icon>arrow_back</mat-icon>
     </button>
   </a>

@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import {Salarie} from '../../models/salarie';
 import {SalariesService} from '../../services/salaries.service';
 import {ActivatedRoute} from '@angular/router';
+import {Location} from '@angular/common';
 
 @Component({
   selector: 'app-salarie',
@@ -15,7 +16,7 @@ export class SalarieComponent implements OnInit {
   salarieLoaded = true;
 
 
-  constructor(private salariesService: SalariesService, private route: ActivatedRoute) {
+  constructor(private salariesService: SalariesService, private route: ActivatedRoute, private location: Location) {
 
   }
 
@@ -36,4 +37,7 @@ export class SalarieComponent implements OnInit {
     // );
   }
 
+  goBack() {
+    this.location.back();
+  }
 }
