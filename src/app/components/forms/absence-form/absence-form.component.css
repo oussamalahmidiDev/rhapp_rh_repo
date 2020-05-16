@@ -1,0 +1,17 @@
+.buttons-row {
+      display: flex;
+      align-items: center;
+    }
+    
+    .upload-btn-wrapper input[name=justificatif] {
+        font-size: 100px;
+        position: absolute;
+        left: 0;
+        top: 0;
+        opacity: 0;
+      }
+      .upload-btn-wrapper {
+        position: relative;
+        overflow: hidden;
+        display: inline-block;
+      }
