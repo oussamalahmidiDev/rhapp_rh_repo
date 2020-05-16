@@ -1,7 +1,7 @@
 import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { UserService } from 'src/app/services/user.service';
 import { User } from 'src/app/models/user';
-import {Router, ActivatedRoute} from '@angular/router';
+import {Router, ActivatedRoute, RouterEvent, NavigationStart, NavigationEnd, NavigationCancel, NavigationError} from '@angular/router';
 import { MatDialog, MatSnackBar } from '@angular/material';
 import { ProfileModalComponent } from 'src/app/components/forms/profile-modal/profile-modal.component';
 import { Salarie } from 'src/app/models/salarie';
@@ -24,16 +24,27 @@ export class HomeComponent implements OnInit {
   searchResults: Salarie[];
   searchQuery: string;
 
+  loading: boolean = true;
+
   @ViewChild('searchField') input: ElementRef;
 
   ngOnInit() {
     this.searchQuery = null;
-    this.userService.getCurrentUser().subscribe(
-      data => this.currentUser = data,
-      error => console.log(error.error)
-    );
+    this.currentUser = this.activatedRoute.snapshot.data.profile;
   }
 
+  checkRouterEvent(routerEvent: RouterEvent): void {
+    if (routerEvent instanceof NavigationStart) {
+      this.loading = true;
+    }
+
+    if (routerEvent instanceof NavigationEnd ||
+      routerEvent instanceof NavigationCancel ||
+      routerEvent instanceof NavigationError) {
+      this.loading = false;
+    }
+  }
+  
   ngAfterViewInit() {
     fromEvent(this.input.nativeElement,'keyup')
         .pipe(
@@ -94,6 +105,9 @@ export class HomeComponent implements OnInit {
       // this.router.routeReuseStrategy.shouldReuseRoute = function () {
       //   return false;
       // };
+      router.events.subscribe((routerEvent: RouterEvent) => {
+        this.checkRouterEvent(routerEvent);
+      });
     }
 
   openSearchResults(results) {

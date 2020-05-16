@@ -36,7 +36,7 @@ import {
   MatNativeDateModule,
   MAT_DATE_LOCALE,
   MatDatepicker,
-  MatExpansionModule, MatSortModule, MatProgressSpinnerModule, MatTooltipModule, MatChipsModule
+  MatExpansionModule, MatSortModule, MatProgressSpinnerModule, MatTooltipModule, MatChipsModule, MatProgressBarModule
 } from '@angular/material';
 import { DashboardComponent } from './components/dashboard/dashboard.component';
 // import { VirementsComponent } from './components/virements/virements.component';
@@ -135,7 +135,8 @@ import { SearchResultsComponent } from './components/search-results/search-resul
     MatProgressSpinnerModule,
     MatTooltipModule,
     MatChipsModule,
-    MatMenuModule
+    MatMenuModule,
+    MatProgressBarModule
 
 
     // MDBBootstrapModule.forRoot()

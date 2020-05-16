@@ -5,6 +5,7 @@ import {PosteFormComponent} from '../forms/poste-form/poste-form.component';
 import {PosteService} from '../../services/poste.service';
 import {Salarie} from '../../models/salarie';
 import { PosteAffectationFormComponent } from '../forms/poste-affectation-form/poste-affectation-form.component';
+import { ActivatedRoute } from '@angular/router';
 
 
 @Injectable()
@@ -24,7 +25,7 @@ export class PostesComponent implements OnInit {
   // @ts-ignore
   @ViewChild(MatSort, {static: true}) sort: MatSort;
 
-  constructor(private service: PosteService,  private dialog: MatDialog,  private _snackBar: MatSnackBar) {
+  constructor(private service: PosteService,  private dialog: MatDialog,  private _snackBar: MatSnackBar, private activatedRoute: ActivatedRoute) {
     this.postesDs = new MatTableDataSource<Poste>();
 
     this.postesDs.filterPredicate = (data: any, filter) => {
@@ -35,10 +36,14 @@ export class PostesComponent implements OnInit {
 
   // dataSource: MatTableDataSource < Element[] > ;
   ngOnInit() {
-    this.loadPostes();
+    console.log(this.activatedRoute.snapshot.data);
+    this.postesDs.data = this.postes = this.activatedRoute.snapshot.data.postes;
+
+    // this.loadPostes();
   }
 
   loadPostes() {
+    this.activatedRoute.data.subscribe()
     console.log('LOading postes ...');
     this.service.getPostes()
       .subscribe(data => {

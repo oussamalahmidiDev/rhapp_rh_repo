@@ -18,11 +18,14 @@ import {SalarieAbsencesComponent} from './components/salarie-absences/salarie-ab
 import {SalarieCongesComponent} from './components/salarie-conges/salarie-conges.component';
 import {AbsencesComponent} from './components/absences/absences.component';
 import {SalariesListComponent} from './components/salaries-list/salaries-list.component';
+import { PosteServiceResolver } from './resolvers/postes.service.resolver';
+import { ProfileServiceResolver } from './resolvers/profile.service.resolver';
 
 const routes: Routes = [
   {
     path: 'home',
     component: HomeComponent,
+    resolve: { profile: ProfileServiceResolver },
     // canActivate: [AuthenticatedGuard],
     children: [
       {
@@ -33,6 +36,7 @@ const routes: Routes = [
       {
         path: 'postes',
         component: PostesComponent,
+        resolve: { postes: PosteServiceResolver }
         // canActivate: [AuthenticatedGuard],
       },
       {
