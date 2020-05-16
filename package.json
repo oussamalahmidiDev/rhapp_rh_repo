@@ -34,7 +34,8 @@
     "mdbootstrap": "^4.15.0",
     "rxjs": "~6.3.3",
     "tslib": "^1.9.0",
-    "zone.js": "~0.8.26"
+    "zone.js": "~0.8.26",
+    "node-sass": "4.14"
   },
   "devDependencies": {
     "@angular/cli": "~7.3.1",
