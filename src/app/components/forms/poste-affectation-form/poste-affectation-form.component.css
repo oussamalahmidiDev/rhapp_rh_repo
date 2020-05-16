@@ -1,0 +1,20 @@
+.mat-form-field-infix {
+      width: 350px;
+}
+
+.account-inline {
+      padding-left: 20px;
+      display: flex;
+      align-items: center;
+    }
+    .avatar {
+      height: 40px;
+      width: 40px;
+      background: grey;
+      margin-right: 10px;
+      border-radius: 90px;
+      background-size: contain;
+    }
+    .account-name {
+      font-weight: bold;
+    }
