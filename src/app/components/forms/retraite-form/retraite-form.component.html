@@ -1,57 +1,42 @@
 <div class="form">
-  <div class="mat-title">Enregistrer une retraite</div>
+  <div class="mat-title">Enregistrer une retraite pour {{ retraite.salarie.nom }} {{ retraite.salarie.prenom }}</div>
   <p class="mat-body">Formualaire de retraite. Verifiez bien les informations avant de valider !</p>
     <mat-vertical-stepper   linear>
-      <mat-step *ngIf="!formIsValid">
-        <form [formGroup]="firstFormGroup">
+      <mat-step [stepControl]="formGroup">
+        <form [formGroup]="formGroup">
           <ng-template matStepLabel>Entrer les informations sur la retraite</ng-template>
-          <mat-form-field [style.width.px]=327>
-            <mat-label>Entrer le nom du salarié à affecter</mat-label>
-            <input [(ngModel)]="poste.direction" matInput placeholder="Ex : 678951948581479" required [matAutocomplete]="salarie">
-          </mat-form-field>
-          <mat-autocomplete #salarie="matAutocomplete">
-            <mat-option *ngFor="let salarie of salaries" [value]="salarie.nom">
-              {{ salarie.nom }}
-            </mat-option>
-          </mat-autocomplete>
-          <mat-form-field [style.width.px]=327>
+          <mat-form-field [style.width.px]="327">
             <mat-label>Date de retraite</mat-label>
-            <input matInput [matDatepicker]="myDatepicker">
-            <mat-datepicker-toggle matSuffix [for]="myDatepicker"></mat-datepicker-toggle>
-            <mat-datepicker #myDatepicker></mat-datepicker>
-            
-            <!-- <input type="date" matInput placeholder="Ex : 678951948581479" formControlName="firstCtrl" required> -->
+            <input
+              matInput
+              required
+              formControlName="dateRetraite"
+              [matDatepicker]="dateRetraitePicker"
+            />
+            <mat-datepicker-toggle
+              matSuffix
+              [for]="dateRetraitePicker"
+            ></mat-datepicker-toggle>
+            <mat-datepicker #dateRetraitePicker></mat-datepicker>
           </mat-form-field>
-          <mat-form-field [style.width.px]=327>
-            <mat-label>Préciser le type de la retraite</mat-label>
-            <input  matInput placeholder="Ex : 678951948581479" required>
+          <mat-form-field  [style.width.px]=327>
+            <mat-label>La référence de la retraite</mat-label>
+            <input  matInput placeholder="Ex : REF78349819" formControlName="reference" required>
           </mat-form-field>
-          <mat-form-field [style.width.px]=327>
-            <mat-label>Préciser la reference de la retraite</mat-label>
-            <input  matInput placeholder="Ex : 678951948581479" required>
+          <mat-form-field  [style.width.px]=327>
+            <mat-label>Type de la retraite</mat-label>
+            <input  matInput placeholder="Ex : 678951948581479" formControlName="type"  [matAutocomplete]="autoType" required>
+            <mat-autocomplete #autoType="matAutocomplete" [displayWith]="showType">
+              <mat-option *ngFor="let type of typesRetraite"  [value]="type">{{ type.typeRetraite }}</mat-option>
+            </mat-autocomplete>
+          </mat-form-field>
+          <mat-form-field style="width: -webkit-fill-available; width: -moz-available;">
+            <mat-label>Remarques sur la retraite</mat-label>
+            <textarea rows="3" style="resize: none;" formControlName="remarques" type="text" matInput required></textarea>
           </mat-form-field>
           <div>
-            <button mat-button matStepperNext>Retirer les avantages</button>
-            <button mat-button >Enregistrer et fermer</button>
-          </div>
-        </form>
-      </mat-step>
-      <mat-step >
-        <form >
-          <ng-template matStepLabel>Retirer les avantages en nature</ng-template>
-          <!-- <mat-form-field [style.width.px]=327> -->
-            <mat-label>Sélectionner les avantages à retirer</mat-label>
-            <mat-selection-list #avantages>
-              <mat-list-option >les téléphones de service</mat-list-option>
-              <mat-list-option >les logements administratifs</mat-list-option>
-              <mat-list-option >les téléphones</mat-list-option>
-              <mat-list-option >les véhicules de service</mat-list-option>
-            </mat-selection-list>
-          <!-- </mat-form-field> -->
-
-          <div class="mt-3">
-            <button mat-button matStepperPrevious>Retour</button>
-            <button mat-button matStepperNext>Suivant</button>
+<!--            <button mat-button matStepperNext>Retirer les avantages</button>-->
+            <button mat-button (click) = "onSubmit()" >Enregistrer</button>
           </div>
         </form>
       </mat-step>
@@ -61,4 +46,3 @@
       <button mat-button class="ml-3 mt-3" color="primary"  (click)="formIsValid = false">Revoir les détails</button>
     </mat-card-actions> -->
   </div>
-  

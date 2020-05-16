@@ -17,11 +17,14 @@ export class SalarieComponent implements OnInit {
 
 
   constructor(private salariesService: SalariesService, private route: ActivatedRoute, private location: Location) {
-
+    this.salariesService.emitChange.subscribe(
+      data => this.salarie = data
+    );
   }
 
   ngOnInit() {
     this.salarie =  this.route.snapshot.data.salarie;
+    this.salariesService.emit(this.salarie);
     // this.id = parseInt(this.route.snapshot.paramMap.get('id'));
     // console.log("SAL ID = ", this.id, this.route.snapshot.paramMap.get('id'));
     // // this.salarie = null;

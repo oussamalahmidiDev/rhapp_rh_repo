@@ -36,7 +36,7 @@ import {
   MatNativeDateModule,
   MAT_DATE_LOCALE,
   MatDatepicker,
-  MatExpansionModule, MatSortModule, MatProgressSpinnerModule, MatTooltipModule, MatChipsModule, MatProgressBarModule
+  MatExpansionModule, MatSortModule, MatProgressSpinnerModule, MatTooltipModule, MatChipsModule, MatProgressBarModule, MatCheckboxModule
 } from '@angular/material';
 import { DashboardComponent } from './components/dashboard/dashboard.component';
 // import { VirementsComponent } from './components/virements/virements.component';
@@ -50,7 +50,6 @@ import { HomeComponent } from './views/home/home.component';
 import { HttpClientModule } from '@angular/common/http';
 import { PostesComponent } from './components/postes/postes.component';
 import { CongesComponent } from './components/conges/conges.component';
-import { RetraitesComponent } from './components/retraites/retraites.component';
 import { SalarieComponent } from './components/salarie/salarie.component';
 import { SalarieInfosComponent } from './components/salarie-infos/salarie-infos.component';
 import { SalarieAbsencesComponent } from './components/salarie-absences/salarie-absences.component';
@@ -68,6 +67,10 @@ import { CongeMaladieFormComponent } from './components/forms/conge-maladie-form
 import { ProfileModalComponent } from './components/forms/profile-modal/profile-modal.component';
 import { SalarieFormComponent } from './components/forms/salarie-form/salarie-form.component';
 import { SearchResultsComponent } from './components/search-results/search-results.component';
+import {SalarieRetraiteComponent} from './components/salarie-retraite/salarie-retraite.component';
+import { SalarieAvantagesComponent } from './components/salarie-avantages/salarie-avantages.component';
+import { AvantageFormComponent } from './components/forms/avantage-form/avantage-form.component';
+import { AvantageRejetFormComponent } from './components/forms/avantage-rejet-form/avantage-rejet-form.component';
 
 @NgModule({
   declarations: [
@@ -83,7 +86,7 @@ import { SearchResultsComponent } from './components/search-results/search-resul
     CongeFormComponent,
     CongeReponseFormComponent,
     AbsencesComponent,
-    RetraitesComponent,
+    SalarieRetraiteComponent,
     RetraiteFormComponent,
     SalarieComponent,
     SalarieInfosComponent,
@@ -96,7 +99,10 @@ import { SearchResultsComponent } from './components/search-results/search-resul
     CongeMaladieFormComponent,
     ProfileModalComponent,
     SalarieFormComponent,
-    SearchResultsComponent
+    SearchResultsComponent,
+    SalarieAvantagesComponent,
+    AvantageFormComponent,
+    AvantageRejetFormComponent
 
   ],
   imports: [
@@ -134,7 +140,8 @@ import { SearchResultsComponent } from './components/search-results/search-resul
     MatTooltipModule,
     MatChipsModule,
     MatMenuModule,
-    MatProgressBarModule
+    MatProgressBarModule,
+    MatCheckboxModule,
 
 
     // MDBBootstrapModule.forRoot()
@@ -165,7 +172,9 @@ import { SearchResultsComponent } from './components/search-results/search-resul
     CongeMaladieFormComponent,
     ProfileModalComponent,
     SalarieFormComponent,
-    SearchResultsComponent
+    SearchResultsComponent,
+    AvantageFormComponent,
+    AvantageRejetFormComponent
   ]
 })
 export class AppModule { }

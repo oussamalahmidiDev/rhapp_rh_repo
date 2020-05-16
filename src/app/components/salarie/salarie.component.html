@@ -1,21 +1,27 @@
 <div class="mt-5 container">
-  <div class="row" *ngIf = "!salarieLoaded" >
+  <div class="row" *ngIf="!salarieLoaded">
     <mat-spinner class="mr-2" strokeWidth="3" [diameter]="25"></mat-spinner>
     <span>Chargement des Informations du salarié</span>
   </div>
 </div>
 <div class="mt-5 container" *ngIf="salarieLoaded">
-  <a class="row mb-4" (click)="goBack()" >
-    <button  mat-icon-button  >
+  <a class="row mb-4" (click)="goBack()">
+    <button mat-icon-button>
       <mat-icon>arrow_back</mat-icon>
     </button>
   </a>
   <div class="salarie-header">
     <div class="header-left">
       <div class="avatar" *ngIf="salarie.photo" [ngStyle]="{ 'background-image': 'url(' + salarie.photo + ')'}"></div>
-      <div class="avatar" *ngIf="!salarie.photo" [ngStyle]="{ 'background-image': 'url(' + 'assets/images/default.jpg' + ')'}"></div>
-        <div class="pers-infos">
+      <div class="avatar" *ngIf="!salarie.photo"
+           [ngStyle]="{ 'background-image': 'url(' + 'assets/images/default.jpg' + ')'}"></div>
+      <div class="pers-infos">
         <h3 class="sal-name">{{ salarie.nom }} {{ salarie.prenom }}</h3>
+        <mat-chip-list style="display: inline-block;">
+          <mat-chip color="accent" selected *ngIf="salarie.retraite">Retraité</mat-chip>
+          <mat-chip  *ngIf = "salarie.retraite && salarie.retraite.etat === 'PENDING_RT_AVTG'">En attente de retraite des avantages</mat-chip>
+          <mat-chip *ngIf = "salarie.retraite && salarie.retraite.etat === 'PENDING_VALID'">En attente de validation</mat-chip>
+        </mat-chip-list>
         <div class="sal-contacts">
           <div class="detail-item">
             <strong class="detail-name">CIN :</strong>
@@ -32,8 +38,9 @@
         </div>
       </div>
     </div>
-
-    <div class="header-right" *ngIf="!salarie.poste">Aucun poste affecté</div>
+    <div class="header-right" *ngIf="!salarie.poste">
+      Aucun poste affecté. <span class="text-primary">Cliquer pour à un poste</span>
+    </div>
     <div class="header-right" *ngIf="salarie.poste">
       <div class="poste-top">
         <h3 class="poste-header">Poste affecté</h3>
@@ -52,6 +59,8 @@
           <strong class="detail-name">Service :</strong>
           <span>{{ salarie.poste.service.nom }}</span>
         </div>
+        <span class="text-primary">Modifier</span> •
+        <span class="text-danger">Dettacher</span>
       </div>
     </div>
   </div>
@@ -75,8 +84,21 @@
        [active]="conges.isActive">
       Demandes de congés
     </a>
+    <a mat-tab-link
+       routerLink="./retraites"
+       routerLinkActive #retraites="routerLinkActive"
+       [active]="retraites.isActive">
+      Informations sur la retraite
+    </a>
+
+    <a mat-tab-link
+       routerLink="./avantages"
+       routerLinkActive #avantages="routerLinkActive"
+       [active]="avantages.isActive">
+      Les avantages en nature
+    </a>
 
 
   </nav>
-  <router-outlet ></router-outlet>
+  <router-outlet></router-outlet>
 </div>

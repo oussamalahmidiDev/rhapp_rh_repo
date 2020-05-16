@@ -4,10 +4,10 @@
   <form class="example-form navbar-nav mr-auto">
     <div class="example-full-width">
       <!-- <mat-label>Favorite food</mat-label> -->
-        <input class="search"   
+        <input class="search"
         name = "searchQuery"
 
-        placeholder="Rechercher par nom de salarié, divison, direction" 
+        placeholder="Rechercher par nom de salarié, divison, direction"
         [matAutocomplete]="auto" #searchField>
       <mat-autocomplete #auto="matAutocomplete" [displayWith]="showSalarieNom" (optionSelected)="redirect($event.option.value.id)">
         <mat-option *ngFor = "let salarie of searchResults" [value] = "salarie" >
@@ -15,7 +15,7 @@
             <!-- <div class="account-inline" >
               <div class="avatar" *ngIf="salarie.photo" [ngStyle]="{ 'background-image': 'url(' + salarie.photo + ')'}"></div>
               <div class="avatar" *ngIf="!salarie.photo" [ngStyle]="{ 'background-image': 'url(' + 'assets/images/default.jpg' + ')'}"></div>
-          
+
               <div class="account-labels">
                 <div class="account-name"></div>
                 <div class="account-details">
@@ -73,17 +73,7 @@
      [active]="absences.isActive">
     Absences
   </a>
-  <a mat-tab-link
-     routerLink="retraites"
-     routerLinkActive #retraites="routerLinkActive"
-     [active]="retraites.isActive">
-    Retraites
-  </a>
-  <a mat-tab-link
-     routerLinkActive #avtg="routerLinkActive"
-     [active]="avtg.isActive">
-    Avantages en nature
-  </a>
+
   <a mat-tab-link
      routerLink="salaries"
      routerLinkActive #salaries="routerLinkActive"

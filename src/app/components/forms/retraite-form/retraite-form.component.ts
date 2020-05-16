@@ -1,11 +1,12 @@
-import {Component, OnInit, Inject, EventEmitter, Output} from '@angular/core';
-import {Validators, FormGroup, FormBuilder} from '@angular/forms';
-import {MatDialogRef, MAT_DIALOG_DATA} from '@angular/material';
+import {Component, Inject, OnInit} from '@angular/core';
+import {FormBuilder, FormGroup, Validators} from '@angular/forms';
+import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material';
 import {Virement} from 'src/app/models/virement';
 import {Poste} from 'src/app/models/poste';
-import {copyStyles} from '@angular/animations/browser/src/util';
 import {Salarie} from 'src/app/models/salarie';
 import {SalariesService} from '../../../services/salaries.service';
+import {Retraite} from '../../../models/retraite';
+import {RetraitesService} from '../../../services/retraites.service';
 
 @Component({
   selector: 'app-retraite-form',
@@ -15,60 +16,62 @@ import {SalariesService} from '../../../services/salaries.service';
 export class RetraiteFormComponent implements OnInit {
 
   isLinear = false;
-  firstFormGroup: FormGroup;
-  secondFormGroup: FormGroup;
-  formIsValid = false;
-  formIsApproved = false;
 
-  compteExp: string = '';
-  compteDest: string = '';
-  montant: string = '';
+  formGroup: FormGroup;
+
+  typesRetraite: any[];
 
   salaries: Salarie[] = this.salariesService.salaries;
 
-  competences: string[] = [];
-  poste: Poste;
 
-  constructor(private _formBuilder: FormBuilder, public dialogRef: MatDialogRef<RetraiteFormComponent>, @Inject(MAT_DIALOG_DATA) public data: Poste[], private salariesService: SalariesService) {
-  }
-
-  createVirement() {
-    const newVirement: Virement = {
-      id: '1',
-      compteExp: this.compteExp,
-      compteDest: this.compteDest,
-      montant: this.montant,
-      dateOperation: new Date().toString().substr(0, 15),
-      statut: 'PENDING'
-    };
-
-    this.formIsValid = true;
-    // console.log
-    this.dialogRef.close(newVirement);
-  }
-
-  addCompetence($event) {
-    event.preventDefault();
-    this.competences = this.competences.filter(comp => comp !== '');
-    this.competences.push('');
-    console.log(this.competences);
-  }
-
-  createPoste() {
-  
-    this.formIsValid = true;
-    this.dialogRef.close(this.poste);
-
+  constructor(
+    private _formBuilder: FormBuilder,
+    public dialogRef: MatDialogRef<RetraiteFormComponent>,
+    @Inject(MAT_DIALOG_DATA) public retraite: Retraite,
+    private retraiteService: RetraitesService,
+    private salariesService: SalariesService) {
   }
 
   ngOnInit() {
-    console.log(this.data);
-    this.firstFormGroup = this._formBuilder.group({
-      firstCtrl: ['', Validators.required]
+    console.log('RETRAITE DATA', this.retraite);
+    this.typesRetraite = [
+      {id: 1, typeRetraite: 'A'},
+      {id: 2, typeRetraite: 'B'},
+      {id: 3, typeRetraite: 'C'},
+    ];
+
+    this.retraiteService.getRetraitesType().subscribe(
+      data => this.typesRetraite = data
+    );
+
+    this.formGroup = this._formBuilder.group({
+      dateRetraite: [this.retraite.dateRetraite, Validators.required],
+      reference: [this.retraite.reference, Validators.required],
+      remarques: [this.retraite.remarques, Validators.required],
+      type: [this.retraite.type.typeRetraite, Validators.required]
     });
-    this.secondFormGroup = this._formBuilder.group({
-      secondCtrl: ['', Validators.required]
-    });
+
+
   }
 
+  onSubmit() {
+    console.log(this.formGroup);
+    this.retraite.dateRetraite = this.formGroup.value.dateRetraite;
+    this.retraite.reference = this.formGroup.value.reference;
+    this.retraite.remarques = this.formGroup.value.remarques;
+    this.retraite.type = this.formGroup.value.type.id ? this.formGroup.value.type : {id: null, typeRetraite: this.formGroup.value.type};
+
+    console.log('RETRAITE = ', this.retraite);
+
+    this.retraiteService.createRetraite(this.retraite).subscribe(
+      data => this.dialogRef.close(data),
+      error => console.log(error.error)
+    );
+
+  }
+
+  showType(type: any) {
+    let k = type ? type.typeRetraite : type;
+    return k;
+  }
 }

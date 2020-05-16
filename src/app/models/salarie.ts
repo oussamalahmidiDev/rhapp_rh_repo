@@ -1,36 +1,42 @@
-import { Direction } from './direction';
-import { Service } from './service';
+import {Direction} from './direction';
+import {Service} from './service';
+import {Poste} from './poste';
+import {Retraite} from './retraite';
+import {AvantageNature} from './avatange';
 
 export interface Salarie {
-      id?: number;
-      // infos pers
-      nom: string;
-      prenom: string;
-      photo?: string;
-      numSomme: string;
-      email: string;
-      cin?: string;
-      adresse?: string;
-      dateNaissance?: string;
-      lieuNaissance?: string;
-      telephone?: string;
-      dateCreation?: Date;
-      solde?: number;
+  id?: number;
+  // infos pers
+  nom: string;
+  prenom: string;
+  photo?: string;
+  numSomme: string;
+  email: string;
+  cin?: string;
+  adresse?: string;
+  dateNaissance?: string;
+  lieuNaissance?: string;
+  telephone?: string;
+  dateCreation?: Date;
+  solde?: number;
 
-      // infos prof
-      division?: string;
-      direction?: Direction;
-      service?: Service;
-      diplomeObt?: string;
-      fonction?: string;
+  // infos prof
+  division?: string;
+  direction?: Direction;
+  service?: Service;
+  diplomeObt?: string;
+  fonction?: string;
 
-  
 
-      // contact urgence
+  // contact urgence
 
-      cinUrg?: string;
-      nomUrgence?: string;
-      adresseUrgence?: string;
-      telUrgence?: string;
-      emailUrg?: string;
-    }
+  cinUrg?: string;
+  nomUrgence?: string;
+  adresseUrgence?: string;
+  telUrgence?: string;
+  emailUrg?: string;
+
+  poste?: Poste;
+  retraite?: Retraite;
+  avantages?: AvantageNature[];
+}

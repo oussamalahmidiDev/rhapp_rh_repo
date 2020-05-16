@@ -10,7 +10,6 @@ import {AUTH_PROVIDERS} from './services/user.service';
 import {GuestGuard} from './guards/guest.guard';
 import {PostesComponent} from './components/postes/postes.component';
 import {CongesComponent} from './components/conges/conges.component';
-import {RetraitesComponent} from './components/retraites/retraites.component';
 import {SalarieComponent} from './components/salarie/salarie.component';
 import {SalarieInfosComponent} from './components/salarie-infos/salarie-infos.component';
 import {SalarieAbsencesComponent} from './components/salarie-absences/salarie-absences.component';
@@ -23,6 +22,8 @@ import {CongesServiceResolver} from './resolvers/conges.service.resolver';
 import {SalariesServiceResolver} from './resolvers/salaries.service.resolver';
 import {AbsencesServiceResolver} from './resolvers/absences.service.resolver';
 import {SalarieServiceResolver} from './resolvers/salarie.service.resolver';
+import {SalarieRetraiteComponent} from './components/salarie-retraite/salarie-retraite.component';
+import {SalarieAvantagesComponent} from './components/salarie-avantages/salarie-avantages.component';
 
 const routes: Routes = [
   {
@@ -55,11 +56,6 @@ const routes: Routes = [
         // canActivate: [AuthenticatedGuard],
       },
       {
-        path: 'retraites',
-        component: RetraitesComponent,
-        // canActivate: [AuthenticatedGuard],
-      },
-      {
         path: 'salaries',
         component: SalariesListComponent,
         resolve: { salaries: SalariesServiceResolver }
@@ -81,7 +77,17 @@ const routes: Routes = [
           {
             path: 'conges',
             component: SalarieCongesComponent
-          }
+          },
+          {
+            path: 'retraites',
+            component: SalarieRetraiteComponent,
+            // canActivate: [AuthenticatedGuard],
+          },
+          {
+            path: 'avantages',
+            component: SalarieAvantagesComponent,
+            // canActivate: [AuthenticatedGuard],
+          },
         ]
 
 

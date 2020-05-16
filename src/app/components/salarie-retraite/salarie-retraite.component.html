@@ -1,0 +1,53 @@
+<div class="row" *ngIf = "!salarieLoaded" >
+  <mat-spinner class="mr-2" strokeWidth="3" [diameter]="25"></mat-spinner>
+  <span>Chargement en cours</span>
+</div>
+<div *ngIf = "salarieLoaded && !salarie.retraite">
+  <span>Aucune retraite enregistrée pour {{ salarie.nom }} {{ salarie.prenom }}.</span>
+  <span class="text-primary ml-1" style="cursor:pointer" (click) = "openRetraiteFrom()">Voulez vous enregistrer une ?</span>
+</div>
+<mat-accordion *ngIf="salarieLoaded && salarie.retraite">
+  <mat-expansion-panel expanded>
+    <mat-expansion-panel-header>
+      <mat-panel-title>
+        Information sur la retraite de {{ salarie.nom }} {{ salarie.prenom }}
+      </mat-panel-title>
+      <mat-panel-description>
+        Voir la date de la retraite, le statut du salarié
+      </mat-panel-description>
+    </mat-expansion-panel-header>
+    <div class="detail-item">
+      <div class="detail-name">Date de la retraite</div>
+      <div class="detail-content">{{ retraite.dateRetraite | date: 'dd/MM/yyyy' }}</div>
+    </div>
+    <div class="detail-item">
+      <div class="detail-name">Type de la retraite</div>
+      <div class="detail-content">{{ retraite.type.typeRetraite }}</div>
+    </div>
+    <div class="detail-item">
+      <div class="detail-name">Remarques</div>
+      <div class="detail-content">{{ retraite.remarques }}</div>
+    </div>
+    <div class="detail-item">
+      <div class="detail-name">État de la retraite</div>
+
+      <div class="detail-content" *ngIf = "retraite.etat === 'PENDING_RT_AVTG'">
+        <span>En attente de retraite des avantages en nature.</span>
+<!--        <span class="text-primary ml-1" (click)="retirerAvantages()">Cliquer ici pour procéder à la retraite des avantages en nature</span>-->
+      </div>
+      <div class="detail-content" *ngIf = "retraite.etat === 'PENDING_VALID'">
+        <span>Les avantages ont été retirés.</span>
+<!--        <span class="text-primary ml-1" (click)="validerRetraite()">Cliquer ici pour valider la retraite de {{ salarie.nom }} {{ salarie.prenom }}</span>-->
+      </div>
+      <div class="detail-content" *ngIf = "retraite.etat === 'VALID'">
+        <span>La retraite a été validé le <strong>{{ retraite.dateValidation | date: 'dd/MM/yyyy' }}</strong>.</span>
+      </div>
+
+    </div>
+    <mat-action-row  *ngIf = "retraite.etat !== 'VALID'">
+      <button mat-button color="primary"  (click)="retirerAvantages()" *ngIf = "retraite.etat === 'PENDING_RT_AVTG'" >Retirer les avantages en nature</button>
+      <button mat-button color="primary" (click)="validerRetraite()" *ngIf = "retraite.etat === 'PENDING_VALID'" >Valider la retraite</button>
+<!--      <button mat-button color="primary" (click)="nextStep()">End</button>-->
+    </mat-action-row>
+  </mat-expansion-panel>
+</mat-accordion>

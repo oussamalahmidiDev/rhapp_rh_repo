@@ -1,9 +1,12 @@
-import { Salarie } from './salarie';
+import {Salarie} from './salarie';
 
 export interface Retraite {
-      ref: string;
-      type: string;
-      date: Date,
-      etat: string,
-      salarie: Salarie
-    }
+  id?: number;
+  etat?: string;
+  dateRetraite: Date;
+  dateValidation?: Date;
+  remarques: string;
+  salarie?: Salarie;
+  reference: string;
+  type: { id?: number; typeRetraite: string; };
+}

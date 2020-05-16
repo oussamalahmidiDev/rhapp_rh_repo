@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import {Salarie} from '../models/salarie';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { environment } from 'src/environments/environment';
-import { Observable } from 'rxjs';
+import {BehaviorSubject, Observable, Subject} from 'rxjs';
 import { Conge } from '../models/conge';
 import { Absence } from '../models/absence';
 import { encodeUriQuery } from '@angular/router/src/url_tree';
@@ -15,7 +15,15 @@ export class SalariesService {
 
   salaries: Salarie[] = [  ];
 
+  emitChange$: Subject<Salarie> = new BehaviorSubject<Salarie>(null);
 
+  emit(salarie: Salarie) {
+    this.emitChange$.next(salarie);
+  }
+
+  get emitChange(): BehaviorSubject<Salarie> {
+    return (this.emitChange$ as BehaviorSubject<Salarie>);
+  }
 
   getSalarie(id: number): Observable<Salarie> {
     return this.http.get<Salarie>(`${this.BASE_URL}/api/salaries/${id}`);
