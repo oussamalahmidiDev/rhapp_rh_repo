@@ -7,6 +7,7 @@ import {Salarie} from '../../models/salarie';
 import {SalariesService} from '../../services/salaries.service';
 import {CongesService} from '../../services/conges.service';
 import { CongeMaladieFormComponent } from '../forms/conge-maladie-form/conge-maladie-form.component';
+import {ActivatedRoute} from '@angular/router';
 
 
 
@@ -28,7 +29,13 @@ export class CongesComponent implements OnInit {
   // @ts-ignore
   @ViewChild(MatSort, {static: true}) sort: MatSort;
 
-  constructor(private congesService:CongesService , private _snackBar: MatSnackBar, private dialog: MatDialog, private salariesService: SalariesService) {
+  constructor(
+    private congesService:CongesService ,
+    private _snackBar: MatSnackBar,
+    private dialog: MatDialog,
+    private salariesService: SalariesService,
+    private activatedRoute: ActivatedRoute
+    ) {
     this.congesDs = new MatTableDataSource<Conge>();
     this.congesDs.filterPredicate = (data: any, filter) => {
       const dataStr = JSON.stringify(data).toLowerCase();
@@ -44,7 +51,8 @@ export class CongesComponent implements OnInit {
 
   // dataSource: MatTableDataSource < Element[] > ;
   ngOnInit() {
-    this.getConges();
+    this.congesDs.data = this.conges = this.activatedRoute.snapshot.data.conges;
+    // this.getConges();
   }
 
   openSnackBar(message: string) {

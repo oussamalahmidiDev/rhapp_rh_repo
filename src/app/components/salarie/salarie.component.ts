@@ -12,7 +12,7 @@ export class SalarieComponent implements OnInit {
 
   id: number;
   salarie: Salarie;
-  salarieLoaded = false;
+  salarieLoaded = true;
 
 
   constructor(private salariesService: SalariesService, private route: ActivatedRoute) {
@@ -20,19 +20,20 @@ export class SalarieComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.id = parseInt(this.route.snapshot.paramMap.get('id'));
-    console.log("SAL ID = ", this.id, this.route.snapshot.paramMap.get('id'));
-    // this.salarie = null;
-    this.salariesService.getSalarie(this.id).subscribe(
-      data => {
-        this.salarie = data;
-        this.salarieLoaded = true;
-      },
-      error => {
-        this.salarieLoaded = true;
-        alert("error loading page");
-      }
-    );
+    this.salarie =  this.route.snapshot.data.salarie;
+    // this.id = parseInt(this.route.snapshot.paramMap.get('id'));
+    // console.log("SAL ID = ", this.id, this.route.snapshot.paramMap.get('id'));
+    // // this.salarie = null;
+    // this.salariesService.getSalarie(this.id).subscribe(
+    //   data => {
+    //     this.salarie = data;
+    //     this.salarieLoaded = true;
+    //   },
+    //   error => {
+    //     this.salarieLoaded = true;
+    //     alert("error loading page");
+    //   }
+    // );
   }
 
 }

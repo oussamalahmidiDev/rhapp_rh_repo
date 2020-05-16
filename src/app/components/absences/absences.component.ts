@@ -1,14 +1,10 @@
-import {Component, OnInit, Injectable, ViewChild} from '@angular/core';
-import {MatSnackBar, MatDialog, MatTableDataSource, MatSort} from '@angular/material';
-import {Poste} from 'src/app/models/poste';
-import {Conge} from 'src/app/models/conge';
-import {Retraite} from 'src/app/models/retraite';
+import {Component, Injectable, OnInit, ViewChild} from '@angular/core';
+import {MatDialog, MatSnackBar, MatSort, MatTableDataSource} from '@angular/material';
 import {Absence} from '../../models/absence';
-import {RetraiteFormComponent} from '../forms/retraite-form/retraite-form.component';
-import {Salarie} from '../../models/salarie';
 import {SalariesService} from '../../services/salaries.service';
 import {AbsencesService} from '../../services/absences.service';
-import { AbsenceFormComponent } from '../forms/absence-form/absence-form.component';
+import {AbsenceFormComponent} from '../forms/absence-form/absence-form.component';
+import {ActivatedRoute} from '@angular/router';
 
 
 @Injectable()
@@ -30,10 +26,12 @@ export class AbsencesComponent implements OnInit {
 
 
   constructor(
-    private absencesService:AbsencesService,
-    private _snackBar: MatSnackBar, 
-    private dialog: MatDialog, 
-    private salariesService: SalariesService) {
+    private absencesService: AbsencesService,
+    private _snackBar: MatSnackBar,
+    private dialog: MatDialog,
+    private salariesService: SalariesService,
+    private activatedRoute: ActivatedRoute
+  ) {
     this.absencesDs = new MatTableDataSource<Absence>();
 
     this.absencesDs.filterPredicate = (data: any, filter) => {
@@ -44,7 +42,8 @@ export class AbsencesComponent implements OnInit {
 
   // dataSource: MatTableDataSource < Element[] > ;
   ngOnInit() {
-    this.getAbsences();
+    this.absencesDs.data = this.absences = this.activatedRoute.snapshot.data.absences;
+    // this.getAbsences();
   }
 
   openSnackBar(message: string) {
@@ -75,16 +74,16 @@ export class AbsencesComponent implements OnInit {
     this.absencesDs.filter = filterValue.trim().toLowerCase();
   }
 
-  getAbsences(){
-    this.absencesService.getAbsences().subscribe(data =>{
+  getAbsences() {
+    this.absencesService.getAbsences().subscribe(data => {
       console.log(data);
       // @ts-ignore
-      this.absences=data;
+      this.absences = data;
       this.absencesDs.data = this.absences;
       console.log(this.absencesDs.data);
-    },error => {
+    }, error => {
       console.log(error);
-    })
+    });
   }
 
 }

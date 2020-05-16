@@ -8,6 +8,7 @@ import {RetraiteFormComponent} from '../forms/retraite-form/retraite-form.compon
 import {SalariesService} from '../../services/salaries.service';
 import {Salarie} from '../../models/salarie';
 import { SalarieFormComponent } from '../forms/salarie-form/salarie-form.component';
+import {ActivatedRoute} from '@angular/router';
 
 
 @Injectable()
@@ -28,7 +29,12 @@ export class SalariesListComponent implements OnInit {
   @ViewChild(MatSort, {static: true}) sort: MatSort;
 
 
-  constructor(private _snackBar: MatSnackBar, private dialog: MatDialog, private service: SalariesService) {
+  constructor(
+    private _snackBar: MatSnackBar,
+    private dialog: MatDialog,
+    private service: SalariesService,
+    private activatedRoute: ActivatedRoute
+  ) {
     this.salariesDs = new MatTableDataSource<Salarie>();
 
     this.salariesDs.filterPredicate = (data: any, filter) => {
@@ -40,13 +46,14 @@ export class SalariesListComponent implements OnInit {
   // dataSource: MatTableDataSource < Element[] > ;
   ngOnInit() {
 
-    this.service.getSalaries()
-    .subscribe(data => {
-      this.salaries = data;
-      this.salariesDs.data = this.salaries;
-      this.salariesDs.sort = this.sort;
-
-    });
+    this.salariesDs.data = this.salaries = this.activatedRoute.snapshot.data.salaries;
+    // this.service.getSalaries()
+    // .subscribe(data => {
+    //   this.salaries = data;
+    //   this.salariesDs.data = this.salaries;
+    //   this.salariesDs.sort = this.sort;
+    //
+    // });
   }
 
   openSnackBar() {

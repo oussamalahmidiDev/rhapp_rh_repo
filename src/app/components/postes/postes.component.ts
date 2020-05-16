@@ -25,7 +25,11 @@ export class PostesComponent implements OnInit {
   // @ts-ignore
   @ViewChild(MatSort, {static: true}) sort: MatSort;
 
-  constructor(private service: PosteService,  private dialog: MatDialog,  private _snackBar: MatSnackBar, private activatedRoute: ActivatedRoute) {
+  constructor(
+    private service: PosteService,
+    private dialog: MatDialog,
+    private _snackBar: MatSnackBar,
+    private activatedRoute: ActivatedRoute) {
     this.postesDs = new MatTableDataSource<Poste>();
 
     this.postesDs.filterPredicate = (data: any, filter) => {

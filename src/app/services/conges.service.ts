@@ -1,9 +1,9 @@
-import { Injectable } from '@angular/core';
+import {Injectable} from '@angular/core';
 import {environment} from '../../environments/environment';
 import {HttpClient} from '@angular/common/http';
-import { CongeMaladieRequest } from '../models/congeMaladieRequest';
-import { Observable } from 'rxjs';
-import { Conge } from '../models/conge';
+import {CongeMaladieRequest} from '../models/congeMaladieRequest';
+import {Observable} from 'rxjs';
+import {Conge} from '../models/conge';
 
 @Injectable({
   providedIn: 'root'
@@ -11,17 +11,19 @@ import { Conge } from '../models/conge';
 export class CongesService {
 
   BASE_URL = environment.BASE_URL;
-  constructor(private http: HttpClient) { }
 
-  public getConges(){
-    return this.http.get(this.BASE_URL + "/api/conges");
+  constructor(private http: HttpClient) {
   }
 
-  public createCongeMaladie (request: CongeMaladieRequest): Observable<Conge> {
+  public getConges(): Observable<Conge[]> {
+    return this.http.get<Conge[]>(this.BASE_URL + '/api/conges');
+  }
+
+  public createCongeMaladie(request: CongeMaladieRequest): Observable<Conge> {
     return this.http.post<Conge>(`${this.BASE_URL}/api/conges/create_maladie`, request);
   }
 
-  public repondreConge(id: number, request: any) : Observable<Conge> {
+  public repondreConge(id: number, request: any): Observable<Conge> {
     return this.http.post<Conge>(`${this.BASE_URL}/api/conges/${id}/repondre`, request);
   }
 }

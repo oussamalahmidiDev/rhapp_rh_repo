@@ -20,6 +20,10 @@ import {AbsencesComponent} from './components/absences/absences.component';
 import {SalariesListComponent} from './components/salaries-list/salaries-list.component';
 import { PosteServiceResolver } from './resolvers/postes.service.resolver';
 import { ProfileServiceResolver } from './resolvers/profile.service.resolver';
+import {CongesServiceResolver} from './resolvers/conges.service.resolver';
+import {SalariesServiceResolver} from './resolvers/salaries.service.resolver';
+import {AbsencesServiceResolver} from './resolvers/absences.service.resolver';
+import {SalarieServiceResolver} from './resolvers/salarie.service.resolver';
 
 const routes: Routes = [
   {
@@ -42,11 +46,13 @@ const routes: Routes = [
       {
         path: 'conges',
         component: CongesComponent,
+        resolve: { conges: CongesServiceResolver }
         // canActivate: [AuthenticatedGuard],
       },
       {
         path: 'absences',
         component: AbsencesComponent,
+        resolve: { absences: AbsencesServiceResolver }
         // canActivate: [AuthenticatedGuard],
       },
       {
@@ -56,11 +62,13 @@ const routes: Routes = [
       },
       {
         path: 'salaries',
-        component: SalariesListComponent
+        component: SalariesListComponent,
+        resolve: { salaries: SalariesServiceResolver }
       },
       {
         path: 'salaries/:id',
         component: SalarieComponent,
+        resolve: {salarie: SalarieServiceResolver },
         children: [
           {path: '', redirectTo: 'infos', pathMatch: 'full'},
           {
