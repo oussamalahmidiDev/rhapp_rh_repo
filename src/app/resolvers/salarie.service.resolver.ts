@@ -18,6 +18,7 @@ export class SalarieServiceResolver implements Resolve<Salarie> {
   constructor(private service: SalariesService) { }
 
   resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<Salarie> {
+    console.log(this.service.getSalarie(parseInt(route.paramMap.get('id'))));
     return this.service.getSalarie(parseInt(route.paramMap.get('id')));
   }
 

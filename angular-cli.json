@@ -1,0 +1,11 @@
+{
+  "...": "heavily reduced for brevity",
+  "apps": [
+    {
+      "styles": [
+        "styles-app-loading.scss",
+        "styles.scss"
+      ]
+    }
+  ]
+}
