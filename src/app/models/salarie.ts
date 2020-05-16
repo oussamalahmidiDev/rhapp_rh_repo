@@ -15,7 +15,7 @@ export interface Salarie {
       lieuNaissance?: string;
       telephone?: string;
       dateCreation?: Date;
-      solde: number;
+      solde?: number;
 
       // infos prof
       division?: string;

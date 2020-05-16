@@ -19,17 +19,19 @@
         <ng-container matColumnDef="salarie">
           <th mat-header-cell *matHeaderCellDef style="padding-left: 20px;"  mat-sort-header> Nom du salarié</th>
           <td mat-cell *matCellDef="let absence">
-            <div class="account-inline" >
-              <div class="avatar" *ngIf="absence.salarie.photo" [ngStyle]="{ 'background-image': 'url(' + absence.salarie.photo + ')'}"></div>
-              <div class="avatar" *ngIf="!absence.salarie.photo" [ngStyle]="{ 'background-image': 'url(' + 'assets/images/default.jpg' + ')'}"></div>
-          
-              <div class="account-labels">
-                <div class="account-name">{{absence.salarie.nom}} {{absence.salarie.prenom}}</div>
-                <div class="account-details">
-                  {{absence.salarie.numSomme}}
+            <a  [routerLink]="['../salaries', absence.salarie.id]">
+              <div class="account-inline" >
+                <div class="avatar" *ngIf="absence.salarie.photo" [ngStyle]="{ 'background-image': 'url(' + absence.salarie.photo + ')'}"></div>
+                <div class="avatar" *ngIf="!absence.salarie.photo" [ngStyle]="{ 'background-image': 'url(' + 'assets/images/default.jpg' + ')'}"></div>
+            
+                <div class="account-labels">
+                  <div class="account-name">{{absence.salarie.nom}} {{absence.salarie.prenom}}</div>
+                  <div class="account-details">
+                    {{absence.salarie.numSomme}}
+                  </div>
                 </div>
               </div>
-            </div>
+            </a>
           </td>
         </ng-container>
         <ng-container matColumnDef="datedebut">

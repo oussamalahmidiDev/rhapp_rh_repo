@@ -4,11 +4,31 @@
   <form class="example-form navbar-nav mr-auto">
     <div class="example-full-width">
       <!-- <mat-label>Favorite food</mat-label> -->
-      <input class="search" placeholder="Rechercher par nom de salarié, divison, direction">
+        <input class="search"   
+        name = "searchQuery"
+
+        placeholder="Rechercher par nom de salarié, divison, direction" 
+        [matAutocomplete]="auto" #searchField>
+      <mat-autocomplete #auto="matAutocomplete" [displayWith]="showSalarieNom" (optionSelected)="redirect($event.option.value.id)">
+        <mat-option *ngFor = "let salarie of searchResults" [value] = "salarie" >
+            {{salarie.nom}} {{salarie.prenom}}
+            <!-- <div class="account-inline" >
+              <div class="avatar" *ngIf="salarie.photo" [ngStyle]="{ 'background-image': 'url(' + salarie.photo + ')'}"></div>
+              <div class="avatar" *ngIf="!salarie.photo" [ngStyle]="{ 'background-image': 'url(' + 'assets/images/default.jpg' + ')'}"></div>
+          
+              <div class="account-labels">
+                <div class="account-name"></div>
+                <div class="account-details">
+                  {{salarie.numSomme}}
+                </div>
+              </div>
+            </div> -->
+        </mat-option>
+      </mat-autocomplete>
     </div>
   </form>
   <div class="right-items">
-    <button mat-icon-button class="mr-2">
+    <button (click) =  "redirect(2)" mat-icon-button class="mr-2">
       <mat-icon>notifications</mat-icon>
     </button>
     <div class="inline-avatar"  [matMenuTriggerFor]="appMenu" [matMenuTriggerData]="{name: 'Sally'}">

@@ -1,9 +1,16 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { UserService } from 'src/app/services/user.service';
 import { User } from 'src/app/models/user';
-import {Router} from '@angular/router';
-import { MatDialog } from '@angular/material';
+import {Router, ActivatedRoute} from '@angular/router';
+import { MatDialog, MatSnackBar } from '@angular/material';
 import { ProfileModalComponent } from 'src/app/components/forms/profile-modal/profile-modal.component';
+import { Salarie } from 'src/app/models/salarie';
+import { SalariesService } from 'src/app/services/salaries.service';
+import { fromEvent } from 'rxjs';
+import { filter, debounceTime, distinctUntilChanged, tap } from 'rxjs/operators';
+import { SearchResultsComponent } from 'src/app/components/search-results/search-results.component';
+
+import {Location} from '@angular/common'; 
 
 @Component({
   selector: 'app-home',
@@ -14,18 +21,91 @@ export class HomeComponent implements OnInit {
 
   currentUser: User;
 
+  searchResults: Salarie[];
+  searchQuery: string;
+
+  @ViewChild('searchField') input: ElementRef;
+
   ngOnInit() {
+    this.searchQuery = null;
     this.userService.getCurrentUser().subscribe(
       data => this.currentUser = data,
       error => console.log(error.error)
     );
   }
 
+  ngAfterViewInit() {
+    fromEvent(this.input.nativeElement,'keyup')
+        .pipe(
+            filter(Boolean),
+            debounceTime(300),
+            distinctUntilChanged(),
+            tap((text) => {
+              console.log(this.input.nativeElement.value);
+              this.onSearchQueryChange(this.input.nativeElement.value);
+            })
+        )
+        .subscribe();
+}
+
+  onSearchQueryChange(query) {
+    this.searchResults = [];
+    console.log("CURRENT SEACH RESULT", this.searchResults, "QUERY", query);
+    if (query !== '' && query !== null && query !== undefined) {
+      console.log("SEARCHING ..", query);
+      this.salariesService.searchSalaries(query).subscribe(
+        data => data.length > 0 ? this.searchResults = data : this.openSnackBar('Aucun salarié trouvé ...')
+      );
+    }
+    // console.log("SEARCHED SALARIE", salarie);
+  }
+
+  openSnackBar(message: string) {
+    this._snackBar.open(message, 'OK', {
+      duration: 2000,
+    });
+  }
+
+  showSalarieNom(salarie: Salarie) {
+      let k = salarie ? salarie.nom + " " + salarie.prenom : salarie;
+      return k;
+  }
+
+  redirect(id) {
+    this.searchResults = [];
+    this.input.nativeElement.value = null;
+    console.log("redirecting to .. ", id);
+    this.router.navigateByUrl('/home').then(() => this.router.navigate(['/home/salaries', id])).catch(err => console.log(err));
+    // this.router.navigate(['/home/salaries',id]).catch(err => console.log(err));
+  }
+
   logout() : void {
     this.userService.logout();
   }
 
-  constructor(private userService: UserService, private router: Router, private dialog: MatDialog ) {}
+  constructor(
+    private userService: UserService, 
+    private router: Router, 
+    private dialog: MatDialog, 
+    private salariesService: SalariesService,
+    private _snackBar: MatSnackBar,
+    private activatedRoute: ActivatedRoute,
+    ) {
+      // this.router.routeReuseStrategy.shouldReuseRoute = function () {
+      //   return false;
+      // };
+    }
+
+  openSearchResults(results) {
+    this.dialog.open(SearchResultsComponent, {
+      data: results,
+      width: '550px',
+      hasBackdrop: false,
+      autoFocus: false,
+      restoreFocus: true,
+      position: { top: '60px', left: '121.56666564941406px' }
+    })
+  }
 
   openProfileModal () {
     const dialogRef = this.dialog.open(ProfileModalComponent, {

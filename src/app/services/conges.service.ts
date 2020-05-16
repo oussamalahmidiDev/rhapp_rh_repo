@@ -20,4 +20,8 @@ export class CongesService {
   public createCongeMaladie (request: CongeMaladieRequest): Observable<Conge> {
     return this.http.post<Conge>(`${this.BASE_URL}/api/conges/create_maladie`, request);
   }
+
+  public repondreConge(id: number, request: any) : Observable<Conge> {
+    return this.http.post<Conge>(`${this.BASE_URL}/api/conges/${id}/repondre`, request);
+  }
 }

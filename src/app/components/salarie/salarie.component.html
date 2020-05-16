@@ -10,7 +10,7 @@
       <div class="avatar" *ngIf="salarie.photo" [ngStyle]="{ 'background-image': 'url(' + salarie.photo + ')'}"></div>
       <div class="avatar" *ngIf="!salarie.photo" [ngStyle]="{ 'background-image': 'url(' + 'assets/images/default.jpg' + ')'}"></div>
         <div class="pers-infos">
-        <h3 class="sal-name">{{ salarie.nom }}</h3>
+        <h3 class="sal-name">{{ salarie.nom }} {{ salarie.prenom }}</h3>
         <div class="sal-contacts">
           <div class="detail-item">
             <strong class="detail-name">CIN :</strong>

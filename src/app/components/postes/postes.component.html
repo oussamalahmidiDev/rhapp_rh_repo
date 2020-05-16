@@ -68,7 +68,7 @@
               <div class="avatar" *ngIf="element.salarie.photo" [ngStyle]="{ 'background-image': 'url(' + element.salarie.photo + ')'}"></div>
               <div class="avatar" *ngIf="!element.salarie.photo" [ngStyle]="{ 'background-image': 'url(' + 'assets/images/default.jpg' + ')'}"></div>
               <div class="account-labels">
-                <div class="account-name">{{element.salarie.nom}} {{element.salarie.prenom}}</div>
+                <a class="account-name" [routerLink]="['../salaries', element.salarie.id]">{{element.salarie.nom}} {{element.salarie.prenom}}</a>
                 <div class="account-details">
                   <span style="cursor: pointer;" class="text-primary" (click)="openPosteAffectationForm(element)">Affecter un autre</span> •
                   <span style="cursor: pointer;" class="text-danger" (click)="deleteSelectedSalarie(element)">Supprimer</span>

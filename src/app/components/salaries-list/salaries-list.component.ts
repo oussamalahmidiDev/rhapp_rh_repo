@@ -19,7 +19,7 @@ import { SalarieFormComponent } from '../forms/salarie-form/salarie-form.compone
 export class SalariesListComponent implements OnInit {
 
   salariesDs: MatTableDataSource<Salarie>;
-  salarieCols: string[] = ['salarie', 'numsomme', 'direction', 'division', 'service'];
+  salarieCols: string[] = ['salarie', 'email', 'direction', 'division', 'service'];
 
   salaries: Salarie[];
   // salaries: Salarie[] = this.salariesService.salaries;

@@ -5,46 +5,54 @@
       <!-- <button class="ml-auto" color="primary" mat-flat-button>Voir plus</button> -->
     </mat-card-header>
     <mat-card-content class="pr-5 container">
-      <table mat-table [dataSource]="congesDs" class="accounts">
+      <table mat-table [dataSource]="congesDs" class="accounts" matSort>
 
         <!--- Note that these columns can be defined in any order.
   The actual rendered columns are set as a property on the row definition" -->
 
-
         <!-- Name Column -->
         <ng-container matColumnDef="motif">
-          <th mat-header-cell *matHeaderCellDef> Motif </th>
-          <td mat-cell *matCellDef="let element"> {{element.motif}} </td>
+          <th mat-header-cell *matHeaderCellDef mat-sort-header> Motif</th>
+          <td mat-cell *matCellDef="let conge"> {{conge.motif}} </td>
         </ng-container>
 
         <!-- Weight Column -->
         <ng-container matColumnDef="type">
-          <th mat-header-cell *matHeaderCellDef> Type </th>
-          <td mat-cell *matCellDef="let element"> {{element.type}} </td>
+          <th mat-header-cell *matHeaderCellDef mat-sort-header> Type</th>
+          <td mat-cell *matCellDef="let conge">
+            <span *ngIf="conge.type.typeConge == 'CONGE_ANNUEL'">Congé annuel</span>
+          </td>
         </ng-container>
         <ng-container matColumnDef="datedebut">
-          <th mat-header-cell *matHeaderCellDef> Date de début </th>
-          <td mat-cell *matCellDef="let element"> {{element.dateDeDebut.toDateString()}} </td>
+          <th mat-header-cell *matHeaderCellDef mat-sort-header> Date de début</th>
+          <td mat-cell *matCellDef="let conge"> {{conge.dateDebut | date:'dd/MM/yyyy'}} </td>
         </ng-container>
 
         <!-- Symbol Column -->
         <ng-container matColumnDef="datefin">
-          <th mat-header-cell *matHeaderCellDef> Date de fin </th>
-          <td mat-cell *matCellDef="let element"> {{element.dateDeFin.toDateString()}} </td>
+          <th mat-header-cell *matHeaderCellDef mat-sort-header> Date de fin</th>
+          <td mat-cell *matCellDef="let conge"> {{conge.dateFin | date:'dd/MM/yyyy'}} </td>
         </ng-container>
 
         <ng-container matColumnDef="etat">
-          <th mat-header-cell *matHeaderCellDef > Etat </th>
-          <td mat-cell *matCellDef="let element">
-            <strong>{{element.etat.etat}} </strong>
-            <br><small *ngIf="element.etat.etat === 'Refusée'">{{element.etat.motif}}</small>
+          <th mat-header-cell *matHeaderCellDef mat-sort-header> Etat</th>
+          <td mat-cell *matCellDef="let conge">
+            <strong *ngIf="conge.etat == 'PENDING_RESPONSE'" class="">En attente d'une réponse</strong>
+            <strong *ngIf="conge.etat == 'ACCEPTED'" class="text-success">Accepté</strong>
+            <strong *ngIf="conge.etat == 'REJECTED'" class="text-danger">Refusé</strong>
+            <br>
+            <small *ngIf="conge.reponse" class="text-muted">{{ conge.reponse }}</small>
+<!--            <br><small *ngIf="conge.etat === 'Refusée'">{{conge.etat}}</small>-->
           </td>
         </ng-container>
         <ng-container matColumnDef="actions">
           <th mat-header-cell *matHeaderCellDef style="padding-left: 20px;"></th>
-          <td mat-cell *matCellDef="let element">
-            <button mat-stroked-button color="primary" (click)="openCongeReponseForm(element)" *ngIf="element.etat.etat == 'En attente'">Répondre</button>
-            <button mat-stroked-button color="primary"  *ngIf="element.etat.etat == 'En cours'">Déclarer le retour</button>
+          <td mat-cell *matCellDef="let conge">
+            <span class="text-primary" style="cursor: pointer;" (click)="openCongeReponseForm(conge)" *ngIf="conge.etat == 'PENDING_RESPONSE'">
+              Répondre
+            </span>
+            <button mat-stroked-button color="primary" *ngIf="conge.etat == 'ACCEPTED'">Déclarer le retour
+            </button>
           </td>
         </ng-container>
 
