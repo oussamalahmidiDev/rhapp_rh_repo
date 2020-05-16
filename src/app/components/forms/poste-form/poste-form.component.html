@@ -48,7 +48,7 @@
             <mat-form-field [style.width.px]=327>
               <mat-label>Les competences requises</mat-label>
               <mat-chip-list #competencesList aria-label="Competence du poste">
-                <mat-chip *ngFor="let comp of competences" 
+                <mat-chip *ngFor="let comp of competences"
                          removable=true (removed)="remove(fruit)">
                   {{comp}}
                   <mat-icon matChipRemove>cancel</mat-icon>
@@ -56,7 +56,6 @@
                 <input placeholder="Ajouter une competence..."
                        [matChipInputFor]="competencesList"
                        [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
-                       [matChipInputAddOnBlur]="addOnBlur"
                        (matChipInputTokenEnd)="addCompetence($event)">
               </mat-chip-list>
             </mat-form-field>
@@ -67,7 +66,7 @@
           </div>
         </form>
       </mat-step>
-     
+
 
     </mat-vertical-stepper>
 <!--    <mat-card-actions class="container pr-5 mb-0" >-->

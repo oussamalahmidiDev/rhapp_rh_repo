@@ -118,8 +118,8 @@ export class PostesComponent implements OnInit {
   }
   //
   //
-  // search($event) {
-  //   const filterValue = (event.target as HTMLInputElement).value;
-  //   this.postesDs.filter = filterValue.trim().toLowerCase();
-  // }
+  search($event) {
+    const filterValue = (event.target as HTMLInputElement).value;
+    this.postesDs.filter = filterValue.trim().toLowerCase();
+  }
 }

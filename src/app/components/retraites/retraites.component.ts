@@ -48,11 +48,9 @@ export class RetraitesComponent implements OnInit {
     });
   }
 
-  openRetraiteFrom(conge: Conge): void {
-    console.log('CONG', conge);
+  openRetraiteFrom(): void {
     const dialogRef = this.dialog.open(RetraiteFormComponent, {
-      width: '460px',
-      data: conge
+      width: '500px',
       // data: this.mesVirements
       // virement: this.newVirement
     });

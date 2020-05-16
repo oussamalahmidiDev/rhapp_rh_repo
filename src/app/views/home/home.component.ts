@@ -1,16 +1,14 @@
-import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
-import { UserService } from 'src/app/services/user.service';
-import { User } from 'src/app/models/user';
-import {Router, ActivatedRoute, RouterEvent, NavigationStart, NavigationEnd, NavigationCancel, NavigationError} from '@angular/router';
-import { MatDialog, MatSnackBar } from '@angular/material';
-import { ProfileModalComponent } from 'src/app/components/forms/profile-modal/profile-modal.component';
-import { Salarie } from 'src/app/models/salarie';
-import { SalariesService } from 'src/app/services/salaries.service';
-import { fromEvent } from 'rxjs';
-import { filter, debounceTime, distinctUntilChanged, tap } from 'rxjs/operators';
-import { SearchResultsComponent } from 'src/app/components/search-results/search-results.component';
-
-import {Location} from '@angular/common'; 
+import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
+import {UserService} from 'src/app/services/user.service';
+import {User} from 'src/app/models/user';
+import {ActivatedRoute, NavigationCancel, NavigationEnd, NavigationError, NavigationStart, Router, RouterEvent} from '@angular/router';
+import {MatDialog, MatSnackBar} from '@angular/material';
+import {ProfileModalComponent} from 'src/app/components/forms/profile-modal/profile-modal.component';
+import {Salarie} from 'src/app/models/salarie';
+import {SalariesService} from 'src/app/services/salaries.service';
+import {fromEvent} from 'rxjs';
+import {debounceTime, distinctUntilChanged, filter, tap} from 'rxjs/operators';
+import {SearchResultsComponent} from 'src/app/components/search-results/search-results.component';
 
 @Component({
   selector: 'app-home',
@@ -28,6 +26,22 @@ export class HomeComponent implements OnInit {
 
   @ViewChild('searchField') input: ElementRef;
 
+  constructor(
+    private userService: UserService,
+    public router: Router,
+    private dialog: MatDialog,
+    private salariesService: SalariesService,
+    private _snackBar: MatSnackBar,
+    private activatedRoute: ActivatedRoute,
+  ) {
+    // this.router.routeReuseStrategy.shouldReuseRoute = function () {
+    //   return false;
+    // };
+    router.events.subscribe((routerEvent: RouterEvent) => {
+      this.checkRouterEvent(routerEvent);
+    });
+  }
+
   ngOnInit() {
     this.searchQuery = null;
     this.currentUser = this.activatedRoute.snapshot.data.profile;
@@ -44,26 +58,26 @@ export class HomeComponent implements OnInit {
       this.loading = false;
     }
   }
-  
+
   ngAfterViewInit() {
-    fromEvent(this.input.nativeElement,'keyup')
-        .pipe(
-            filter(Boolean),
-            debounceTime(300),
-            distinctUntilChanged(),
-            tap((text) => {
-              console.log(this.input.nativeElement.value);
-              this.onSearchQueryChange(this.input.nativeElement.value);
-            })
-        )
-        .subscribe();
-}
+    fromEvent(this.input.nativeElement, 'keyup')
+      .pipe(
+        filter(Boolean),
+        debounceTime(300),
+        distinctUntilChanged(),
+        tap((text) => {
+          console.log(this.input.nativeElement.value);
+          this.onSearchQueryChange(this.input.nativeElement.value);
+        })
+      )
+      .subscribe();
+  }
 
   onSearchQueryChange(query) {
     this.searchResults = [];
-    console.log("CURRENT SEACH RESULT", this.searchResults, "QUERY", query);
+    console.log('CURRENT SEACH RESULT', this.searchResults, 'QUERY', query);
     if (query !== '' && query !== null && query !== undefined) {
-      console.log("SEARCHING ..", query);
+      console.log('SEARCHING ..', query);
       this.salariesService.searchSalaries(query).subscribe(
         data => data.length > 0 ? this.searchResults = data : this.openSnackBar('Aucun salarié trouvé ...')
       );
@@ -78,37 +92,21 @@ export class HomeComponent implements OnInit {
   }
 
   showSalarieNom(salarie: Salarie) {
-      let k = salarie ? salarie.nom + " " + salarie.prenom : salarie;
-      return k;
+    let k = salarie ? salarie.nom + ' ' + salarie.prenom : salarie;
+    return k;
   }
 
   redirect(id) {
     this.searchResults = [];
     this.input.nativeElement.value = null;
-    console.log("redirecting to .. ", id);
+    console.log('redirecting to .. ', id);
     this.router.navigateByUrl('/home').then(() => this.router.navigate(['/home/salaries', id])).catch(err => console.log(err));
     // this.router.navigate(['/home/salaries',id]).catch(err => console.log(err));
   }
 
-  logout() : void {
+  logout(): void {
     this.userService.logout();
   }
-
-  constructor(
-    private userService: UserService, 
-    private router: Router, 
-    private dialog: MatDialog, 
-    private salariesService: SalariesService,
-    private _snackBar: MatSnackBar,
-    private activatedRoute: ActivatedRoute,
-    ) {
-      // this.router.routeReuseStrategy.shouldReuseRoute = function () {
-      //   return false;
-      // };
-      router.events.subscribe((routerEvent: RouterEvent) => {
-        this.checkRouterEvent(routerEvent);
-      });
-    }
 
   openSearchResults(results) {
     this.dialog.open(SearchResultsComponent, {
@@ -117,21 +115,22 @@ export class HomeComponent implements OnInit {
       hasBackdrop: false,
       autoFocus: false,
       restoreFocus: true,
-      position: { top: '60px', left: '121.56666564941406px' }
-    })
+      position: {top: '60px', left: '121.56666564941406px'}
+    });
   }
 
-  openProfileModal () {
+  openProfileModal() {
     const dialogRef = this.dialog.open(ProfileModalComponent, {
       data: this.currentUser,
       disableClose: true,
       width: '500px',
-      position: { top: '15px', right: '10px' }
+      position: {top: '15px', right: '10px'}
     });
     dialogRef.afterClosed().subscribe(
       data => {
-        if (data !== undefined) 
+        if (data !== undefined) {
           this.currentUser = data;
+        }
       }
     )
   }

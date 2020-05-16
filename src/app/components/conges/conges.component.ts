@@ -51,7 +51,10 @@ export class CongesComponent implements OnInit {
 
   // dataSource: MatTableDataSource < Element[] > ;
   ngOnInit() {
-    this.congesDs.data = this.conges = this.activatedRoute.snapshot.data.conges;
+    this.congesMaladiesDs.data = this.congesMaladie = this.activatedRoute.snapshot.data.conges.filter(conge => conge.type.typeConge === 'MALADIE');
+    this.congesDs.data = this.conges = this.activatedRoute.snapshot.data.conges.filter(conge => conge.type.typeConge !== 'MALADIE');
+
+
     // this.getConges();
   }
 

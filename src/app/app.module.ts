@@ -40,7 +40,6 @@ import {
 } from '@angular/material';
 import { DashboardComponent } from './components/dashboard/dashboard.component';
 // import { VirementsComponent } from './components/virements/virements.component';
-import { SettingsComponent } from './components/settings/settings.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 // import { RechargesComponent } from './components/recharges/recharges.component';
 // import { RechargeFormComponent } from './components/recharge-form/recharge-form.component';
@@ -74,7 +73,6 @@ import { SearchResultsComponent } from './components/search-results/search-resul
   declarations: [
     AppComponent,
     DashboardComponent,
-    SettingsComponent,
     WelcomePageComponent,
     HomeComponent,
 
@@ -158,10 +156,10 @@ import { SearchResultsComponent } from './components/search-results/search-resul
   ],
   bootstrap: [AppComponent],
   entryComponents: [
-    PosteFormComponent, 
-    PosteAffectationFormComponent, 
-    CongeReponseFormComponent, 
-    RetraiteFormComponent, 
+    PosteFormComponent,
+    PosteAffectationFormComponent,
+    CongeReponseFormComponent,
+    RetraiteFormComponent,
     CongeFormComponent,
     AbsenceFormComponent,
     CongeMaladieFormComponent,

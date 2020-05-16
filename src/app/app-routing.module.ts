@@ -1,7 +1,6 @@
 import {NgModule} from '@angular/core';
 import {Routes, RouterModule} from '@angular/router';
 import {DashboardComponent} from './components/dashboard/dashboard.component';
-import {SettingsComponent} from './components/settings/settings.component';
 // import { RechargesComponent } from "./components/recharges/recharges.component";
 import {AuthenticatedGuard} from './guards/authenticated.guard';
 import {WelcomePageComponent} from './views/welcome-page/welcome-page.component';
@@ -108,11 +107,11 @@ const routes: Routes = [
       //     }
       //   ]
       // },
-      {
-        path: 'settings',
-        component: SettingsComponent,
-        // canActivate: [AuthenticatedGuard],
-      },
+      // {
+      //   path: 'settings',
+      //   component: SettingsComponent,
+      //   // canActivate: [AuthenticatedGuard],
+      // },
       // {
       //   path: "recharges",
       //   component: RechargesComponent,
