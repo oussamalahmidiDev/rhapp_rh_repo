@@ -9,7 +9,7 @@ pipelines:
             - node
           script:
             - npm install --quiet
-            - npm run build --progress=false
+            - ng build --configuration heroku
           artifacts:
             - dist/**
       - step:
