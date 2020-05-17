@@ -21,9 +21,9 @@ export class UserService {
   BASE_URL: string = environment.BASE_URL;
   isLoggedIn: BehaviorSubject<boolean>;
   // options = new RequestOptions({ withCredentials: true });
-  
+
   login(email: string, password: string): Observable<any> {
-    return this.http.post(`${this.BASE_URL.replace("/rh", "")}/api/auth`, { email: email, password: password });
+    return this.http.post(`${this.BASE_URL.substr(0, this.BASE_URL.length - 3)}/api/auth`, { email: email, password: password });
     // .pipe(map(res => res));
   }
 
@@ -47,13 +47,13 @@ export class UserService {
       reportProgress: true,
       observe: 'events'
     });
-  } 
+  }
 
   deletePhoto(): Observable<any> {
     return this.http.delete(`${this.BASE_URL}/api/profile/avatar/delete`);
   }
 
-  logout(): any { 
+  logout(): any {
     localStorage.removeItem('userid');
     this.router.navigate(['']);
   }
