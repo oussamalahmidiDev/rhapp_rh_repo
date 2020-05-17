@@ -66,6 +66,22 @@
                   "replace": "src/environments/environment.ts",
                   "with": "src/environments/environment.heroku.ts"
                 }
+              ],
+              "optimization": true,
+              "outputHashing": "all",
+              "sourceMap": false,
+              "extractCss": true,
+              "namedChunks": false,
+              "aot": true,
+              "extractLicenses": true,
+              "vendorChunk": false,
+              "buildOptimizer": true,
+              "budgets": [
+                {
+                  "type": "initial",
+                  "maximumWarning": "2mb",
+                  "maximumError": "5mb"
+                }
               ]
             }
           }
@@ -78,6 +94,9 @@
           "configurations": {
             "production": {
               "browserTarget": "ebank:build:production"
+            },
+            "heroku": {
+              "browserTarget": "ebank:build:heroku"
             }
           }
         },
