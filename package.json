@@ -8,7 +8,8 @@
     "lite": "ng serve --source-map=false --aot --live-reload=false",
     "test": "ng test",
     "lint": "ng lint",
-    "e2e": "ng e2e"
+    "e2e": "ng e2e",
+    "prod": "ng build --configuration heroku"
   },
   "private": true,
   "dependencies": {
