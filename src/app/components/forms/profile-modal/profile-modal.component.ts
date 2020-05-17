@@ -4,6 +4,7 @@ import { FormGroup, FormBuilder, Validators, AbstractControl } from '@angular/fo
 import { User } from 'src/app/models/user';
 import { UserService } from 'src/app/services/user.service';
 import { HttpEvent, HttpEventType } from '@angular/common/http';
+import { TokenService } from 'src/app/services/token.service';
 
 @Component({
   selector: 'app-profile-modal',
@@ -30,15 +31,16 @@ export class ProfileModalComponent implements OnInit {
     private _formBuilder: FormBuilder, 
     private _snackBar: MatSnackBar,
     private userService: UserService,
+    private tokenService: TokenService,
     @Inject(MAT_DIALOG_DATA) public currentUser: User,
   ) { }
 
   ngOnInit() {
     this.compteFormErrors = [];
-    console.log("USR PRF", this.currentUser);
     this.profileForm = this._formBuilder.group({
       nom: [this.currentUser.nom, Validators.required],
       prenom: [this.currentUser.prenom, Validators.required],
+      email: [this.currentUser.email, [Validators.required, Validators.email]],
       telephone: [this.currentUser.telephone],
     });
     this.compteForm = this._formBuilder.group({
@@ -48,7 +50,9 @@ export class ProfileModalComponent implements OnInit {
         newPasswordConf: ['', [Validators.required, Validators.minLength(6)]]
         
       }, { validators: this.passwordMatching }),
-    })
+    });
+    console.log("USR PRF", this.currentUser, this.compteForm);
+
   }
 
   openSnackBar(message: string) {
@@ -64,9 +68,9 @@ export class ProfileModalComponent implements OnInit {
   }
 
   closeModal() {
-    console.log(this.profileForm.dirty, this.compteForm.dirty, this.uploading, this.profileFormSubmitted, this.compteFormSubmitted);
+    console.log(this.profileForm.dirty, this.compteForm.touched, this.uploading, this.profileFormSubmitted, this.compteFormSubmitted);
     
-    if (this.profileForm.dirty && !this.profileFormSubmitted || this.compteForm.dirty && !this.compteFormSubmitted || this.uploading) {
+    if (this.profileForm.touched && !this.profileFormSubmitted || this.compteForm.touched && !this.compteFormSubmitted || this.uploading) {
       if (confirm("Vous n'avez pas sauvegardé les modifications. Voulez-vous continuer ?")) {
         this.dialogRef.close(this.currentUser);
       }
@@ -110,6 +114,9 @@ export class ProfileModalComponent implements OnInit {
     console.log(this.profileForm);
     this.userService.modifierProfile(this.profileForm.value).subscribe(
       data => {
+        if (data.email != this.currentUser.email) {
+          this.tokenService.setNewToken(data.token);
+        }
         this.currentUser = data;
         this.profileFormSubmitted = true;
         this.openSnackBar("Les modifications ont été enregistrées !");

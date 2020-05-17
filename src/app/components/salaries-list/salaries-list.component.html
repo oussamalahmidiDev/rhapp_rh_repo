@@ -23,9 +23,9 @@
 
               <a [routerLink]="['./', element.id]">
                 <div class="account-inline" >
-                  <div class="avatar" *ngIf="element.photo" [ngStyle]="{ 'background-image': 'url(' + element.photo + ')'}"></div>
+                  <div class="avatar" *ngIf="element.photo" [ngStyle]="{ 'background-image': element.photo | url: 'salarie' : element.id | async }"></div>
                   <div class="avatar" *ngIf="!element.photo" [ngStyle]="{ 'background-image': 'url(' + 'assets/images/default.jpg' + ')'}"></div>
-                
+
                   <div class="account-labels">
                     <div class="account-name">{{element.nom}} {{ element.prenom }}</div>
                     <div class="account-details">

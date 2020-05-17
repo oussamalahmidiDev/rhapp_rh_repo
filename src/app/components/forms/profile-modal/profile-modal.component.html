@@ -4,7 +4,7 @@
     <mat-icon  class="close-btn" (click) = "closeModal()">cancel</mat-icon>
   </div>
   <div class="profil-top">
-    <div class="avatar"  *ngIf="currentUser.photo"  [ngStyle]="{ 'background-image': currentUser.avatar_link | url | async }"></div>
+    <div class="avatar"  *ngIf="currentUser.photo"  [ngStyle]="{ 'background-image': currentUser.photo | url | async }"></div>
     <div class="avatar" *ngIf="!currentUser.photo" [ngStyle]="{ 'background-image': 'url(' + 'assets/images/default.jpg' + ')'}"></div>
     <h5 style="margin-top: 10px;">{{ currentUser.nom }} {{ currentUser.prenom }}</h5>
     <div class="buttons-row">
@@ -30,7 +30,7 @@
       </div>
     </div>
   </div>
-  <mat-vertical-stepper linear #stepper>
+  <mat-vertical-stepper style="overflow-y: scroll;height: 59vh;" linear #stepper>
     <mat-step >
       <form [style.fontSize.px]="14" [formGroup] = "profileForm">
         <ng-template matStepLabel>Vos informations personnelles</ng-template>
@@ -41,6 +41,10 @@
         <mat-form-field  appearance="outline"  [style.width.px]=327>
           <mat-label>Prenom</mat-label>
           <input matInput placeholder="Votre prénom" formControlName="prenom" required>
+        </mat-form-field>
+        <mat-form-field  appearance="outline"  [style.width.px]=327>
+          <mat-label>Adresse électronique</mat-label>
+          <input matInput placeholder="Votre prénom" formControlName="email" required>
         </mat-form-field>
         <mat-form-field  appearance="outline"  [style.width.px]=327>
           <mat-label>Numero de téléphone</mat-label>

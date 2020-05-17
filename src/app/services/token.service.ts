@@ -16,6 +16,7 @@ export class TokenService {
   }
 
   setNewToken(token) {
+    this.cookieService.remove('token');
     this.cookieService.set('token', token);
     this.token = token;
   }

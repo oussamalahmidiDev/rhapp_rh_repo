@@ -33,7 +33,9 @@ mat-card-header.mat-card-header {
   background: grey;
   margin-right: 10px;
   border-radius: 90px;
-  background-size: contain;
+  background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
 }
 .account-name {
   font-weight: bold;

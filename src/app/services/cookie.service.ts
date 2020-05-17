@@ -29,7 +29,7 @@ export class CookieService {
   }
 
   set(key: string, value: string) {
-      document.cookie = key + '=' + (value || '') + ";SameSite=Lax";
+      document.cookie = key + '=' + (value || '') + ";SameSite=Lax;  path=/";
   }
 
 }

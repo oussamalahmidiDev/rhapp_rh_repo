@@ -11,7 +11,8 @@ export class User {
       public dateNaissance: string,
       public adresse: string,
       public id: string,
-      public avatar_link: string
+      public avatar_link: string,
+      public token: string
       ) {
     
   }

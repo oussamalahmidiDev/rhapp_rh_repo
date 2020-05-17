@@ -32,7 +32,7 @@
       <mat-icon>notifications</mat-icon>
     </button>
     <div class="inline-avatar"  [matMenuTriggerFor]="appMenu" [matMenuTriggerData]="{name: 'Sally'}">
-      <div class="avatar"  *ngIf="currentUser.photo" [ngStyle]="{ 'background-image': currentUser.avatar_link | url | async }" ></div>
+      <div class="avatar"  *ngIf="currentUser.photo" [ngStyle]="{ 'background-image': currentUser.photo | url | async }" ></div>
       <div class="avatar" *ngIf="!currentUser.photo" [ngStyle]="{ 'background-image': 'url(' + 'assets/images/default.jpg' + ')'}"></div>
       <div class="user-name">{{ currentUser.nom }} {{ currentUser.prenom }}</div>
     </div>

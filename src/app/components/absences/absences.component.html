@@ -21,7 +21,7 @@
           <td mat-cell *matCellDef="let absence">
             <a  [routerLink]="['../salaries', absence.salarie.id]">
               <div class="account-inline" >
-                <div class="avatar" *ngIf="absence.salarie.photo" [ngStyle]="{ 'background-image': 'url(' + absence.salarie.photo + ')'}"></div>
+                <div class="avatar" *ngIf="absence.salarie.photo"  [ngStyle]="{ 'background-image': absence.salarie.photo | url: 'salarie' : absence.salarie.id | async }"></div>
                 <div class="avatar" *ngIf="!absence.salarie.photo" [ngStyle]="{ 'background-image': 'url(' + 'assets/images/default.jpg' + ')'}"></div>
             
                 <div class="account-labels">

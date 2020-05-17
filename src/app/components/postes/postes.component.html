@@ -65,7 +65,7 @@
           <th mat-header-cell *matHeaderCellDef mat-sort-header style="padding-left: 20px;"> Salarie</th>
           <td mat-cell *matCellDef="let element">
             <div class="account-inline" *ngIf="element.salarie != null" matTooltipPosition="left" [matTooltip]="element.salarie.fonction? 'Fonctions :\n' + element.salarie.fonction : 'Fonctions :\n Pas specifiée'">
-              <div class="avatar" *ngIf="element.salarie.photo" [ngStyle]="{ 'background-image': 'url(' + element.salarie.photo + ')'}"></div>
+              <div class="avatar" *ngIf="element.salarie.photo"  [ngStyle]="{ 'background-image': element.salarie.photo | url: 'salarie' : element.salarie.id | async }"></div>
               <div class="avatar" *ngIf="!element.salarie.photo" [ngStyle]="{ 'background-image': 'url(' + 'assets/images/default.jpg' + ')'}"></div>
               <div class="account-labels">
                 <a class="account-name" [routerLink]="['../salaries', element.salarie.id]">{{element.salarie.nom}} {{element.salarie.prenom}}</a>

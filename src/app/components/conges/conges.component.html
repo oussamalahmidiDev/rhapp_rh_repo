@@ -84,7 +84,7 @@
             
             <a [routerLink]="['../salaries', conge.salarie.id]">
               <div class="account-inline" >
-                <div class="avatar" *ngIf="conge.salarie.photo" [ngStyle]="{ 'background-image': 'url(' + conge.salarie.photo + ')'}"></div>
+                <div class="avatar" *ngIf="conge.salarie.photo"  [ngStyle]="{ 'background-image': conge.salarie.photo | url: 'salarie' : conge.salarie.id | async }"></div>
                 <div class="avatar" *ngIf="!conge.salarie.photo" [ngStyle]="{ 'background-image': 'url(' + 'assets/images/default.jpg' + ')'}"></div>
                               <div class="account-labels">
                   <div class="account-name">{{conge.salarie.nom}} {{conge.salarie.prenom}}</div>
