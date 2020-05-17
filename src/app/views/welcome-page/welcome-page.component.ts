@@ -1,6 +1,9 @@
 import { Component, OnInit } from "@angular/core";
 import { Router } from "@angular/router";
 import { UserService } from "../../services/user.service";
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { CookieService } from 'src/app/services/cookie.service';
+import { TokenService } from 'src/app/services/token.service';
 
 @Component({
   selector: "app-welcome-page",
@@ -8,36 +11,48 @@ import { UserService } from "../../services/user.service";
   styleUrls: ["./welcome-page.component.css"]
 })
 export class WelcomePageComponent implements OnInit {
-  constructor(private router: Router, private authService: UserService) {}
 
-  ngOnInit() {}
+  loginForm: FormGroup;
+
+  loggingIn: boolean;
+
+  constructor(
+    private router: Router,
+     private authService: UserService,
+     private formGroup: FormBuilder,
+     private cookieService: CookieService,
+     private tokenService: TokenService
+     ) {}
+
+  ngOnInit() {
+    this.loggingIn = false;
+    this.loginForm = this.formGroup.group({
+      email: ['', [Validators.required, Validators.email]],
+      password: ['', Validators.required]
+    });
+  }
+
+
+
 
   error: string = null;
 
-  authenticate(): void {
-    localStorage.setItem("loggedin", "1");
-    this.router.navigateByUrl("/dashboard");
-  }
 
-  login(email: string, password: string) {
-    this.authService.login(email, password).subscribe(
+  login() {
+    this.loggingIn = true;
+    this.authService.login(this.loginForm.value.email, this.loginForm.value.password).subscribe(
       data => {
         console.log(data);
-        this.router.navigate(['home']);
-        // this.authService.currentUser.name = data['user']['nom'] + ' ' + data['user']['prenom']
-        // localStorage.setItem('loggedin', "1");
+        this.loggingIn = false;
+        this.tokenService.setNewToken(data.token);
+        this.router.navigate(['/home/dashboard']).then(() => this.router.navigate(['/home/dashboard'])).catch(err => console.log(err));
       },
-      err => {
-        this.error = err.error.message
+      error => {
+        console.log(error);
+        this.loggingIn = false;
+        this.error = error.error.message;
       }
     );
 
-    // const login = await this.authService.login(email, password);
-    // await console.log("LOGIN",login);
-    // if (!login.success) {
-    //   this.error = login.message;
-    //   console.log(email, password);
-    // }
-    // return false;
   }
 }

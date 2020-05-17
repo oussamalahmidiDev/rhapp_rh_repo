@@ -4,6 +4,7 @@ import { Observable, of } from 'rxjs';
 import { CanActivate } from '@angular/router/src/utils/preactivation';
 import { UserService } from '../services/user.service';
 import { map, catchError } from 'rxjs/operators';
+import { TokenService } from '../services/token.service';
 
 @Injectable({
   providedIn: 'root'
@@ -12,34 +13,24 @@ export class AuthenticatedGuard implements CanActivate {
   path: ActivatedRouteSnapshot[];
   route: ActivatedRouteSnapshot;
   
-  constructor (private authService: UserService, private router: Router) {}
+  constructor (private authService: UserService, private router: Router, private tokenService: TokenService) {}
 
   canActivate(
-    route: ActivatedRouteSnapshot,
-    state: RouterStateSnapshot
-  ): Observable<boolean|UrlTree>|Promise<boolean|UrlTree>|boolean|UrlTree {
-    // let isLoggedIn = false;
-    // this.authService.getCurrentUser()
-    // .pipe(
-    //   map(res => console.log("CAN ACT", res)),
-    //   catchError(error => this.router.navigate(['']))
-    // )
-    // console.log('AUTH canActivate', isLoggedIn);
-    // return isLoggedIn;
-    return this.authService.getCurrentUser()
-    .pipe(map(loggedIn => {
-      if (!loggedIn || loggedIn == undefined) {
-        console.log(loggedIn, "NAVIGATING /");
-        this.router.navigate(['']);
+    next: ActivatedRouteSnapshot,
+    state: RouterStateSnapshot): Observable<any> | Promise<any> | boolean {
+      if (this.tokenService.getUser()) {
+          if (this.tokenService.isTokenExpired()) {
+            this.router.navigateByUrl('/');
+            return false;
+            // Should Redirect Sig-In Page
+          } else {
+            return true;
+          }
+      } else {
+        this.router.navigateByUrl('/');
         return false;
       }
-      return true;
-    }))
-    // const isLoggedIn = this.authService.isLoggedIn;
-    //   if (!isLoggedIn) {
-    //     this.router.navigate(['']);
-    //   } 
-    // console.log('AUTH canActivate', isLoggedIn);
-    // return isLoggedIn;
   }
+
+  
 }

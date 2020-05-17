@@ -12,6 +12,7 @@
       z-index: 10;
       display: flex;
     width: 100%;
+    color: white;
   }
   .logo {
       /* display: inline; */
@@ -20,6 +21,12 @@
       /* position: relative;
       top: 35px;
       left: 50px; */
+  }
+
+  .wrapper {
+    background: rgb(21,68,115);
+    background: linear-gradient(25deg, rgba(21,68,115,1) 0%, rgba(4,4,173,1) 0%, rgba(0,212,255,1) 100%); 
+    height: 100vh;
   }
 
   li.nav-link {
@@ -35,13 +42,17 @@
       font-size: 47pt;
       margin-bottom: 50px;
       font-family: "Montserrat";
-      font-weight: bolder;
+      font-weight: bold;
   }
   .container {
       position: absolute;
       top: 230px;
       padding: 0 50px;
       max-width: 100vw;
+  }
+
+  body {
+      background-color: red;
   }
 
   mat-card-actions.mat-card-actions {

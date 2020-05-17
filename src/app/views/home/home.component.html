@@ -41,7 +41,7 @@
         <button mat-menu-item (click) = "openProfileModal()">Voir votre profil</button>
         <button mat-menu-item>Historique d'activités</button>
         <mat-divider></mat-divider>
-        <button mat-menu-item class="text-danger" >Deconnexion</button>
+        <button mat-menu-item class="text-danger"(click) = "logout()">Deconnexion</button>
       </ng-template>
     </mat-menu>
   </div>

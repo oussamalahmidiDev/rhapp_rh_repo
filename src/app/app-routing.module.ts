@@ -30,30 +30,30 @@ const routes: Routes = [
     path: 'home',
     component: HomeComponent,
     resolve: { profile: ProfileServiceResolver },
-    // canActivate: [AuthenticatedGuard],
+    canActivate: [AuthenticatedGuard],
     children: [
       {
         path: 'dashboard',
         component: DashboardComponent,
-        // canActivate: [AuthenticatedGuard],
+        canActivate: [AuthenticatedGuard],
       },
       {
         path: 'postes',
         component: PostesComponent,
-        resolve: { postes: PosteServiceResolver }
-        // canActivate: [AuthenticatedGuard],
+        resolve: { postes: PosteServiceResolver },
+        canActivate: [AuthenticatedGuard],
       },
       {
         path: 'conges',
         component: CongesComponent,
-        resolve: { conges: CongesServiceResolver }
-        // canActivate: [AuthenticatedGuard],
+        resolve: { conges: CongesServiceResolver },
+        canActivate: [AuthenticatedGuard],
       },
       {
         path: 'absences',
         component: AbsencesComponent,
-        resolve: { absences: AbsencesServiceResolver }
-        // canActivate: [AuthenticatedGuard],
+        resolve: { absences: AbsencesServiceResolver },
+        canActivate: [AuthenticatedGuard],
       },
       {
         path: 'salaries',
@@ -126,7 +126,7 @@ const routes: Routes = [
       // { path: "**", redirectTo: "dashboard", pathMatch: "full" },
     ],
   },
-  {path: '', redirectTo: 'home/dashboard', pathMatch: 'full'},
+  {path: '', component: WelcomePageComponent, canActivate: [GuestGuard]},
 
 
   // { path: 'home', component: HomeComponent,  },

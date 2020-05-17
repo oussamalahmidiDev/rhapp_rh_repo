@@ -47,7 +47,7 @@ import { WelcomePageComponent } from './views/welcome-page/welcome-page.componen
 import { HomeComponent } from './views/home/home.component';
 
 // import { VirementFormComponent } from './components/virement-form/virement-form.component';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { PostesComponent } from './components/postes/postes.component';
 import { CongesComponent } from './components/conges/conges.component';
 import { SalarieComponent } from './components/salarie/salarie.component';
@@ -71,6 +71,8 @@ import {SalarieRetraiteComponent} from './components/salarie-retraite/salarie-re
 import { SalarieAvantagesComponent } from './components/salarie-avantages/salarie-avantages.component';
 import { AvantageFormComponent } from './components/forms/avantage-form/avantage-form.component';
 import { AvantageRejetFormComponent } from './components/forms/avantage-rejet-form/avantage-rejet-form.component';
+import { MainHttpInterceptor } from './http.interceptor';
+import { ROUTER_PROVIDERS } from '@angular/router/src/router_module';
 
 @NgModule({
   declarations: [
@@ -157,6 +159,11 @@ import { AvantageRejetFormComponent } from './components/forms/avantage-rejet-fo
     {
       provide: MatDatepickerModule,
       useValue: {}
+    },
+    {
+      provide : HTTP_INTERCEPTORS,
+      useClass: MainHttpInterceptor,
+      multi   : true,
     }
 
 

@@ -23,8 +23,8 @@ export class UserService {
   // options = new RequestOptions({ withCredentials: true });
   
   login(email: string, password: string): Observable<any> {
-    return this.http.post(`${this.BASE_URL}/api/login`, { username: email, password: password }, { withCredentials: true })
-    .pipe(map(res => res));
+    return this.http.post(`${this.BASE_URL.replace("/rh", "")}/api/auth`, { email: email, password: password });
+    // .pipe(map(res => res));
   }
 
   getCurrentUser() : Observable<User> {

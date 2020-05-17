@@ -9,6 +9,7 @@ import {SalariesService} from 'src/app/services/salaries.service';
 import {fromEvent} from 'rxjs';
 import {debounceTime, distinctUntilChanged, filter, tap} from 'rxjs/operators';
 import {SearchResultsComponent} from 'src/app/components/search-results/search-results.component';
+import { TokenService } from 'src/app/services/token.service';
 
 @Component({
   selector: 'app-home',
@@ -33,6 +34,7 @@ export class HomeComponent implements OnInit {
     private salariesService: SalariesService,
     private _snackBar: MatSnackBar,
     private activatedRoute: ActivatedRoute,
+    private tokenService: TokenService
   ) {
     // this.router.routeReuseStrategy.shouldReuseRoute = function () {
     //   return false;
@@ -45,6 +47,11 @@ export class HomeComponent implements OnInit {
   ngOnInit() {
     this.searchQuery = null;
     this.currentUser = this.activatedRoute.snapshot.data.profile;
+  }
+
+  logout() {
+    this.tokenService.unsetToken();
+    this.router.navigateByUrl('/');
   }
 
   checkRouterEvent(routerEvent: RouterEvent): void {
@@ -104,9 +111,6 @@ export class HomeComponent implements OnInit {
     // this.router.navigate(['/home/salaries',id]).catch(err => console.log(err));
   }
 
-  logout(): void {
-    this.userService.logout();
-  }
 
   openSearchResults(results) {
     this.dialog.open(SearchResultsComponent, {
