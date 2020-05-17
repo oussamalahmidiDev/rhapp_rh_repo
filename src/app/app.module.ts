@@ -46,7 +46,6 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { WelcomePageComponent } from './views/welcome-page/welcome-page.component';
 import { HomeComponent } from './views/home/home.component';
 
-// import { VirementFormComponent } from './components/virement-form/virement-form.component';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { PostesComponent } from './components/postes/postes.component';
 import { CongesComponent } from './components/conges/conges.component';
@@ -73,6 +72,7 @@ import { AvantageFormComponent } from './components/forms/avantage-form/avantage
 import { AvantageRejetFormComponent } from './components/forms/avantage-rejet-form/avantage-rejet-form.component';
 import { MainHttpInterceptor } from './http.interceptor';
 import { ROUTER_PROVIDERS } from '@angular/router/src/router_module';
+import { BackgroundUrlPipe } from './pipes/background-url.pipe';
 
 @NgModule({
   declarations: [
@@ -104,7 +104,8 @@ import { ROUTER_PROVIDERS } from '@angular/router/src/router_module';
     SearchResultsComponent,
     SalarieAvantagesComponent,
     AvantageFormComponent,
-    AvantageRejetFormComponent
+    AvantageRejetFormComponent,
+    BackgroundUrlPipe
 
   ],
   imports: [

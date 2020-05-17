@@ -4,7 +4,7 @@
     <mat-icon  class="close-btn" (click) = "closeModal()">cancel</mat-icon>
   </div>
   <div class="profil-top">
-    <div class="avatar"  *ngIf="currentUser.photo"  [ngStyle]="{ 'background-image': 'url(' + currentUser.avatar_link + ')'}"></div>
+    <div class="avatar"  *ngIf="currentUser.photo"  [ngStyle]="{ 'background-image': currentUser.avatar_link | url | async }"></div>
     <div class="avatar" *ngIf="!currentUser.photo" [ngStyle]="{ 'background-image': 'url(' + 'assets/images/default.jpg' + ')'}"></div>
     <h5 style="margin-top: 10px;">{{ currentUser.nom }} {{ currentUser.prenom }}</h5>
     <div class="buttons-row">
@@ -56,7 +56,7 @@
         <ng-template matStepLabel>Paramètres du compte</ng-template>
         <mat-form-field appearance="outline"  [style.width.px]=327>
           <mat-label>Ancien mot de passe</mat-label>
-          <input matInput formControlName="oldPassword" 
+          <input matInput formControlName="oldPassword"
               [type]="hide ? 'password' : 'text'"    required>
           <button mat-icon-button matSuffix (click)="hide = !hide" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hide">
             <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
@@ -65,7 +65,7 @@
         <div formGroupName = "passwords">
         <mat-form-field appearance="outline"  [style.width.px]=327>
           <mat-label>Nouveau mot de passe</mat-label>
-          <input matInput formControlName="newPassword" 
+          <input matInput formControlName="newPassword"
               [type]="hide ? 'password' : 'text'"    required>
               <button mat-icon-button matSuffix (click)="hide = !hide" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hide">
                 <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
@@ -91,6 +91,6 @@
         </div>
       </form>
     </mat-step>
-    
+
   </mat-vertical-stepper>
 </div>

@@ -92,46 +92,10 @@ const routes: Routes = [
 
 
       },
-
-      // {
-      //   path: "salaries/1",
-      //   component: SalarieComponent,
-      //   // canActivate: [AuthenticatedGuard],
-      //   children: [
-      //     // { path: "", redirectTo: "infos", pathMatch: "full" },
-      //     {
-      //       path: "infos",
-      //       component: SalarieInfosComponent
-      //     },
-      //     {
-      //       path: "absences",
-      //       component: SalarieAbsencesComponent
-      //     },
-      //     {
-      //       path: "conges",
-      //       component: SalarieCongesComponent
-      //     }
-      //   ]
-      // },
-      // {
-      //   path: 'settings',
-      //   component: SettingsComponent,
-      //   // canActivate: [AuthenticatedGuard],
-      // },
-      // {
-      //   path: "recharges",
-      //   component: RechargesComponent,
-      //   // canActivate: [AuthenticatedGuard],
-      // },
-      // { path: "**", redirectTo: "dashboard", pathMatch: "full" },
     ],
   },
   {path: '', component: WelcomePageComponent, canActivate: [GuestGuard]},
 
-
-  // { path: 'home', component: HomeComponent,  },
-  // { path: '**', redirectTo: 'dashboard', pathMatch: 'full' },
-  // { path: "", component: WelcomePageComponent, /* canActivate: [GuestGuard] */ },
 ];
 
 
