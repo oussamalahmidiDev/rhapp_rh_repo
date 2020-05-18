@@ -12,7 +12,7 @@
   </a>
   <div class="salarie-header">
     <div class="header-left">
-      <div class="avatar" *ngIf="salarie.photo" [ngStyle]="{ 'background-image': 'url(' + salarie.photo + ')'}"></div>
+      <div class="avatar" *ngIf="salarie.photo" [ngStyle]="{ 'background-image': salarie.photo | url: 'salarie' : salarie.id | async }"></div>
       <div class="avatar" *ngIf="!salarie.photo"
            [ngStyle]="{ 'background-image': 'url(' + 'assets/images/default.jpg' + ')'}"></div>
       <div class="pers-infos">

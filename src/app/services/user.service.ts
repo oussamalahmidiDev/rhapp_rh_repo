@@ -1,10 +1,9 @@
-import { Injectable } from '@angular/core';
-import { User } from '../models/user';
-import { Router } from '@angular/router';
-import { HttpClient } from '@angular/common/http';
-import { Observable, throwError, BehaviorSubject } from 'rxjs';
-import { map, catchError } from 'rxjs/operators';
-import { environment } from 'src/environments/environment';
+import {Injectable} from '@angular/core';
+import {User} from '../models/user';
+import {Router} from '@angular/router';
+import {HttpClient} from '@angular/common/http';
+import {BehaviorSubject, Observable} from 'rxjs';
+import {environment} from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root'
@@ -12,26 +11,31 @@ import { environment } from 'src/environments/environment';
 export class UserService {
 
   currentUser: User;
+  BASE_URL: string = environment.BASE_URL;
+  isLoggedIn: BehaviorSubject<boolean>;
+
   constructor(private router: Router, private http: HttpClient) {
     // this.setCurrentUser();
     // this.getCurrentUser();
     // this.currentUser = new User("Lahmidi Oussama", "https://picsum.photos/300", "ou@g.c", "0634349912", "Nº 153 Quartier Lorem Ipsum", "23/02/1998");
   }
 
-  BASE_URL: string = environment.BASE_URL;
-  isLoggedIn: BehaviorSubject<boolean>;
   // options = new RequestOptions({ withCredentials: true });
 
   login(email: string, password: string): Observable<any> {
-    return this.http.post(`${this.BASE_URL.substr(0, this.BASE_URL.length - 3)}/api/auth`, { email: email, password: password });
+    return this.http.post(`${this.BASE_URL.substr(0, this.BASE_URL.length - 3)}/api/auth`, {email: email, password: password});
     // .pipe(map(res => res));
   }
 
-  getCurrentUser() : Observable<User> {
+  sendPasswordRecoveryRequest(email: string): Observable<any> {
+    return this.http.post(`${this.BASE_URL.substr(0, this.BASE_URL.length - 3)}/api/forgot_password`, {email: email});
+  }
+
+  getCurrentUser(): Observable<User> {
     return this.http.get<User>(`${this.BASE_URL}/api/profile`);
   }
 
-  modifierProfile(user: User):  Observable<User> {
+  modifierProfile(user: User): Observable<User> {
     return this.http.post<User>(`${this.BASE_URL}/api/profile/modifier`, user);
   }
 
@@ -80,13 +84,14 @@ export class UserService {
   setCurrentUser(): void {
     this.getCurrentUser().subscribe(
       data => {
-        console.log("SETTING CURRENT USR", data);
+        console.log('SETTING CURRENT USR', data);
         this.currentUser = data;
         // this.isLoggedIn = true;
       },
-      error => console.log("ERROR LOGGING IN", error.error)
+      error => console.log('ERROR LOGGING IN', error.error)
     );
   }
+
   // authStatus() {
 
   // }
@@ -98,6 +103,7 @@ export class UserService {
   //   return this.currentUser !== undefined;
   // }
 }
-export const AUTH_PROVIDERS:Array<any>=[
-  { provide: UserService, useClass: UserService }
-  ];
+
+export const AUTH_PROVIDERS: Array<any> = [
+  {provide: UserService, useClass: UserService}
+];
