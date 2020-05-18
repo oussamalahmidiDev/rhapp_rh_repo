@@ -1,9 +1,7 @@
 import {Component, OnInit, Injectable, ViewChild} from '@angular/core';
 import {MatSnackBar, MatDialog, MatTableDataSource, MatSort} from '@angular/material';
-import {Poste} from 'src/app/models/poste';
-import {Conge} from 'src/app/models/conge';
-import {Retraite} from 'src/app/models/retraite';
-import {Absence} from '../../models/absence';
+import {Conge} from '../../models/conge';
+
 import {RetraiteFormComponent} from '../forms/retraite-form/retraite-form.component';
 import {SalariesService} from '../../services/salaries.service';
 import {Salarie} from '../../models/salarie';

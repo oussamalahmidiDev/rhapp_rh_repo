@@ -1,11 +1,10 @@
 import { Injectable } from '@angular/core';
 import {Salarie} from '../models/salarie';
 import { HttpClient, HttpParams } from '@angular/common/http';
-import { environment } from 'src/environments/environment';
+import { environment } from '../../environments/environment';
 import {BehaviorSubject, Observable, Subject} from 'rxjs';
 import { Conge } from '../models/conge';
 import { Absence } from '../models/absence';
-import { encodeUriQuery } from '@angular/router/src/url_tree';
 
 @Injectable({
   providedIn: 'root'

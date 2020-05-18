@@ -1,13 +1,11 @@
 import {Component, OnInit, Inject, EventEmitter, Output} from '@angular/core';
 import {Validators, FormGroup, FormBuilder, FormArray, FormControl} from '@angular/forms';
 import {MatDialogRef, MAT_DIALOG_DATA, MatChipInputEvent} from '@angular/material';
-import {Virement} from 'src/app/models/virement';
-import {Poste} from 'src/app/models/poste';
-import {copyStyles} from '@angular/animations/browser/src/util';
+import {Poste} from '../../../models/poste';
 import {SalariesService} from '../../../services/salaries.service';
 import {PosteService} from '../../../services/poste.service';
-import { Service } from 'src/app/models/service';
-import { Direction } from 'src/app/models/direction';
+import { Service } from '../../../models/service';
+import { Direction } from '../../../models/direction';
 
 import {COMMA, ENTER} from '@angular/cdk/keycodes';
 

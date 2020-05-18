@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { Absence } from 'src/app/models/absence';
+import { Absence } from '../../models/absence';
 import { MatTableDataSource } from '@angular/material';
-import { SalariesService } from 'src/app/services/salaries.service';
+import { SalariesService } from '../../services/salaries.service';
 import { ActivatedRoute } from '@angular/router';
 
 @Component({
@@ -16,7 +16,7 @@ export class SalarieAbsencesComponent implements OnInit {
   absenceCols: string[] = ['datedebut', 'datefin', 'type', 'justificatif'];
 
   id = parseInt(this.route.parent.snapshot.paramMap.get('id'));
-  
+
   constructor(
     private salariesService: SalariesService,
     private route: ActivatedRoute

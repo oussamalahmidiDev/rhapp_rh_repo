@@ -1,9 +1,8 @@
 import {Component, Injectable, OnInit, ViewChild} from '@angular/core';
 import {MatDialog, MatSnackBar, MatSort, MatTableDataSource} from '@angular/material';
-import {Poste} from 'src/app/models/poste';
+import {Poste} from '../../models/poste';
 import {PosteFormComponent} from '../forms/poste-form/poste-form.component';
 import {PosteService} from '../../services/poste.service';
-import {Salarie} from '../../models/salarie';
 import { PosteAffectationFormComponent } from '../forms/poste-affectation-form/poste-affectation-form.component';
 import { ActivatedRoute } from '@angular/router';
 

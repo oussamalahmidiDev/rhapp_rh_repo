@@ -1,20 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import {CongeFormComponent} from './conge-form.component';
 
-import { VirementFormComponent } from './virement-form.component';
 
-describe('VirementFormComponent', () => {
-  let component: VirementFormComponent;
-  let fixture: ComponentFixture<VirementFormComponent>;
+describe('CongeFormComponent', () => {
+  let component: CongeFormComponent;
+  let fixture: ComponentFixture<CongeFormComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ VirementFormComponent ]
+      declarations: [ CongeFormComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(VirementFormComponent);
+    fixture = TestBed.createComponent(CongeFormComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

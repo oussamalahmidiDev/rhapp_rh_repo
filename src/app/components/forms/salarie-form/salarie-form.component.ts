@@ -1,11 +1,11 @@
 import { Component, OnInit } from '@angular/core';
-import { Service } from 'src/app/models/service';
+import { Service } from '../../../models/service';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatDialogRef } from '@angular/material';
-import { SalariesService } from 'src/app/services/salaries.service';
-import { PosteService } from 'src/app/services/poste.service';
-import { Direction } from 'src/app/models/direction';
-import { Salarie } from 'src/app/models/salarie';
+import { SalariesService } from '../../../services/salaries.service';
+import { PosteService } from '../../../services/poste.service';
+import { Direction } from '../../../models/direction';
+import { Salarie } from '../../../models/salarie';
 
 @Component({
   selector: 'app-salarie-form',
@@ -24,7 +24,7 @@ export class SalarieFormComponent implements OnInit {
   firstFormGroup: FormGroup;
   secondFormGroup: FormGroup;
   thirdFormGroup: FormGroup;
-  
+
   constructor(
     private _formBuilder: FormBuilder,
     public dialogRef: MatDialogRef<SalarieFormComponent>,

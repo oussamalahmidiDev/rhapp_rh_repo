@@ -2,8 +2,8 @@ import {Component, OnInit} from '@angular/core';
 import {Router} from '@angular/router';
 import {UserService} from '../../services/user.service';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
-import {CookieService} from 'src/app/services/cookie.service';
-import {TokenService} from 'src/app/services/token.service';
+import {CookieService} from '../../services/cookie.service';
+import {TokenService} from '../../services/token.service';
 import {MatSnackBar} from '@angular/material';
 
 @Component({

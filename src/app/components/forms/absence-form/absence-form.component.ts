@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
-import { Salarie } from 'src/app/models/salarie';
-import { AbsencesService } from 'src/app/services/absences.service';
+import { Salarie } from '../../../models/salarie';
+import { AbsencesService } from '../../../services/absences.service';
 import { MatDialogRef } from '@angular/material';
-import { SalariesService } from 'src/app/services/salaries.service';
+import { SalariesService } from '../../../services/salaries.service';
 
 @Component({
   selector: 'app-absence-form',

@@ -2,8 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import {Salarie} from '../../models/salarie';
 import {SalariesService} from '../../services/salaries.service';
 import {ActivatedRoute, ParamMap, Router} from '@angular/router';
-import {map, switchMap} from 'rxjs/operators';
-import {Observable} from 'rxjs';
+
 
 @Component({
   selector: 'app-salarie-infos',

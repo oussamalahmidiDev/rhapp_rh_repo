@@ -2,8 +2,6 @@ import {Component, Inject, OnInit} from '@angular/core';
 import {FormBuilder, FormGroup} from '@angular/forms';
 import {AvantageNature} from '../../../models/avatange';
 import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material';
-import {Conge} from '../../../models/conge';
-import {CongesService} from '../../../services/conges.service';
 import {Salarie} from '../../../models/salarie';
 import {AvantagesService} from '../../../services/avantages.service';
 import {SalariesService} from '../../../services/salaries.service';

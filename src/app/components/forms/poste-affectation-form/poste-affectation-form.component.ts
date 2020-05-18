@@ -1,12 +1,10 @@
 import { Component, OnInit, Inject } from '@angular/core';
 import { FormBuilder, Validators, FormGroup } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
-import { PosteFormComponent } from '../poste-form/poste-form.component';
-import { Poste } from 'src/app/models/poste';
-import { SalariesService } from 'src/app/services/salaries.service';
-import { PosteService } from 'src/app/services/poste.service';
-import { Salarie } from 'src/app/models/salarie';
-import { AffectationRequest } from 'src/app/models/affectationRequest';
+import { Poste } from '../../../models/poste';
+import { SalariesService } from '../../../services/salaries.service';
+import { PosteService } from '../../../services/poste.service';
+import { Salarie } from '../../../models/salarie';
 
 @Component({
   selector: 'app-poste-affectation-form',

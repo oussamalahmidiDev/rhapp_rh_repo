@@ -1,15 +1,15 @@
 import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
-import {UserService} from 'src/app/services/user.service';
-import {User} from 'src/app/models/user';
+import {UserService} from '../../services/user.service';
+import {User} from '../../models/user';
 import {ActivatedRoute, NavigationCancel, NavigationEnd, NavigationError, NavigationStart, Router, RouterEvent} from '@angular/router';
 import {MatDialog, MatSnackBar} from '@angular/material';
-import {ProfileModalComponent} from 'src/app/components/forms/profile-modal/profile-modal.component';
-import {Salarie} from 'src/app/models/salarie';
-import {SalariesService} from 'src/app/services/salaries.service';
+import {ProfileModalComponent} from '../../components/forms/profile-modal/profile-modal.component';
+import {Salarie} from '../../models/salarie';
+import {SalariesService} from '../../services/salaries.service';
 import {fromEvent} from 'rxjs';
 import {debounceTime, distinctUntilChanged, filter, tap} from 'rxjs/operators';
-import {SearchResultsComponent} from 'src/app/components/search-results/search-results.component';
-import { TokenService } from 'src/app/services/token.service';
+import {SearchResultsComponent} from '../../components/search-results/search-results.component';
+import { TokenService } from '../../services/token.service';
 
 @Component({
   selector: 'app-home',

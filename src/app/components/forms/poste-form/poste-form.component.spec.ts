@@ -1,20 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import {PosteFormComponent} from './poste-form.component';
 
-import { VirementFormComponent } from './virement-form.component';
 
-describe('VirementFormComponent', () => {
-  let component: VirementFormComponent;
-  let fixture: ComponentFixture<VirementFormComponent>;
+describe('PosteFormComponent', () => {
+  let component: PosteFormComponent;
+  let fixture: ComponentFixture<PosteFormComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ VirementFormComponent ]
+      declarations: [ PosteFormComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(VirementFormComponent);
+    fixture = TestBed.createComponent(PosteFormComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

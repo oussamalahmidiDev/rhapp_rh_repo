@@ -1,10 +1,10 @@
 import { Component, OnInit, Inject } from '@angular/core';
 import { MatDialogRef, MatSnackBar, MAT_DIALOG_DATA } from '@angular/material';
 import { FormGroup, FormBuilder, Validators, AbstractControl } from '@angular/forms';
-import { User } from 'src/app/models/user';
-import { UserService } from 'src/app/services/user.service';
+import { User } from '../../../models/user';
+import { UserService } from '../../../services/user.service';
 import { HttpEvent, HttpEventType } from '@angular/common/http';
-import { TokenService } from 'src/app/services/token.service';
+import { TokenService } from '../../../services/token.service';
 
 @Component({
   selector: 'app-profile-modal',
@@ -27,8 +27,8 @@ export class ProfileModalComponent implements OnInit {
   compteFormErrors: string[];
 
   constructor(
-    public dialogRef: MatDialogRef<ProfileModalComponent>, 
-    private _formBuilder: FormBuilder, 
+    public dialogRef: MatDialogRef<ProfileModalComponent>,
+    private _formBuilder: FormBuilder,
     private _snackBar: MatSnackBar,
     private userService: UserService,
     private tokenService: TokenService,
@@ -48,7 +48,7 @@ export class ProfileModalComponent implements OnInit {
       passwords: this._formBuilder.group({
         newPassword: ['', [Validators.required, Validators.minLength(6)]],
         newPasswordConf: ['', [Validators.required, Validators.minLength(6)]]
-        
+
       }, { validators: this.passwordMatching }),
     });
     console.log("USR PRF", this.currentUser, this.compteForm);
@@ -69,7 +69,7 @@ export class ProfileModalComponent implements OnInit {
 
   closeModal() {
     console.log(this.profileForm.dirty, this.compteForm.touched, this.uploading, this.profileFormSubmitted, this.compteFormSubmitted);
-    
+
     if (this.profileForm.touched && !this.profileFormSubmitted || this.compteForm.touched && !this.compteFormSubmitted || this.uploading) {
       if (confirm("Vous n'avez pas sauvegardé les modifications. Voulez-vous continuer ?")) {
         this.dialogRef.close(this.currentUser);
@@ -86,7 +86,7 @@ export class ProfileModalComponent implements OnInit {
     )
   }
 
-  
+
   handlePhotoUpload ($event) {
     const image = $event.target.files[0];
     this.userService.uploadAvatar(image)
@@ -129,10 +129,10 @@ export class ProfileModalComponent implements OnInit {
     this.compteFormErrors = [];
     console.log(this.compteForm);
     console.log(this.compteForm.get('passwords'));
-    this.userService.changePassword({ 
-      oldPassword: this.compteForm.value.oldPassword, 
-      newPassword: this.compteForm.get('passwords').value.newPassword, 
-      newPasswordConf: this.compteForm.get('passwords').value.newPasswordConf, 
+    this.userService.changePassword({
+      oldPassword: this.compteForm.value.oldPassword,
+      newPassword: this.compteForm.get('passwords').value.newPassword,
+      newPasswordConf: this.compteForm.get('passwords').value.newPasswordConf,
     }).subscribe(
       data => { this.compteFormSubmitted = true; this.openSnackBar("Le mot de passe a été changé avec succès !")},
       error => {console.log(error.error); this.compteFormErrors.push(error.error.message)}

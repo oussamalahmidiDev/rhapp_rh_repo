@@ -2,9 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {Conge} from '../../models/conge';
 import {MatDialog, MatSnackBar, MatTableDataSource} from '@angular/material';
 import {CongeReponseFormComponent} from '../forms/conge-reponse-form/conge-reponse-form.component';
-import {Salarie} from '../../models/salarie';
 import {SalariesService} from '../../services/salaries.service';
-import {PosteFormComponent} from '../forms/poste-form/poste-form.component';
 import { ActivatedRoute } from '@angular/router';
 
 @Component({
@@ -23,8 +21,8 @@ export class SalarieCongesComponent implements OnInit {
   congeCols: string[] = ['motif', 'type', 'datedebut', 'datefin', 'etat', 'actions'];
 
   constructor(
-    private _snackBar: MatSnackBar, 
-    private dialog: MatDialog, 
+    private _snackBar: MatSnackBar,
+    private dialog: MatDialog,
     private salariesService: SalariesService,
     private route: ActivatedRoute
     ) {

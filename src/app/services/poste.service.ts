@@ -3,7 +3,7 @@ import {Poste} from '../models/poste';
 import {Salarie} from '../models/salarie';
 import {SalariesService} from './salaries.service';
 import { HttpClient } from '@angular/common/http';
-import { environment } from 'src/environments/environment';
+import { environment } from '../../environments/environment';
 import { Observable } from 'rxjs';
 import { Service } from '../models/service';
 import { Direction } from '../models/direction';
@@ -17,7 +17,7 @@ export class PosteService {
   BASE_URL: string = environment.BASE_URL;
 
   postes: Poste[] = [
-   
+
   ];
 
   getPostes(): Observable<Poste[]> {

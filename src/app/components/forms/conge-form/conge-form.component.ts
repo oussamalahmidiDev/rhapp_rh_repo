@@ -1,10 +1,8 @@
 import {Component, OnInit, Inject, EventEmitter, Output} from '@angular/core';
 import {Validators, FormGroup, FormBuilder} from '@angular/forms';
 import {MatDialogRef, MAT_DIALOG_DATA} from '@angular/material';
-import {Virement} from 'src/app/models/virement';
-import {Poste} from 'src/app/models/poste';
-import {copyStyles} from '@angular/animations/browser/src/util';
-import {Salarie} from '../../../models/salarie';
+import {Poste} from '../../../models/poste';
+
 import {SalariesService} from '../../../services/salaries.service';
 
 @Component({
@@ -31,20 +29,6 @@ export class CongeFormComponent implements OnInit {
   constructor(private _formBuilder: FormBuilder, public dialogRef: MatDialogRef<CongeFormComponent>, @Inject(MAT_DIALOG_DATA) public data: Poste[], private salariesService: SalariesService) {
   }
 
-  createVirement() {
-    const newVirement: Virement = {
-      id: '1',
-      compteExp: this.compteExp,
-      compteDest: this.compteDest,
-      montant: this.montant,
-      dateOperation: new Date().toString().substr(0, 15),
-      statut: 'PENDING'
-    };
-
-    this.formIsValid = true;
-    // console.log
-    this.dialogRef.close(newVirement);
-  }
 
   addCompetence($event) {
     event.preventDefault();

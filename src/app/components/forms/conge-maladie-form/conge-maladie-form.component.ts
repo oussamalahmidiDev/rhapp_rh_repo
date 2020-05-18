@@ -1,12 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
-import { Salarie } from 'src/app/models/salarie';
-import { CongesService } from 'src/app/services/conges.service';
-import { SalariesService } from 'src/app/services/salaries.service';
+import { Salarie } from '../../../models/salarie';
+import { CongesService } from '../../../services/conges.service';
+import { SalariesService } from '../../../services/salaries.service';
 import { MatDialogRef } from '@angular/material';
 import { AbsenceFormComponent } from '../absence-form/absence-form.component';
-import { Conge } from 'src/app/models/conge';
-import { CongeMaladieRequest } from 'src/app/models/congeMaladieRequest';
+import { CongeMaladieRequest } from '../../../models/congeMaladieRequest';
 
 @Component({
   selector: 'app-conge-maladie-form',
@@ -20,7 +19,7 @@ export class CongeMaladieFormComponent implements OnInit {
   salaries: Salarie[];
   selectedSalarie: Salarie;
   salariesLoaded: boolean;
-  
+
   constructor(private _formBuilder: FormBuilder,
     public dialogRef: MatDialogRef<AbsenceFormComponent>,
     private congeService: CongesService,
@@ -60,7 +59,7 @@ export class CongeMaladieFormComponent implements OnInit {
     console.log(congeMaladie);
     this.congeService.createCongeMaladie(congeMaladie).subscribe(
       data => {
-        this.dialogRef.close(data);        
+        this.dialogRef.close(data);
       }
     )
   }

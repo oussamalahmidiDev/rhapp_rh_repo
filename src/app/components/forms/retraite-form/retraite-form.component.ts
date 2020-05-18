@@ -1,9 +1,8 @@
 import {Component, Inject, OnInit} from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material';
-import {Virement} from 'src/app/models/virement';
-import {Poste} from 'src/app/models/poste';
-import {Salarie} from 'src/app/models/salarie';
+
+import {Salarie} from '../../../models/salarie';
 import {SalariesService} from '../../../services/salaries.service';
 import {Retraite} from '../../../models/retraite';
 import {RetraitesService} from '../../../services/retraites.service';
