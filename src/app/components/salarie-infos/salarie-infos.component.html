@@ -14,27 +14,27 @@
     </mat-expansion-panel-header>
     <div class="detail-item">
       <div class="detail-name">Nom et prénom</div>
-      <div class="detail-content">{{ salarie.nom }} {{ salarie.prenom }}</div>
+      <div class="detail-content">{{ (salarie | async).nom }} {{ (salarie | async).prenom }}</div>
     </div>
     <div class="detail-item">
       <div class="detail-name">Adresse éléctronique</div>
-      <div class="detail-content">{{ salarie.email }}</div>
+      <div class="detail-content">{{ (salarie | async).email }}</div>
     </div>
     <div class="detail-item">
       <div class="detail-name">Adresse</div>
-      <div class="detail-content">{{ salarie.adresse }}</div>
+      <div class="detail-content">{{ (salarie | async).adresse }}</div>
     </div>
     <div class="detail-item">
       <div class="detail-name">Numero de somme</div>
-      <div class="detail-content">{{ salarie.numSomme }}</div>
+      <div class="detail-content">{{ (salarie | async).numSomme }}</div>
     </div>
     <div class="detail-item">
       <div class="detail-name">Date de naissance</div>
-      <div class="detail-content">{{ salarie.dateNaissance }}</div>
+      <div class="detail-content">{{ (salarie | async).dateNaissance }}</div>
     </div>
     <div class="detail-item">
       <div class="detail-name">Lieu de naissance</div>
-      <div class="detail-content">{{ salarie.lieuNaissance }}</div>
+      <div class="detail-content">{{ (salarie | async).lieuNaissance }}</div>
     </div>
 
   </mat-expansion-panel>
@@ -53,15 +53,15 @@
     </div>
     <div class="detail-item">
       <div class="detail-name">Direction</div>
-      <div class="detail-content">{{ salarie.direction?.nom }}</div>
+      <div class="detail-content">{{ (salarie | async).direction?.nom }}</div>
     </div>
     <div class="detail-item">
       <div class="detail-name">Division</div>
-      <div class="detail-content">{{ salarie.division }}</div>
+      <div class="detail-content">{{ (salarie | async).division }}</div>
     </div>
     <div class="detail-item">
       <div class="detail-name">Service</div>
-      <div class="detail-content">{{ salarie.service?.nom }}</div>
+      <div class="detail-content">{{ (salarie | async).service?.nom }}</div>
     </div>
 
   </mat-expansion-panel>
@@ -74,23 +74,23 @@
     </mat-expansion-panel-header>
     <div class="detail-item">
       <div class="detail-name">CIN</div>
-      <div class="detail-content">{{ salarie.cinUrg }}</div>
+      <div class="detail-content">{{ (salarie | async).cinUrg }}</div>
     </div>
     <div class="detail-item">
       <div class="detail-name">Nom et prénom</div>
-      <div class="detail-content">{{ salarie.nomUrg }} {{ salarie.prenomUrg }}</div>
+      <div class="detail-content">{{ (salarie | async).nomUrg }} {{ (salarie | async).prenomUrg }}</div>
     </div>
     <div class="detail-item">
       <div class="detail-name">Adresse d'urgence</div>
-      <div class="detail-content">{{ salarie.adresseUrg }}</div>
+      <div class="detail-content">{{ (salarie | async).adresseUrg }}</div>
     </div>
     <div class="detail-item">
       <div class="detail-name">Téléphone</div>
-      <div class="detail-content">{{ salarie.adresseUrg }}</div>
+      <div class="detail-content">{{ (salarie | async).adresseUrg }}</div>
     </div>
     <div class="detail-item">
       <div class="detail-name">Email d'urgence</div>
-      <div class="detail-content">{{ salarie.emailUrg }}</div>
+      <div class="detail-content">{{ (salarie | async).emailUrg }}</div>
     </div>
 
   </mat-expansion-panel>

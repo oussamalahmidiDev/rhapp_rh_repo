@@ -1,10 +1,13 @@
-import { Component, OnInit, Inject } from '@angular/core';
-import { FormBuilder, Validators, FormGroup } from '@angular/forms';
-import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
-import { Poste } from '../../../models/poste';
-import { SalariesService } from '../../../services/salaries.service';
-import { PosteService } from '../../../services/poste.service';
-import { Salarie } from '../../../models/salarie';
+import {Component, Inject, OnInit} from '@angular/core';
+import {FormBuilder, FormGroup, Validators} from '@angular/forms';
+import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material';
+import {Poste} from '../../../models/poste';
+import {PosteService} from '../../../services/poste.service';
+import {Salarie} from '../../../models/salarie';
+import {Select, Store} from '@ngxs/store';
+import {Observable} from 'rxjs';
+import {AffecterSalarie} from 'src/app/actions/postes.action';
+import {SalariesState} from '../../../states/salaries.state';
 
 @Component({
   selector: 'app-poste-affectation-form',
@@ -15,28 +18,24 @@ export class PosteAffectationFormComponent implements OnInit {
 
   affectationForm: FormGroup;
 
-  salaries: Salarie[];
-  selectedSalarie: Salarie;
+  @Select(SalariesState.getSalaries)
+  salaries: Observable<Salarie[]>;
   salariesLoaded: boolean;
 
   constructor(
-    private _formBuilder: FormBuilder,
+    private formBuilder: FormBuilder,
     public dialogRef: MatDialogRef<PosteAffectationFormComponent>,
     @Inject(MAT_DIALOG_DATA) public poste: Poste,
     private posteService: PosteService,
-    private salariesService: SalariesService
+    private store: Store,
   ) {
   }
 
   ngOnInit() {
-    this.salariesLoaded = false;
-    this.salariesService.getSalaries()
-    .subscribe(data => {
-      this.salaries = data;
-      this.salariesLoaded = true;
-    });
 
-    this.affectationForm = this._formBuilder.group({
+    this.salariesLoaded = true;
+
+    this.affectationForm = this.formBuilder.group({
       salarieId: ['', Validators.required],
       fonctions: ['']
     });
@@ -44,11 +43,8 @@ export class PosteAffectationFormComponent implements OnInit {
 
   submitForm() {
     console.log(this.affectationForm);
-    this.posteService.affecterSalarie(this.poste.id, this.affectationForm.value)
-    .subscribe(
-      data => {
-        this.dialogRef.close(data);
-      }
+    this.store.dispatch(new AffecterSalarie(this.poste.id, this.affectationForm.value)).subscribe(
+      () => this.dialogRef.close()
     );
   }
 }

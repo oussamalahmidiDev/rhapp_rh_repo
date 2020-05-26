@@ -23,7 +23,7 @@ export class WelcomePageComponent implements OnInit {
 
   constructor(
     private router: Router,
-    private _snackBar: MatSnackBar,
+    private snackBar: MatSnackBar,
     private authService: UserService,
     private formGroup: FormBuilder,
     private cookieService: CookieService,
@@ -56,7 +56,7 @@ export class WelcomePageComponent implements OnInit {
     }
     this.error = null;
     this.loggingIn = true;
-    this.authService.login(this.loginForm.value.email, this.loginForm.value.password).subscribe(
+    this.authService.login(this.loginForm.value.email.toLocaleLowerCase().trim(), this.loginForm.value.password).subscribe(
       data => {
         console.log(data);
         this.loggingIn = false;
@@ -71,13 +71,13 @@ export class WelcomePageComponent implements OnInit {
     );
   }
 
-  sendPasswordForgery() {
+  sendPasswordRecovery() {
     if (this.forgotPasswordForm.invalid || this.loggingIn) {
       return;
     }
     this.error = null;
     this.loggingIn = true;
-    this.authService.sendPasswordRecoveryRequest(this.forgotPasswordForm.value.email).subscribe(
+    this.authService.sendPasswordRecoveryRequest(this.forgotPasswordForm.value.email.toLocaleLowerCase().trim()).subscribe(
       data => {
         this.openSnackBar(data.message);
         this.forgotPasswordFormHidden = true;
@@ -91,7 +91,7 @@ export class WelcomePageComponent implements OnInit {
   }
 
   openSnackBar(message: string) {
-    this._snackBar.open(message, 'OK', {
+    this.snackBar.open(message, 'OK', {
       duration: 2000,
     });
   }

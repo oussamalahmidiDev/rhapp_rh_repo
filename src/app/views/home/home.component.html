@@ -1,52 +1,4 @@
-<mat-toolbar color="primary" class="navbar sticky-top navb">
-  <!-- <mat-toolbar-row> -->
-  <span> REHAPP </span>
-  <form class="example-form navbar-nav mr-auto">
-    <div class="example-full-width">
-      <!-- <mat-label>Favorite food</mat-label> -->
-        <input class="search"
-        name = "searchQuery"
-
-        placeholder="Rechercher par nom de salarié, divison, direction"
-        [matAutocomplete]="auto" #searchField>
-      <mat-autocomplete #auto="matAutocomplete" [displayWith]="showSalarieNom" (optionSelected)="redirect($event.option.value.id)">
-        <mat-option *ngFor = "let salarie of searchResults" [value] = "salarie" >
-            {{salarie.nom}} {{salarie.prenom}}
-            <!-- <div class="account-inline" >
-              <div class="avatar" *ngIf="salarie.photo" [ngStyle]="{ 'background-image': 'url(' + salarie.photo + ')'}"></div>
-              <div class="avatar" *ngIf="!salarie.photo" [ngStyle]="{ 'background-image': 'url(' + 'assets/images/default.jpg' + ')'}"></div>
-
-              <div class="account-labels">
-                <div class="account-name"></div>
-                <div class="account-details">
-                  {{salarie.numSomme}}
-                </div>
-              </div>
-            </div> -->
-        </mat-option>
-      </mat-autocomplete>
-    </div>
-  </form>
-  <div class="right-items">
-    <button (click) =  "redirect(2)" mat-icon-button class="mr-2">
-      <mat-icon>notifications</mat-icon>
-    </button>
-    <div class="inline-avatar"  [matMenuTriggerFor]="appMenu" [matMenuTriggerData]="{name: 'Sally'}">
-      <div class="avatar"  *ngIf="currentUser.photo" [ngStyle]="{ 'background-image': currentUser.photo | url | async }" ></div>
-      <div class="avatar" *ngIf="!currentUser.photo" [ngStyle]="{ 'background-image': 'url(' + 'assets/images/default.jpg' + ')'}"></div>
-      <div class="user-name">{{ currentUser.nom }} {{ currentUser.prenom }}</div>
-    </div>
-    <mat-menu #appMenu="matMenu"  xPosition="before"  class="top-menu">
-      <ng-template matMenuContent let-name="name">
-        <button mat-menu-item (click) = "openProfileModal()">Voir votre profil</button>
-        <button mat-menu-item>Historique d'activités</button>
-        <mat-divider></mat-divider>
-        <button mat-menu-item class="text-danger"(click) = "logout()">Deconnexion</button>
-      </ng-template>
-    </mat-menu>
-  </div>
-  <!-- </mat-toolbar-row> -->
-</mat-toolbar>
+<app-navbar></app-navbar>
 <nav mat-tab-nav-bar class="" *ngIf="this.router.url !== '/home/dashboard'">
   <a mat-tab-link
      routerLinkActive #dashboard="routerLinkActive"
@@ -82,6 +34,6 @@
   </a>
 
 </nav>
-<mat-progress-bar [style.opacity] = "loading? 1 : 0" mode="indeterminate" ></mat-progress-bar>
+<mat-progress-bar [style.opacity]="(loading | async)? 1 : 0" mode="indeterminate"></mat-progress-bar>
 
 <router-outlet></router-outlet>

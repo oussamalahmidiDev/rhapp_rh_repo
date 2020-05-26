@@ -9,14 +9,16 @@
             <mat-label>Préciser la direction</mat-label>
             <input  matInput placeholder="Ex : 678951948581479" formControlName="direction" (change)="handleDirectionChange()" [matAutocomplete]="autoDirection" required>
             <mat-autocomplete #autoDirection="matAutocomplete">
-              <mat-option *ngFor="let direction of directions" (click)="handleDirectionSelect(direction)" [value]="direction.id">{{ direction.nom }}</mat-option>
+              <mat-option (click)="handleDirectionSelect(direction)" *ngFor="let direction of directions | async"
+                          [value]="direction.id">{{ direction.nom }}</mat-option>
             </mat-autocomplete>
           </mat-form-field>
           <mat-form-field [style.width.px]=400>
             <mat-label>Préciser la service</mat-label>
             <input  matInput placeholder="Ex : 678951948581479" formControlName="service" (change)="handleServiceChange()" [matAutocomplete]="autoService" required>
             <mat-autocomplete #autoService="matAutocomplete">
-              <mat-option *ngFor="let service of services" (click)="handleServiceSelect(service)" [value]="service">{{ service.nom }}</mat-option>
+              <mat-option (click)="handleServiceSelect(service)" *ngFor="let service of services | async"
+                          [value]="service">{{ service.nom }}</mat-option>
             </mat-autocomplete>
           </mat-form-field>
           <mat-form-field [style.width.px]=400>
@@ -67,7 +69,7 @@
           </div>
         </form>
       </mat-step>
-     
+
 
     </mat-vertical-stepper>
 <!--    <mat-card-actions class="container pr-5 mb-0" >-->

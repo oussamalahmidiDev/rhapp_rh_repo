@@ -1,8 +1,9 @@
-import { Component, OnInit } from '@angular/core';
-import { Absence } from '../../models/absence';
-import { MatTableDataSource } from '@angular/material';
-import { SalariesService } from '../../services/salaries.service';
-import { ActivatedRoute } from '@angular/router';
+import {Component, OnInit} from '@angular/core';
+import {Absence} from '../../models/absence';
+import {MatTableDataSource} from '@angular/material';
+import {Select} from '@ngxs/store';
+import {Observable} from 'rxjs';
+import {SalariesState} from '../../states/salaries.state';
 
 @Component({
   selector: 'app-salarie-absences',
@@ -11,29 +12,25 @@ import { ActivatedRoute } from '@angular/router';
 })
 export class SalarieAbsencesComponent implements OnInit {
 
-  absences: Absence[];
+  @Select(SalariesState.getSelectedSalarieAbsences)
+  absences: Observable<Absence[]>;
   absencesDs: MatTableDataSource<Absence>;
   absenceCols: string[] = ['datedebut', 'datefin', 'type', 'justificatif'];
 
-  id = parseInt(this.route.parent.snapshot.paramMap.get('id'));
 
-  constructor(
-    private salariesService: SalariesService,
-    private route: ActivatedRoute
-
-  ) {
-    this.absencesDs = new MatTableDataSource<Absence>();
-
-    this.absencesDs.filterPredicate = (data: any, filter) => {
-      const dataStr = JSON.stringify(data).toLowerCase();
-      return dataStr.indexOf(filter) !== -1;
-    };
-   }
+  constructor() {
+  }
 
   ngOnInit() {
-    this.salariesService.getSalarieAbsences(this.id).subscribe(
-      data => this.absencesDs.data = this.absences = data
-    );
+    this.absences.subscribe(data => {
+      this.absencesDs = new MatTableDataSource<Absence>(data);
+      this.absencesDs.filterPredicate = (data: any, filter) => {
+        const dataStr = JSON.stringify(data).toLowerCase();
+        return dataStr.indexOf(filter) !== -1;
+      };
+
+    });
+
   }
 
   search($event) {

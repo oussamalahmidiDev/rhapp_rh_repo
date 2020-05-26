@@ -1,11 +1,14 @@
-import {Component, Inject, OnInit} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
-import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material';
+import {MatDialogRef} from '@angular/material';
 
 import {Salarie} from '../../../models/salarie';
-import {SalariesService} from '../../../services/salaries.service';
 import {Retraite} from '../../../models/retraite';
 import {RetraitesService} from '../../../services/retraites.service';
+import {Select, Store} from '@ngxs/store';
+import {AddRetraite} from 'src/app/actions/salaries.action';
+import {Observable} from 'rxjs';
+import {SalariesState} from '../../../states/salaries.state';
 
 @Component({
   selector: 'app-retraite-form',
@@ -14,25 +17,23 @@ import {RetraitesService} from '../../../services/retraites.service';
 })
 export class RetraiteFormComponent implements OnInit {
 
-  isLinear = false;
-
   formGroup: FormGroup;
 
   typesRetraite: any[];
 
-  salaries: Salarie[] = this.salariesService.salaries;
+  @Select(SalariesState.getSelectedSalarie)
+  salarie: Observable<Salarie>;
 
 
   constructor(
-    private _formBuilder: FormBuilder,
+    private formBuilder: FormBuilder,
     public dialogRef: MatDialogRef<RetraiteFormComponent>,
-    @Inject(MAT_DIALOG_DATA) public retraite: Retraite,
     private retraiteService: RetraitesService,
-    private salariesService: SalariesService) {
+    private store: Store,
+  ) {
   }
 
   ngOnInit() {
-    console.log('RETRAITE DATA', this.retraite);
     this.typesRetraite = [
       {id: 1, typeRetraite: 'A'},
       {id: 2, typeRetraite: 'B'},
@@ -43,11 +44,11 @@ export class RetraiteFormComponent implements OnInit {
       data => this.typesRetraite = data
     );
 
-    this.formGroup = this._formBuilder.group({
-      dateRetraite: [this.retraite.dateRetraite, Validators.required],
-      reference: [this.retraite.reference, Validators.required],
-      remarques: [this.retraite.remarques, Validators.required],
-      type: [this.retraite.type.typeRetraite, Validators.required]
+    this.formGroup = this.formBuilder.group({
+      dateRetraite: ['', Validators.required],
+      reference: ['', Validators.required],
+      remarques: ['', Validators.required],
+      type: ['', Validators.required]
     });
 
 
@@ -55,22 +56,21 @@ export class RetraiteFormComponent implements OnInit {
 
   onSubmit() {
     console.log(this.formGroup);
-    this.retraite.dateRetraite = this.formGroup.value.dateRetraite;
-    this.retraite.reference = this.formGroup.value.reference;
-    this.retraite.remarques = this.formGroup.value.remarques;
-    this.retraite.type = this.formGroup.value.type.id ? this.formGroup.value.type : {id: null, typeRetraite: this.formGroup.value.type};
+    const retraite: Retraite = this.formGroup.value;
+    retraite.salarie = {...retraite.salarie, id: this.store.selectSnapshot(SalariesState.getSelectedSalarie).id};
+    retraite.type = this.formGroup.value.type.id ? this.formGroup.value.type : {id: null, typeRetraite: this.formGroup.value.type};
 
-    console.log('RETRAITE = ', this.retraite);
 
-    this.retraiteService.createRetraite(this.retraite).subscribe(
-      data => this.dialogRef.close(data),
-      error => console.log(error.error)
+    this.store.dispatch(new AddRetraite(retraite)).subscribe(
+      data => {
+        console.log(data);
+        this.dialogRef.close();
+      }
     );
 
   }
 
   showType(type: any) {
-    let k = type ? type.typeRetraite : type;
-    return k;
+    return type ? type.typeRetraite : type;
   }
 }

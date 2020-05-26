@@ -1,11 +1,13 @@
 <div class="form">
-  <div class="mat-title">Retirer les avantages de {{ salarie.nom }} {{ salarie.prenom }}</div>
-  <form style="margin-top: 10px;" >
-    <mat-checkbox style="display: block" (change)="handleCheckboxChange($event, avantage)" *ngFor="let avantage of avantages">{{ avantage.specification }} ({{ avantage.type.typeAvantage }})</mat-checkbox>
+  <div class="mat-title">Retirer les avantages de {{ (salarie | async).nom }} {{ (salarie |async).prenom }}</div>
+  <form style="margin-top: 10px;">
+    <mat-checkbox (change)="handleCheckboxChange($event, avantage)" *ngFor="let avantage of avantages | async"
+                  style="display: block">{{ avantage.specification }} ({{ avantage.type.typeAvantage }})
+    </mat-checkbox>
 
   </form>
 
-  <mat-card-actions class="container  mb-0" >
-    <button mat-raised-button style="width: 421px;" color="primary" (click)="onSubmit()" >Valider</button>
+  <mat-card-actions class="container  mb-0">
+    <button mat-raised-button style="width: 421px;" color="primary" (click)="onSubmit()">Valider</button>
   </mat-card-actions>
 </div>

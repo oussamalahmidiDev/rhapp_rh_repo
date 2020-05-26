@@ -22,9 +22,13 @@
           <td mat-cell *matCellDef="let element">
 
               <a [routerLink]="['./', element.id]">
-                <div class="account-inline" >
-                  <div class="avatar" *ngIf="element.photo" [ngStyle]="{ 'background-image': element.photo | url: 'salarie' : element.id | async }"></div>
-                  <div class="avatar" *ngIf="!element.photo" [ngStyle]="{ 'background-image': 'url(' + 'assets/images/default.jpg' + ')'}"></div>
+                <div class="account-inline">
+                  <div *ngIf="element.photo"
+                       [ngStyle]="{ 'background-image': element.photo | blob: 'salarie': element.id | async | url }"
+                       class="avatar"></div>
+                  <div *ngIf="!element.photo"
+                       [ngStyle]="{ 'background-image': 'url(' + 'assets/images/default.jpg' + ')'}"
+                       class="avatar"></div>
 
                   <div class="account-labels">
                     <div class="account-name">{{element.nom}} {{ element.prenom }}</div>

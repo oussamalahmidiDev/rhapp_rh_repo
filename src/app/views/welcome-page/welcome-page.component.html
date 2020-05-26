@@ -89,10 +89,14 @@
             </mat-card-content>
 
             <mat-card-actions *ngIf="!loggingIn">
-              <button  style="background: #1379dc;width: -moz-available; width: -webkit-fill-available ;"  *ngIf = "forgotPasswordForm.valid" mat-flat-button color="primary" (click)="sendPasswordForgery()">
+              <button (click)="sendPasswordRecovery()" *ngIf="forgotPasswordForm.valid" color="primary" mat-flat-button
+                      style="background: #1379dc;width: -moz-available; width: -webkit-fill-available ;">
                 Envoyer
               </button>
-              <button  style="background: #c5c5c5;width: -moz-available; width: -webkit-fill-available ;"  *ngIf = "forgotPasswordForm.invalid" mat-flat-button disabled>Envoyer</button>
+              <button *ngIf="forgotPasswordForm.invalid"
+                      disabled mat-flat-button
+                      style="background: #c5c5c5;width: -moz-available; width: -webkit-fill-available ;">Envoyer
+              </button>
             </mat-card-actions>
           </mat-card>
         </div>

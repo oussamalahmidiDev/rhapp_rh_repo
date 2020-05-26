@@ -1,12 +1,12 @@
-import { Injectable } from '@angular/core';
-import { Resolve, ActivatedRouteSnapshot, RouterStateSnapshot } from '@angular/router';
-import { catchError } from 'rxjs/operators'; import { empty, Observable } from 'rxjs';
-import { PosteService } from '../services/poste.service';
-import { Poste } from '../models/poste';
-import { User } from '../models/user';
-import { UserService } from '../services/user.service';
+import {Injectable} from '@angular/core';
+import {ActivatedRouteSnapshot, Resolve, RouterStateSnapshot} from '@angular/router';
+import {map} from 'rxjs/operators';
+import {Observable} from 'rxjs';
+
 import {Absence} from '../models/absence';
-import {AbsencesService} from '../services/absences.service';
+import {Store} from '@ngxs/store';
+import {GetAbsences} from '../actions/absences.action';
+import {AbsencesState} from '../states/absences.state';
 
 
 @Injectable({
@@ -15,10 +15,13 @@ import {AbsencesService} from '../services/absences.service';
 
 export class AbsencesServiceResolver implements Resolve<Absence[]> {
 
-  constructor(private service: AbsencesService) { }
+  constructor(private store: Store) {
+  }
 
   resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<Absence[]> {
-    return this.service.getAbsences();
+    return this.store.dispatch(new GetAbsences()).pipe(
+      map(() => this.store.selectSnapshot(AbsencesState))
+    );
   }
 
 }

@@ -1,9 +1,13 @@
-import { Component, OnInit } from '@angular/core';
-import { FormGroup, FormBuilder, Validators } from '@angular/forms';
-import { Salarie } from '../../../models/salarie';
-import { AbsencesService } from '../../../services/absences.service';
-import { MatDialogRef } from '@angular/material';
-import { SalariesService } from '../../../services/salaries.service';
+import {Component, OnInit} from '@angular/core';
+import {FormBuilder, FormGroup, Validators} from '@angular/forms';
+import {Salarie} from '../../../models/salarie';
+import {AbsencesService} from '../../../services/absences.service';
+import {MatDialogRef} from '@angular/material';
+import {SalariesService} from '../../../services/salaries.service';
+import {Select, Store} from '@ngxs/store';
+import {AddAbsence} from 'src/app/actions/absences.action';
+import {Observable} from 'rxjs';
+import {SalariesState} from '../../../states/salaries.state';
 
 @Component({
   selector: 'app-absence-form',
@@ -14,8 +18,8 @@ export class AbsenceFormComponent implements OnInit {
 
   absenceForm: FormGroup;
 
-  salaries: Salarie[];
-  selectedSalarie: Salarie;
+  @Select(SalariesState.getSalaries)
+  salaries: Observable<Salarie[]>;
   salariesLoaded: boolean;
 
   justificatif: File;
@@ -25,11 +29,13 @@ export class AbsenceFormComponent implements OnInit {
 
   types: string[];
 
-  constructor(private _formBuilder: FormBuilder,
-    public dialogRef: MatDialogRef<AbsenceFormComponent>,
-    private absenceService: AbsencesService,
-    private salariesService: SalariesService
-  ) {}
+  constructor(private formBuilder: FormBuilder,
+              public dialogRef: MatDialogRef<AbsenceFormComponent>,
+              private absenceService: AbsencesService,
+              private salariesService: SalariesService,
+              private store: Store
+  ) {
+  }
 
   ngOnInit() {
     this.types = [
@@ -38,14 +44,9 @@ export class AbsenceFormComponent implements OnInit {
       'Marriage'
     ];
 
-    this.salariesLoaded = false;
-    this.salariesService.getSalaries()
-    .subscribe(data => {
-      this.salaries = data;
-      this.salariesLoaded = true;
-    });
+    this.salariesLoaded = true;
 
-    this.absenceForm = this._formBuilder.group({
+    this.absenceForm = this.formBuilder.group({
       salarieId: ['', Validators.required],
       dateDebut: ['', Validators.required],
       dateFin: ['', Validators.required],
@@ -54,16 +55,16 @@ export class AbsenceFormComponent implements OnInit {
 
     this.dialogRef.backdropClick().subscribe(
       _ => {
-          if (!this.absenceForm.dirty) {
-              console.log("FORM IS TOUCHED");
-              this.dialogRef.close();
+        if (!this.absenceForm.dirty) {
+          console.log('FORM IS TOUCHED');
+          this.dialogRef.close();
+        } else {
+          if (confirm('Vos données vont être ignorés. Voulez-vous continuez ?')) {
+            this.dialogRef.close();
           }
-          else {
-              if(confirm("Vos données vont être ignorés. Voulez-vous continuez ?"))
-                  this.dialogRef.close();
-          }
+        }
       }
-    )
+    );
   }
 
   onSubmit() {
@@ -72,23 +73,14 @@ export class AbsenceFormComponent implements OnInit {
     formData.append('dateDebut', this.absenceForm.get('dateDebut').value);
     formData.append('dateFin', this.absenceForm.get('dateFin').value);
     formData.append('type', this.absenceForm.get('type').value);
-    // formData.append('justificatif', this.justificatif);
     if (this.justificatif) {
       formData.append('justificatif', this.justificatif);
     } else {
       formData.append('justificatif', null);
     }
 
+    this.store.dispatch(new AddAbsence(formData)).subscribe(() => this.dialogRef.close());
 
-    this.absenceService.createAbsence(formData).subscribe(
-      data => {
-        console.log(data);
-        this.dialogRef.close(data);
-      },
-      error => console.log(error.error)
-    );
-
-    // console.log(formData.get());
   }
 
   handleJustificatif($event) {

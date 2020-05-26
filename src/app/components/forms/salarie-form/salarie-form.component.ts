@@ -1,11 +1,14 @@
-import { Component, OnInit } from '@angular/core';
-import { Service } from '../../../models/service';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { MatDialogRef } from '@angular/material';
-import { SalariesService } from '../../../services/salaries.service';
-import { PosteService } from '../../../services/poste.service';
-import { Direction } from '../../../models/direction';
-import { Salarie } from '../../../models/salarie';
+import {Component, OnInit} from '@angular/core';
+import {Service} from '../../../models/service';
+import {FormBuilder, FormGroup, Validators} from '@angular/forms';
+import {MatDialogRef} from '@angular/material';
+import {Direction} from '../../../models/direction';
+import {Salarie} from '../../../models/salarie';
+import {Select, Store} from '@ngxs/store';
+import {AddSalarie} from 'src/app/actions/salaries.action';
+import {ServicesState} from '../../../states/services.state';
+import {Observable} from 'rxjs';
+import {DirectionsState} from '../../../states/directions.state';
 
 @Component({
   selector: 'app-salarie-form',
@@ -15,8 +18,11 @@ import { Salarie } from '../../../models/salarie';
 export class SalarieFormComponent implements OnInit {
 
 
-  services: Service[];
-  directions: Direction[];
+  @Select(ServicesState.getServices)
+  services: Observable<Service[]>;
+
+  @Select(DirectionsState.getDirections)
+  directions: Observable<Direction[]>;
 
   selectedDirection: Direction;
   selectedService: Service;
@@ -26,39 +32,34 @@ export class SalarieFormComponent implements OnInit {
   thirdFormGroup: FormGroup;
 
   constructor(
-    private _formBuilder: FormBuilder,
+    private formBuilder: FormBuilder,
+    private store: Store,
     public dialogRef: MatDialogRef<SalarieFormComponent>,
-    private salariesService: SalariesService,
-    private posteService: PosteService) { }
+  ) {
+  }
 
   ngOnInit() {
-    this.posteService.getServices().subscribe(
-      data => this.services = data
-    );
-    this.posteService.getDirections().subscribe(
-      data => this.directions = data
-    );
 
-    this.firstFormGroup = this._formBuilder.group({
+    this.firstFormGroup = this.formBuilder.group({
       service: ['', Validators.required],
       direction: ['', Validators.required],
       numSomme: ['', Validators.required]
     });
 
-    this.secondFormGroup = this._formBuilder.group({
+    this.secondFormGroup = this.formBuilder.group({
       nom: ['', Validators.required],
       prenom: ['', Validators.required],
       email: ['', [Validators.required, Validators.email]],
     });
 
-    this.thirdFormGroup = this._formBuilder.group({
+    this.thirdFormGroup = this.formBuilder.group({
       solde: ['', [Validators.required, Validators.min(1)]]
     });
   }
 
   handleDirectionSelect(direction: Direction) {
-    this.selectedDirection = { id: direction.id, nom: direction.nom };
-    console.log("SELECTED", this.selectedDirection);
+    this.selectedDirection = {id: direction.id, nom: direction.nom};
+    console.log('SELECTED', this.selectedDirection);
     this.firstFormGroup.patchValue({
       direction: this.selectedDirection.nom
     });
@@ -68,13 +69,13 @@ export class SalarieFormComponent implements OnInit {
     this.selectedDirection = {
       id: null,
       nom: this.firstFormGroup.get('direction').value
-    }
-    console.log("CHANGED", this.selectedDirection);
+    };
+    console.log('CHANGED', this.selectedDirection);
   }
 
   handleServiceSelect(service: Service) {
-    this.selectedService = { id: service.id, nom: service.nom };
-    console.log("SELECTED", this.selectedService);
+    this.selectedService = {id: service.id, nom: service.nom};
+    console.log('SELECTED', this.selectedService);
     this.firstFormGroup.patchValue({
       service: this.selectedService.nom
     });
@@ -84,11 +85,11 @@ export class SalarieFormComponent implements OnInit {
     this.selectedService = {
       id: null,
       nom: this.firstFormGroup.get('service').value
-    }
-    console.log("CHANGED", this.selectedService);
+    };
+    console.log('CHANGED', this.selectedService);
   }
 
-  onSubmit () {
+  onSubmit() {
     const salarie: Salarie = {
       nom: this.secondFormGroup.value.nom,
       prenom: this.secondFormGroup.value.prenom,
@@ -98,12 +99,12 @@ export class SalarieFormComponent implements OnInit {
       direction: this.selectedDirection,
       service: this.selectedService,
       solde: this.thirdFormGroup.value.solde
-    }
-    console.log("FINAL SALARIE :", salarie );
-    this.salariesService.createSalarie(salarie).subscribe(
-      data => this.dialogRef.close(data),
-      error => alert(error.error.message)
+    };
+    console.log('FINAL SALARIE :', salarie);
+    this.store.dispatch(new AddSalarie(salarie)).subscribe(
+      () => this.dialogRef.close()
     );
+
   }
 
 

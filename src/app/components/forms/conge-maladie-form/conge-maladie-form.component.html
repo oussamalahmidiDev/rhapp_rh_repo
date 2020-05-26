@@ -21,7 +21,7 @@
           <mat-select formControlName="salarieId">
             <mat-option
               class="account-inline"
-              *ngFor="let salarie of salaries"
+              *ngFor="let salarie of salaries | async"
               [value]="salarie.id"
             >
               <span

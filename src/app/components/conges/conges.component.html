@@ -15,11 +15,15 @@
           <th mat-header-cell *matHeaderCellDef style="padding-left: 20px;" mat-sort-header>Le salarié concerné</th>
           <td mat-cell *matCellDef="let conge">
 
-            <a  [routerLink]="['../salaries', conge.salarie.id]">
-              <div class="account-inline" >
-                <div class="avatar" *ngIf="conge.salarie.photo" [ngStyle]="{ 'background-image': conge.salarie.photo | url: 'salarie' : conge.salarie.id | async }"></div>
-                <div class="avatar" *ngIf="!conge.salarie.photo" [ngStyle]="{ 'background-image': 'url(' + 'assets/images/default.jpg' + ')'}"></div>
-                              <div class="account-labels">
+            <a [routerLink]="['../salaries', conge.salarie.id]">
+              <div class="account-inline">
+                <div *ngIf="conge.salarie.photo"
+                     [ngStyle]="{ 'background-image': conge.salarie.photo | blob: 'salarie': conge.salarie.id | async | url}"
+                     class="avatar"></div>
+                <div *ngIf="!conge.salarie.photo"
+                     [ngStyle]="{ 'background-image': 'url(' + 'assets/images/default.jpg' + ')'}"
+                     class="avatar"></div>
+                <div class="account-labels">
                   <div class="account-name">{{conge.salarie.nom}} {{conge.salarie.prenom}}</div>
                   <div class="account-details">
                     {{conge.salarie.numSomme}}
@@ -53,7 +57,7 @@
             <!-- <button mat-stroked-button color="primary" (click)="openCongeReponseForm(conge)"
                     *ngIf="conge.etat == 'PENDING_RESPONSE'">Répondre
             </button> -->
-          
+
           </td>
         </ng-container>
 
@@ -81,12 +85,16 @@
         <ng-container matColumnDef="salarie">
           <th mat-header-cell *matHeaderCellDef style="padding-left: 20px;" mat-sort-header> Demande de</th>
           <td mat-cell *matCellDef="let conge">
-            
+
             <a [routerLink]="['../salaries', conge.salarie.id]">
-              <div class="account-inline" >
-                <div class="avatar" *ngIf="conge.salarie.photo"  [ngStyle]="{ 'background-image': conge.salarie.photo | url: 'salarie' : conge.salarie.id | async }"></div>
-                <div class="avatar" *ngIf="!conge.salarie.photo" [ngStyle]="{ 'background-image': 'url(' + 'assets/images/default.jpg' + ')'}"></div>
-                              <div class="account-labels">
+              <div class="account-inline">
+                <div *ngIf="conge.salarie.photo"
+                     [ngStyle]="{ 'background-image': conge.salarie.photo | blob: 'salarie': conge.salarie.id | async | url }"
+                     class="avatar"></div>
+                <div *ngIf="!conge.salarie.photo"
+                     [ngStyle]="{ 'background-image': 'url(' + 'assets/images/default.jpg' + ')'}"
+                     class="avatar"></div>
+                <div class="account-labels">
                   <div class="account-name">{{conge.salarie.nom}} {{conge.salarie.prenom}}</div>
                   <div class="account-details">
                     {{conge.salarie.numSomme}}

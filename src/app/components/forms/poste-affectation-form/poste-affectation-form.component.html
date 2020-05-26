@@ -12,8 +12,10 @@
           <mat-form-field  [style.width.px]=327  *ngIf = "salariesLoaded">
             <mat-label>Selectionner le salarié</mat-label>
             <mat-select formControlName="salarieId">
-              <mat-option  class="account-inline" *ngFor="let salarie of salaries" [value]="salarie.id" >
-                <span matTooltipPosition="right"  [matTooltip]="(salarie.direction && salarie.service)? salarie.direction.nom + ' / ' + salarie.service.nom : 'Aucune information sur la direction et le service.' ">{{salarie.nom}} {{salarie.prenom}}</span>
+              <mat-option *ngFor="let salarie of salaries | async" [value]="salarie.id" class="account-inline">
+                <span
+                  [matTooltip]="(salarie.direction && salarie.service)? salarie.direction.nom + ' / ' + salarie.service.nom : 'Aucune information sur la direction et le service.' "
+                  matTooltipPosition="right">{{salarie.nom}} {{salarie.prenom}}</span>
               </mat-option>
             </mat-select>
           </mat-form-field>

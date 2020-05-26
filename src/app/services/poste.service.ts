@@ -1,13 +1,12 @@
 import {Injectable} from '@angular/core';
 import {Poste} from '../models/poste';
-import {Salarie} from '../models/salarie';
 import {SalariesService} from './salaries.service';
-import { HttpClient } from '@angular/common/http';
-import { environment } from '../../environments/environment';
-import { Observable } from 'rxjs';
-import { Service } from '../models/service';
-import { Direction } from '../models/direction';
-import { AffectationRequest } from '../models/affectationRequest';
+import {HttpClient} from '@angular/common/http';
+import {environment} from '../../environments/environment';
+import {Observable} from 'rxjs';
+import {Service} from '../models/service';
+import {Direction} from '../models/direction';
+import {AffectationRequest} from '../models/affectationRequest';
 
 @Injectable({
   providedIn: 'root'
@@ -16,9 +15,11 @@ export class PosteService {
 
   BASE_URL: string = environment.BASE_URL;
 
-  postes: Poste[] = [
+  postes: Poste[] = [];
 
-  ];
+  constructor(private salariesService: SalariesService, private http: HttpClient) {
+
+  }
 
   getPostes(): Observable<Poste[]> {
     return this.http.get<Poste[]>(`${this.BASE_URL}/api/postes`);
@@ -42,9 +43,5 @@ export class PosteService {
 
   deleteSalarie(id: number): Observable<Poste> {
     return this.http.put<Poste>(`${this.BASE_URL}/api/postes/${id}/salarie/supprimer`, {});
-  }
-
-  constructor(private salariesService: SalariesService, private http: HttpClient) {
-
   }
 }

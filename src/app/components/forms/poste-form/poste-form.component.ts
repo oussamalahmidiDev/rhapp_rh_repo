@@ -1,13 +1,16 @@
-import {Component, OnInit, Inject, EventEmitter, Output} from '@angular/core';
-import {Validators, FormGroup, FormBuilder, FormArray, FormControl} from '@angular/forms';
-import {MatDialogRef, MAT_DIALOG_DATA, MatChipInputEvent} from '@angular/material';
+import {Component, Inject, OnInit} from '@angular/core';
+import {FormBuilder, FormGroup} from '@angular/forms';
+import {MAT_DIALOG_DATA, MatChipInputEvent, MatDialogRef} from '@angular/material';
 import {Poste} from '../../../models/poste';
-import {SalariesService} from '../../../services/salaries.service';
-import {PosteService} from '../../../services/poste.service';
-import { Service } from '../../../models/service';
-import { Direction } from '../../../models/direction';
+import {Service} from '../../../models/service';
+import {Direction} from '../../../models/direction';
 
 import {COMMA, ENTER} from '@angular/cdk/keycodes';
+import {Select, Store} from '@ngxs/store';
+import {CreatePoste} from '../../../actions/postes.action';
+import {ServicesState} from 'src/app/states/services.state';
+import {Observable} from 'rxjs';
+import {DirectionsState} from 'src/app/states/directions.state';
 
 @Component({
   selector: 'app-poste-form',
@@ -21,23 +24,25 @@ export class PosteFormComponent implements OnInit {
 
   readonly separatorKeysCodes: number[] = [ENTER, COMMA];
 
-  services: Service[];
-  directions: Direction[];
+  @Select(ServicesState.getServices)
+  services: Observable<Service[]>;
+
+  @Select(DirectionsState.getDirections)
+  directions: Observable<Direction[]>;
 
   selectedDirection: Direction;
   selectedService: Service;
-
-  // competences: FormArray;
 
   competences: string[];
 
 
   constructor(
-    private _formBuilder: FormBuilder,
+    private formBuilder: FormBuilder,
     public dialogRef: MatDialogRef<PosteFormComponent>,
     @Inject(MAT_DIALOG_DATA) public data: Poste[],
-    private salariesService: SalariesService,
-    private posteService: PosteService) {
+    // private salariesService: SalariesService,
+    private store: Store,
+  ) {
   }
 
 
@@ -65,8 +70,8 @@ export class PosteFormComponent implements OnInit {
   }
 
   handleDirectionSelect(direction: Direction) {
-    this.selectedDirection = { id: direction.id, nom: direction.nom };
-    console.log("SELECTED", this.selectedDirection);
+    this.selectedDirection = {id: direction.id, nom: direction.nom};
+    console.log('SELECTED', this.selectedDirection);
     this.firstFormGroup.patchValue({
       direction: this.selectedDirection.nom
     });
@@ -76,13 +81,13 @@ export class PosteFormComponent implements OnInit {
     this.selectedDirection = {
       id: null,
       nom: this.firstFormGroup.get('direction').value
-    }
-    console.log("CHANGED", this.selectedDirection);
+    };
+    console.log('CHANGED', this.selectedDirection);
   }
 
   handleServiceSelect(service: Service) {
-    this.selectedService = { id: service.id, nom: service.nom };
-    console.log("SELECTED", this.selectedService);
+    this.selectedService = {id: service.id, nom: service.nom};
+    console.log('SELECTED', this.selectedService);
     this.firstFormGroup.patchValue({
       service: this.selectedService.nom
     });
@@ -92,56 +97,38 @@ export class PosteFormComponent implements OnInit {
     this.selectedService = {
       id: null,
       nom: this.firstFormGroup.get('service').value
-    }
-    console.log("CHANGED", this.selectedService);
+    };
+    console.log('CHANGED', this.selectedService);
   }
 
 
   submitForm() {
     console.log(this.firstFormGroup, this.secondFormGroup, this.selectedDirection);
 
-    // const {comp} = this.competences.value;
 
     const newPoste: Poste = {
       competences: this.competences,
-      // competences: this.competences.value.map(compentence => compentence.comp),
       direction: this.selectedDirection,
       division: this.firstFormGroup.get('division').value,
       nom: this.secondFormGroup.get('posteName').value,
       service: this.selectedService
     };
-    console.log("POSTE : ", newPoste);
-    this.posteService.createPoste(newPoste).subscribe(
-      data => {
-        console.log(data);
-        this.dialogRef.close(data);
-      },
-      error => console.log(error)
-    );
-    // this.posteService.postes.push(newPoste);
+
+    this.store.dispatch(new CreatePoste(newPoste)).subscribe(() => this.dialogRef.close());
   }
 
 
   ngOnInit() {
-    this.posteService.getServices().subscribe(
-      data => this.services = data
-    );
-    this.posteService.getDirections().subscribe(
-      data => this.directions = data
-    );
-
-    this.firstFormGroup = this._formBuilder.group({
+    this.firstFormGroup = this.formBuilder.group({
       service: [''],
       division: [''],
       direction: ['']
     });
-    this.secondFormGroup = this._formBuilder.group({
+    this.secondFormGroup = this.formBuilder.group({
       posteName: [''],
-      competences: this._formBuilder.array([])
-      // competences: ['']
+      competences: this.formBuilder.array([])
     });
     this.competences = [];
-    // this.competences = this.secondFormGroup.get('competences') as FormArray;
   }
 
 }

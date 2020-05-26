@@ -1,13 +1,16 @@
-import {Component, OnInit, Injectable, ViewChild} from '@angular/core';
-import {MatSnackBar, MatDialog, MatTableDataSource, MatSort} from '@angular/material';
+import {Component, Injectable, OnInit, ViewChild} from '@angular/core';
+import {MatDialog, MatSnackBar, MatSort, MatTableDataSource} from '@angular/material';
 import {Conge} from '../../models/conge';
 import {CongeReponseFormComponent} from '../forms/conge-reponse-form/conge-reponse-form.component';
-import {CongeFormComponent} from '../forms/conge-form/conge-form.component';
 import {SalariesService} from '../../services/salaries.service';
 import {CongesService} from '../../services/conges.service';
-import { CongeMaladieFormComponent } from '../forms/conge-maladie-form/conge-maladie-form.component';
+import {CongeMaladieFormComponent} from '../forms/conge-maladie-form/conge-maladie-form.component';
 import {ActivatedRoute} from '@angular/router';
-
+import {Select, Store} from '@ngxs/store';
+import {CongesState} from 'src/app/states/conges.state';
+import {Observable} from 'rxjs';
+import {GetSalaries} from 'src/app/actions/salaries.action';
+import {GetConges} from 'src/app/actions/conges.action';
 
 
 @Injectable()
@@ -18,52 +21,60 @@ import {ActivatedRoute} from '@angular/router';
 })
 export class CongesComponent implements OnInit {
 
-  conges: Conge[];
+  @Select(CongesState.getConges)
+  conges: Observable<Conge[]>;
   congesDs: MatTableDataSource<Conge>;
   congeCols: string[] = ['salarie', 'motif', 'type', 'datedebut', 'datefin', 'etat', 'actions'];
 
-  congesMaladie: Conge[];
+  @Select(CongesState.getCongesMaladie)
+  congesMaladie: Observable<Conge[]>;
   congesMaladiesDs: MatTableDataSource<Conge>;
   congeMaladieCols: string[] = ['salarie', 'motif', 'datedebut', 'datefin', 'actions'];
   // @ts-ignore
   @ViewChild(MatSort, {static: true}) sort: MatSort;
 
   constructor(
-    private congesService:CongesService ,
-    private _snackBar: MatSnackBar,
+    private congesService: CongesService,
+    private snackBar: MatSnackBar,
     private dialog: MatDialog,
     private salariesService: SalariesService,
-    private activatedRoute: ActivatedRoute
-    ) {
-    this.congesDs = new MatTableDataSource<Conge>();
-    this.congesDs.filterPredicate = (data: any, filter) => {
-      const dataStr = JSON.stringify(data).toLowerCase();
-      return dataStr.indexOf(filter) !== -1;
-    };
-
-    this.congesMaladiesDs = new MatTableDataSource<Conge>();
-    this.congesMaladiesDs.filterPredicate = (data: any, filter) => {
-      const dataStr = JSON.stringify(data).toLowerCase();
-      return dataStr.indexOf(filter) !== -1;
-    };
+    private activatedRoute: ActivatedRoute,
+    private store: Store
+  ) {
   }
 
   // dataSource: MatTableDataSource < Element[] > ;
   ngOnInit() {
-    this.congesMaladiesDs.data = this.congesMaladie = this.activatedRoute.snapshot.data.conges.filter(conge => conge.type.typeConge === 'MALADIE');
-    this.congesDs.data = this.conges = this.activatedRoute.snapshot.data.conges.filter(conge => conge.type.typeConge !== 'MALADIE');
+    this.conges.subscribe(
+      data => {
+        this.congesDs = new MatTableDataSource<Conge>(data);
+        this.congesDs.filterPredicate = (data: any, filter) => {
+          const dataStr = JSON.stringify(data).toLowerCase();
+          return dataStr.indexOf(filter) !== -1;
+        };
+      }
+    );
 
-
-    // this.getConges();
+    this.congesMaladie.subscribe(
+      data => {
+        this.congesMaladiesDs = new MatTableDataSource<Conge>(data);
+        this.congesMaladiesDs.filterPredicate = (data: any, filter) => {
+          const dataStr = JSON.stringify(data).toLowerCase();
+          return dataStr.indexOf(filter) !== -1;
+        };
+      }
+    );
+    this.store.dispatch(new GetConges())
+      .subscribe(() => this.store.dispatch(new GetSalaries()));
   }
 
   openSnackBar(message: string) {
-    this._snackBar.open(message, 'OK', {
+    this.snackBar.open(message, 'OK', {
       duration: 2000,
     });
   }
 
-  openCongeMaladieForm () {
+  openCongeMaladieForm() {
     const dialogRef = this.dialog.open(CongeMaladieFormComponent, {
       width: '500px',
       disableClose: true
@@ -71,10 +82,6 @@ export class CongesComponent implements OnInit {
     dialogRef.afterClosed().subscribe(data => {
       if (data !== undefined) {
         console.log('Subtask Dialog output:', data);
-        this.congesMaladie.push(data);
-
-        this.congesMaladiesDs.data = this.congesMaladie;
-
         this.openSnackBar(`Le congé de maladie de ${data.salarie.nom} a été enregistré`);
       }
     });
@@ -87,53 +94,23 @@ export class CongesComponent implements OnInit {
     });
     dialogRef.afterClosed().subscribe(
       data => {
-        if (data !== undefined) {
-          this.conges = this.conges.map(
-            conge => {
-              if (conge.id == data.id) {
-                return data;
-              }
-            }
-          );
-          this.congesDs.data = this.conges;
-        }
+        // if (data !== undefined) {
+        //   this.conges = this.conges.map(
+        //     conge => {
+        //       if (conge.id == data.id) {
+        //         return data;
+        //       }
+        //     }
+        //   );
+        //   this.congesDs.data = this.conges;
+        // }
       }
-    )
+    );
   }
-
-  openVirementForm(): void {
-    this.dialog.open(CongeFormComponent, {
-      width: '500px',
-      // data: this.mesVirements
-      // virement: this.newVirement
-    });
-
-  };
 
   search($event) {
     const filterValue = (event.target as HTMLInputElement).value;
     this.congesDs.filter = filterValue.trim().toLowerCase();
-  }
-
-  getConges(){
-    this.congesService.getConges().subscribe(
-      (data: Array<Conge>) => {
-        // @ts-ignore
-        this.conges = data;
-        this.congesMaladie = this.conges.filter(conge => conge.type.typeConge === 'MALADIE');
-        this.conges = this.conges.filter(conge => conge.type.typeConge !== 'MALADIE');
-
-        console.log("MALADIES", this.congesMaladie);
-        console.log("NORMAL", this.conges);
-
-        this.congesDs.data = this.conges;
-        this.congesMaladiesDs.data = this.congesMaladie;
-
-        console.log(data);
-      },
-      error => {
-        console.log(error);
-      });
   }
 
 

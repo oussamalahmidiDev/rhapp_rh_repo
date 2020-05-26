@@ -1,10 +1,12 @@
-import {Component, Inject, OnInit} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {FormBuilder, FormGroup} from '@angular/forms';
 import {AvantageNature} from '../../../models/avatange';
-import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material';
+import {MatDialogRef} from '@angular/material';
 import {Salarie} from '../../../models/salarie';
-import {AvantagesService} from '../../../services/avantages.service';
-import {SalariesService} from '../../../services/salaries.service';
+import {Select, Store} from '@ngxs/store';
+import {Observable} from 'rxjs';
+import {RetirerAvantages} from 'src/app/actions/salaries.action';
+import {SalariesState} from '../../../states/salaries.state';
 
 @Component({
   selector: 'app-avantage-rejet-form',
@@ -15,34 +17,29 @@ export class AvantageRejetFormComponent implements OnInit {
 
   formGroup: FormGroup;
 
-  avantages: AvantageNature[];
+  @Select(SalariesState.getSelectedSalarieAvantages)
+  avantages: Observable<AvantageNature[]>;
+
+  @Select(SalariesState.getSelectedSalarie)
+  salarie: Observable<Salarie>;
 
   selectedAvantages: AvantageNature[];
 
   constructor(
-    private _formBuilder: FormBuilder,
+    private formBuilder: FormBuilder,
     public dialogRef: MatDialogRef<AvantageRejetFormComponent>,
-    @Inject(MAT_DIALOG_DATA) public salarie: Salarie,
-    private salariesService: SalariesService,
-    private service: AvantagesService) {
+    private store: Store,
+  ) {
   }
 
   ngOnInit() {
     this.selectedAvantages = [];
-    this.avantages = this.salarie.avantages;
   }
-
 
 
   onSubmit() {
     if (this.selectedAvantages.length) {
-      this.service.retirerAvantage(this.salarie.id, this.selectedAvantages).subscribe(
-        data => {
-          this.salariesService.emit(data);
-          this.dialogRef.close(data);
-        },
-        error => console.log(error.error)
-      );
+      this.store.dispatch(new RetirerAvantages(this.selectedAvantages)).subscribe(() => this.dialogRef.close());
     }
   }
 
@@ -50,7 +47,7 @@ export class AvantageRejetFormComponent implements OnInit {
     if (!event.checked) {
       this.selectedAvantages = this.selectedAvantages.filter(element => element.id !== avantage.id);
     } else {
-      this.selectedAvantages.push(avantage);
+      this.selectedAvantages.push({id: avantage.id});
     }
     console.log(this.selectedAvantages);
 

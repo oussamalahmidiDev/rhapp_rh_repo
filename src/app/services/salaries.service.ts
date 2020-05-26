@@ -1,10 +1,10 @@
-import { Injectable } from '@angular/core';
+import {Injectable} from '@angular/core';
 import {Salarie} from '../models/salarie';
-import { HttpClient, HttpParams } from '@angular/common/http';
-import { environment } from '../../environments/environment';
+import {HttpClient} from '@angular/common/http';
+import {environment} from '../../environments/environment';
 import {BehaviorSubject, Observable, Subject} from 'rxjs';
-import { Conge } from '../models/conge';
-import { Absence } from '../models/absence';
+import {Conge} from '../models/conge';
+import {Absence} from '../models/absence';
 
 @Injectable({
   providedIn: 'root'
@@ -12,16 +12,19 @@ import { Absence } from '../models/absence';
 export class SalariesService {
   BASE_URL: string = environment.BASE_URL;
 
-  salaries: Salarie[] = [  ];
+  salaries: Salarie[] = [];
 
   emitChange$: Subject<Salarie> = new BehaviorSubject<Salarie>(null);
 
-  emit(salarie: Salarie) {
-    this.emitChange$.next(salarie);
+  constructor(private http: HttpClient) {
   }
 
   get emitChange(): BehaviorSubject<Salarie> {
     return (this.emitChange$ as BehaviorSubject<Salarie>);
+  }
+
+  emit(salarie: Salarie) {
+    this.emitChange$.next(salarie);
   }
 
   getSalarie(id: number): Observable<Salarie> {
@@ -44,10 +47,7 @@ export class SalariesService {
     return this.http.get<Absence[]>(`${this.BASE_URL}/api/salaries/${id}/absences`);
   }
 
-  searchSalaries(query: string) : Observable<Salarie[]> {
+  searchSalaries(query: string): Observable<Salarie[]> {
     return this.http.get<Salarie[]>(`${this.BASE_URL}/api/salaries/search?query=${query}`);
   }
-
-
-  constructor(private http: HttpClient) { }
 }

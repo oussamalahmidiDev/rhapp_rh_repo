@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import {Injectable} from '@angular/core';
 import {environment} from '../../environments/environment';
 import {HttpClient} from '@angular/common/http';
 import {Observable} from 'rxjs';
@@ -11,17 +11,19 @@ import {Salarie} from '../models/salarie';
 export class AvantagesService {
 
   BASE_URL: string = environment.BASE_URL;
-  constructor(private http: HttpClient) { }
 
-  getAvantageTypes (): Observable<any[]> {
-    return this.http.get<any[]>(`${this.BASE_URL}/api/avantages/types`)
+  constructor(private http: HttpClient) {
   }
 
-  createAvantage (id: number, avantage: AvantageNature): Observable<AvantageNature> {
+  getAvantageTypes(): Observable<any[]> {
+    return this.http.get<any[]>(`${this.BASE_URL}/api/avantages/types`);
+  }
+
+  createAvantage(id: number, avantage: AvantageNature): Observable<AvantageNature> {
     return this.http.post<AvantageNature>(`${this.BASE_URL}/api/salaries/${id}/avantages/create`, avantage);
   }
 
-  retirerAvantage (id: number, avantages: AvantageNature[]): Observable<Salarie> {
+  retirerAvantage(id: number, avantages: AvantageNature[]): Observable<Salarie> {
     return this.http.post<Salarie>(`${this.BASE_URL}/api/salaries/${id}/avantages/retirer`, avantages);
   }
 }

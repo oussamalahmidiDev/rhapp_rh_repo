@@ -1,9 +1,7 @@
-import {Component, OnInit, Inject, EventEmitter, Output} from '@angular/core';
-import {Validators, FormGroup, FormBuilder} from '@angular/forms';
-import {MatDialogRef, MAT_DIALOG_DATA} from '@angular/material';
-import {Poste} from '../../../models/poste';
+import {Component, OnInit} from '@angular/core';
+import {FormBuilder, FormGroup, Validators} from '@angular/forms';
+import {MatDialogRef} from '@angular/material';
 
-import {SalariesService} from '../../../services/salaries.service';
 
 @Component({
   selector: 'app-conge-form',
@@ -12,43 +10,29 @@ import {SalariesService} from '../../../services/salaries.service';
 })
 export class CongeFormComponent implements OnInit {
 
-  isLinear = false;
   firstFormGroup: FormGroup;
   secondFormGroup: FormGroup;
   formIsValid = false;
   formIsApproved = false;
 
-  compteExp: string = '';
-  compteDest: string = '';
-  montant: string = '';
 
-  competences: string[] = [];
-
-  poste: Poste;
-
-  constructor(private _formBuilder: FormBuilder, public dialogRef: MatDialogRef<CongeFormComponent>, @Inject(MAT_DIALOG_DATA) public data: Poste[], private salariesService: SalariesService) {
+  constructor(
+    private formBuilder: FormBuilder,
+    public dialogRef: MatDialogRef<CongeFormComponent>
+  ) {
   }
 
 
   addCompetence($event) {
     event.preventDefault();
-    this.competences = this.competences.filter(comp => comp !== '');
-    this.competences.push('');
-    console.log(this.competences);
   }
 
-  createPoste() {
-    this.formIsValid = true;
-    this.dialogRef.close(this.poste);
-
-  }
 
   ngOnInit() {
-    console.log(this.data);
-    this.firstFormGroup = this._formBuilder.group({
+    this.firstFormGroup = this.formBuilder.group({
       firstCtrl: ['', Validators.required]
     });
-    this.secondFormGroup = this._formBuilder.group({
+    this.secondFormGroup = this.formBuilder.group({
       secondCtrl: ['', Validators.required]
     });
   }

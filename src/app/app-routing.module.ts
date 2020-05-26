@@ -1,12 +1,9 @@
 import {NgModule} from '@angular/core';
-import {Routes, RouterModule} from '@angular/router';
+import {RouterModule, Routes} from '@angular/router';
 import {DashboardComponent} from './components/dashboard/dashboard.component';
-// import { RechargesComponent } from "./components/recharges/recharges.component";
 import {AuthenticatedGuard} from './guards/authenticated.guard';
 import {WelcomePageComponent} from './views/welcome-page/welcome-page.component';
 import {HomeComponent} from './views/home/home.component';
-
-import {AUTH_PROVIDERS} from './services/user.service';
 import {GuestGuard} from './guards/guest.guard';
 import {PostesComponent} from './components/postes/postes.component';
 import {CongesComponent} from './components/conges/conges.component';
@@ -16,11 +13,7 @@ import {SalarieAbsencesComponent} from './components/salarie-absences/salarie-ab
 import {SalarieCongesComponent} from './components/salarie-conges/salarie-conges.component';
 import {AbsencesComponent} from './components/absences/absences.component';
 import {SalariesListComponent} from './components/salaries-list/salaries-list.component';
-import { PosteServiceResolver } from './resolvers/postes.service.resolver';
-import { ProfileServiceResolver } from './resolvers/profile.service.resolver';
-import {CongesServiceResolver} from './resolvers/conges.service.resolver';
-import {SalariesServiceResolver} from './resolvers/salaries.service.resolver';
-import {AbsencesServiceResolver} from './resolvers/absences.service.resolver';
+import {ProfileServiceResolver} from './resolvers/profile.service.resolver';
 import {SalarieServiceResolver} from './resolvers/salarie.service.resolver';
 import {SalarieRetraiteComponent} from './components/salarie-retraite/salarie-retraite.component';
 import {SalarieAvantagesComponent} from './components/salarie-avantages/salarie-avantages.component';
@@ -40,53 +33,58 @@ const routes: Routes = [
       {
         path: 'postes',
         component: PostesComponent,
-        resolve: { postes: PosteServiceResolver },
+        // resolve: { postes: PosteServiceResolver },
         canActivate: [AuthenticatedGuard],
       },
       {
         path: 'conges',
         component: CongesComponent,
-        resolve: { conges: CongesServiceResolver },
+        // resolve: { conges: CongesServiceResolver },
         canActivate: [AuthenticatedGuard],
       },
       {
         path: 'absences',
         component: AbsencesComponent,
-        resolve: { absences: AbsencesServiceResolver },
+        // resolve: { absences: AbsencesServiceResolver },
         canActivate: [AuthenticatedGuard],
       },
       {
         path: 'salaries',
         component: SalariesListComponent,
-        resolve: { salaries: SalariesServiceResolver }
+        canActivate: [AuthenticatedGuard],
+        // resolve: { salaries: SalariesServiceResolver }
       },
       {
         path: 'salaries/:id',
         component: SalarieComponent,
-        resolve: {salarie: SalarieServiceResolver },
+        canActivate: [AuthenticatedGuard],
+        resolve: {salarie: SalarieServiceResolver},
         children: [
           {path: '', redirectTo: 'infos', pathMatch: 'full'},
           {
             path: 'infos',
+            canActivate: [AuthenticatedGuard],
             component: SalarieInfosComponent
           },
           {
             path: 'absences',
+            canActivate: [AuthenticatedGuard],
             component: SalarieAbsencesComponent
           },
           {
             path: 'conges',
+            canActivate: [AuthenticatedGuard],
             component: SalarieCongesComponent
           },
           {
             path: 'retraites',
-            component: SalarieRetraiteComponent,
-            // canActivate: [AuthenticatedGuard],
+            canActivate: [AuthenticatedGuard],
+            component: SalarieRetraiteComponent
           },
           {
             path: 'avantages',
-            component: SalarieAvantagesComponent,
-            // canActivate: [AuthenticatedGuard],
+            canActivate: [AuthenticatedGuard],
+            component: SalarieAvantagesComponent
           },
         ]
 

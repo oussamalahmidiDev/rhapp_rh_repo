@@ -2,8 +2,9 @@ import {Component, OnInit} from '@angular/core';
 import {Conge} from '../../models/conge';
 import {MatDialog, MatSnackBar, MatTableDataSource} from '@angular/material';
 import {CongeReponseFormComponent} from '../forms/conge-reponse-form/conge-reponse-form.component';
-import {SalariesService} from '../../services/salaries.service';
-import { ActivatedRoute } from '@angular/router';
+import {Select} from '@ngxs/store';
+import {Observable} from 'rxjs';
+import {SalariesState} from '../../states/salaries.state';
 
 @Component({
   selector: 'app-salarie-conges',
@@ -12,36 +13,30 @@ import { ActivatedRoute } from '@angular/router';
 })
 export class SalarieCongesComponent implements OnInit {
 
-  // salarie: Salarie = this.salariesService.getSalarie('U73540990');
 
-  id = parseInt(this.route.parent.snapshot.paramMap.get('id'));
+  @Select(SalariesState.getSelectedSalarieConges)
+  conges: Observable<Conge[]>;
 
-  conges: Conge[];
   congesDs: MatTableDataSource<Conge>;
   congeCols: string[] = ['motif', 'type', 'datedebut', 'datefin', 'etat', 'actions'];
 
   constructor(
-    private _snackBar: MatSnackBar,
+    private snackBar: MatSnackBar,
     private dialog: MatDialog,
-    private salariesService: SalariesService,
-    private route: ActivatedRoute
-    ) {
-    this.congesDs = new MatTableDataSource<Conge>();
+  ) {
   }
 
   // dataSource: MatTableDataSource < Element[] > ;
   ngOnInit() {
-    console.log("LOADING SALARIES CONGES ...");
-    this.salariesService.getSalarieConges(this.id).subscribe(
+    this.conges.subscribe(
       data => {
-        this.conges = data;
-        this.congesDs.data = this.conges;
+        this.congesDs = new MatTableDataSource<Conge>(data);
       }
     );
   }
 
   openSnackBar() {
-    this._snackBar.open('Virements ajouté', 'OK', {
+    this.snackBar.open('Virements ajouté', 'OK', {
       duration: 2000,
     });
   }
@@ -54,17 +49,17 @@ export class SalarieCongesComponent implements OnInit {
     dialogRef.afterClosed().subscribe(
       data => {
         if (data !== undefined) {
-          this.conges = this.conges.map(
-            conge => {
-              if (conge.id == data.id) {
-                return data;
-              }
-            }
-          );
-          this.congesDs.data = this.conges;
+          // this.conges = this.conges.map(
+          //   conge => {
+          //     if (conge.id == data.id) {
+          //       return data;
+          //     }
+          //   }
+          // );
+          // this.congesDs.data = this.conges;
         }
       }
-    )
+    );
   }
 
 }

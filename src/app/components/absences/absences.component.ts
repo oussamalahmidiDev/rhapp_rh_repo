@@ -5,6 +5,11 @@ import {SalariesService} from '../../services/salaries.service';
 import {AbsencesService} from '../../services/absences.service';
 import {AbsenceFormComponent} from '../forms/absence-form/absence-form.component';
 import {ActivatedRoute} from '@angular/router';
+import {Select, Store} from '@ngxs/store';
+import {AbsencesState} from 'src/app/states/absences.state';
+import {Observable} from 'rxjs';
+import {GetSalaries} from 'src/app/actions/salaries.action';
+import {GetAbsences} from 'src/app/actions/absences.action';
 
 
 @Injectable()
@@ -15,9 +20,9 @@ import {ActivatedRoute} from '@angular/router';
 })
 export class AbsencesComponent implements OnInit {
 
-  // salarie: Salarie = this.salariesService.getSalarie('U73540990');
+  @Select(AbsencesState.getAbsences)
+  absences: Observable<Absence[]>;
 
-  absences: Absence[];
   absencesDs: MatTableDataSource<Absence>;
   absenceCols: string[] = ['salarie', 'datedebut', 'datefin', 'type', 'justificatif'];
 
@@ -27,27 +32,31 @@ export class AbsencesComponent implements OnInit {
 
   constructor(
     private absencesService: AbsencesService,
-    private _snackBar: MatSnackBar,
+    private snackBar: MatSnackBar,
     private dialog: MatDialog,
     private salariesService: SalariesService,
-    private activatedRoute: ActivatedRoute
+    private activatedRoute: ActivatedRoute,
+    private store: Store
   ) {
-    this.absencesDs = new MatTableDataSource<Absence>();
-
-    this.absencesDs.filterPredicate = (data: any, filter) => {
-      const dataStr = JSON.stringify(data).toLowerCase();
-      return dataStr.indexOf(filter) !== -1;
-    };
   }
 
-  // dataSource: MatTableDataSource < Element[] > ;
   ngOnInit() {
-    this.absencesDs.data = this.absences = this.activatedRoute.snapshot.data.absences;
-    // this.getAbsences();
+    this.absences.subscribe(
+      data => {
+        this.absencesDs = new MatTableDataSource<Absence>(data);
+        this.absencesDs.filterPredicate = (data: any, filter) => {
+          const dataStr = JSON.stringify(data).toLowerCase();
+          return dataStr.indexOf(filter) !== -1;
+        };
+      }
+    );
+    this.store.dispatch(new GetAbsences())
+      .subscribe(() => this.store.dispatch(new GetSalaries()));
+
   }
 
   openSnackBar(message: string) {
-    this._snackBar.open(message, 'OK', {
+    this.snackBar.open(message, 'OK', {
       duration: 2000,
     });
   }
@@ -60,9 +69,6 @@ export class AbsencesComponent implements OnInit {
     dialogRef.afterClosed().subscribe(
       data => {
         if (data !== undefined) {
-          console.log('Subtask Dialog output:', data);
-          this.absences.unshift(data);
-          this.absencesDs.data = this.absences;
           this.openSnackBar(`L'absence de  ${data.salarie.nom} a été enregistré`);
         }
       }
@@ -74,16 +80,5 @@ export class AbsencesComponent implements OnInit {
     this.absencesDs.filter = filterValue.trim().toLowerCase();
   }
 
-  getAbsences() {
-    this.absencesService.getAbsences().subscribe(data => {
-      console.log(data);
-      // @ts-ignore
-      this.absences = data;
-      this.absencesDs.data = this.absences;
-      console.log(this.absencesDs.data);
-    }, error => {
-      console.log(error);
-    });
-  }
 
 }

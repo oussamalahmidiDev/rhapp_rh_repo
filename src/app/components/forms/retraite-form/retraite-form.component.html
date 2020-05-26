@@ -1,5 +1,5 @@
 <div class="form">
-  <div class="mat-title">Enregistrer une retraite pour {{ retraite.salarie.nom }} {{ retraite.salarie.prenom }}</div>
+  <div class="mat-title">Enregistrer une retraite pour {{ (salarie | async).nom }} {{ (salarie | async).prenom }}</div>
   <p class="mat-body">Formualaire de retraite. Verifiez bien les informations avant de valider !</p>
     <mat-vertical-stepper   linear>
       <mat-step [stepControl]="formGroup">

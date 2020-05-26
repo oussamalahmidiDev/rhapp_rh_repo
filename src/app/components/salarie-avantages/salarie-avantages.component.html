@@ -1,5 +1,6 @@
 <div class="mt-5 container">
-  <h1 class="mat-subheading">Gestion des avantages en nature de {{ salarie.nom }} {{ salarie.prenom }}</h1>
+  <h1 class="mat-subheading">Gestion des avantages en nature
+    de {{ (salarie | async).nom }} {{ (salarie | async).prenom }}</h1>
   <mat-divider></mat-divider>
   <mat-card class="dashboard-card mt-4 mb-5">
     <mat-card-header>

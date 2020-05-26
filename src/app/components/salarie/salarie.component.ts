@@ -1,8 +1,12 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {Salarie} from '../../models/salarie';
 import {SalariesService} from '../../services/salaries.service';
 import {ActivatedRoute} from '@angular/router';
 import {Location} from '@angular/common';
+import {Select, Store} from '@ngxs/store';
+import {Observable} from 'rxjs';
+import {DeleteSalariePoste} from 'src/app/actions/salaries.action';
+import {SalariesState} from '../../states/salaries.state';
 
 @Component({
   selector: 'app-salarie',
@@ -12,32 +16,23 @@ import {Location} from '@angular/common';
 export class SalarieComponent implements OnInit {
 
   id: number;
-  salarie: Salarie;
+  @Select(SalariesState.getSelectedSalarie)
+  salarie: Observable<Salarie>;
   salarieLoaded = true;
 
 
-  constructor(private salariesService: SalariesService, private route: ActivatedRoute, private location: Location) {
-    this.salariesService.emitChange.subscribe(
-      data => this.salarie = data
-    );
+  constructor(
+    private salariesService: SalariesService,
+    private route: ActivatedRoute,
+    private store: Store,
+    private location: Location) {
   }
 
   ngOnInit() {
-    this.salarie =  this.route.snapshot.data.salarie;
-    this.salariesService.emit(this.salarie);
-    // this.id = parseInt(this.route.snapshot.paramMap.get('id'));
-    // console.log("SAL ID = ", this.id, this.route.snapshot.paramMap.get('id'));
-    // // this.salarie = null;
-    // this.salariesService.getSalarie(this.id).subscribe(
-    //   data => {
-    //     this.salarie = data;
-    //     this.salarieLoaded = true;
-    //   },
-    //   error => {
-    //     this.salarieLoaded = true;
-    //     alert("error loading page");
-    //   }
-    // );
+  }
+
+  deletePoste() {
+    this.store.dispatch(new DeleteSalariePoste());
   }
 
   goBack() {

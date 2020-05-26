@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import {Injectable} from '@angular/core';
 import {environment} from '../../environments/environment';
 import {HttpClient} from '@angular/common/http';
 import {Observable} from 'rxjs';
@@ -10,7 +10,9 @@ import {Retraite} from '../models/retraite';
 export class RetraitesService {
 
   BASE_URL: string = environment.BASE_URL;
-  constructor(private http: HttpClient) { }
+
+  constructor(private http: HttpClient) {
+  }
 
   getRetraitesType(): Observable<any[]> {
     return this.http.get<any[]>(`${this.BASE_URL}/api/retraites/types`);
