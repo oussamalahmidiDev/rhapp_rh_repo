@@ -10,6 +10,10 @@ import {AbsencesState} from 'src/app/states/absences.state';
 import {Observable} from 'rxjs';
 import {GetSalaries} from 'src/app/actions/salaries.action';
 import {GetAbsences} from 'src/app/actions/absences.action';
+import {DownloadService} from '../../services/download.service';
+
+import {saveAs} from 'file-saver';
+import {HttpEvent, HttpEventType} from '@angular/common/http';
 
 
 @Injectable()
@@ -36,7 +40,8 @@ export class AbsencesComponent implements OnInit {
     private dialog: MatDialog,
     private salariesService: SalariesService,
     private activatedRoute: ActivatedRoute,
-    private store: Store
+    private store: Store,
+    private downloadService: DownloadService
   ) {
   }
 
@@ -61,6 +66,7 @@ export class AbsencesComponent implements OnInit {
     });
   }
 
+
   openAbsenceForm() {
     const dialogRef = this.dialog.open(AbsenceFormComponent, {
       width: '500px',
@@ -78,6 +84,29 @@ export class AbsencesComponent implements OnInit {
   search($event) {
     const filterValue = (event.target as HTMLInputElement).value;
     this.absencesDs.filter = filterValue.trim().toLowerCase();
+  }
+
+  handleDownload($event, url: string, name: string) {
+    if ($event.target.hasAttribute('state')) {
+      return;
+    }
+    const innerText = $event.target.innerText;
+    this.downloadService.handleDownload(url).subscribe(
+      (data: HttpEvent<any>) => {
+        if (data.type === HttpEventType.DownloadProgress || data.type === HttpEventType.UploadProgress) {
+          $event.target.innerText = `Télechargement en cours (${Math.round(100 * data.loaded / data.total)} %)`;
+          $event.target.setAttribute('state', 'downloading');
+        } else if (data.type === HttpEventType.Response) {
+          console.log(data);
+          $event.target.innerText = innerText;
+          $event.target.disabled = false;
+          $event.target.removeAttribute('state');
+          const blob = new Blob([data.body], {type: data.body.type});
+          saveAs(blob, name);
+        }
+
+      }
+    );
   }
 
 

@@ -11,7 +11,7 @@ import {debounceTime, distinctUntilChanged, filter, tap} from 'rxjs/operators';
 import {SalariesService} from 'src/app/services/salaries.service';
 import {SearchResultsComponent} from '../search-results/search-results.component';
 import {ProfileModalComponent} from '../forms/profile-modal/profile-modal.component';
-import {LoadProfilePhoto, UnsetProfile} from 'src/app/actions/profile.action';
+import {UnsetProfile} from 'src/app/actions/profile.action';
 import {CacheService} from 'src/app/services/cache.service';
 
 @Component({
@@ -45,7 +45,7 @@ export class NavbarComponent implements OnInit {
 
   ngOnInit() {
     this.searchQuery = null;
-    this.store.dispatch(new LoadProfilePhoto());
+    // this.store.dispatch(new LoadProfilePhoto());
   }
 
   logout() {

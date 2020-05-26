@@ -55,6 +55,16 @@ export class SalarieFormComponent implements OnInit {
     this.thirdFormGroup = this.formBuilder.group({
       solde: ['', [Validators.required, Validators.min(1)]]
     });
+
+    this.dialogRef.backdropClick().subscribe(() => {
+      if (this.firstFormGroup.dirty || this.secondFormGroup.dirty || this.thirdFormGroup.dirty) {
+        if (confirm('Voulez vous fermer le formulaire ?')) {
+          this.dialogRef.close();
+        }
+      } else {
+        this.dialogRef.close();
+      }
+    });
   }
 
   handleDirectionSelect(direction: Direction) {
@@ -102,7 +112,8 @@ export class SalarieFormComponent implements OnInit {
     };
     console.log('FINAL SALARIE :', salarie);
     this.store.dispatch(new AddSalarie(salarie)).subscribe(
-      () => this.dialogRef.close()
+      () => this.dialogRef.close(),
+      err => alert(err.error.message)
     );
 
   }

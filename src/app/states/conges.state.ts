@@ -2,8 +2,8 @@ import {Action, Selector, State, StateContext, Store} from '@ngxs/store';
 import {CongesService} from '../services/conges.service';
 import {MainStore} from '../store';
 import {tap} from 'rxjs/operators';
-import {AddCongeMaladie, GetConges} from '../actions/conges.action';
-import {insertItem, patch} from '@ngxs/store/operators';
+import {AddCongeMaladie, GetConges, RepondreConge} from '../actions/conges.action';
+import {insertItem, patch, updateItem} from '@ngxs/store/operators';
 import {SetFetchingState} from '../actions/app.action';
 
 @State({
@@ -39,6 +39,13 @@ export class CongesState {
   createCongeMaladie(ctx: StateContext<MainStore>, {payload}: AddCongeMaladie) {
     return this.service.createCongeMaladie(payload).pipe(
       tap(res => ctx.setState(patch({conges: insertItem(res)})))
+    );
+  }
+
+  @Action(RepondreConge)
+  repondreConge(ctx: StateContext<MainStore>, {id, payload}: RepondreConge) {
+    return this.service.repondreConge(id, payload).pipe(
+      tap(res => ctx.setState(patch({conges: updateItem(item => item.id === id, res)})))
     );
   }
 }

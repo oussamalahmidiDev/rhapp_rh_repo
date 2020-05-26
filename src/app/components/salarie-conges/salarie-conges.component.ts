@@ -42,6 +42,7 @@ export class SalarieCongesComponent implements OnInit {
   }
 
   openCongeReponseForm(conge: Conge): void {
+    console.log(conge);
     const dialogRef = this.dialog.open(CongeReponseFormComponent, {
       width: '460px',
       data: conge

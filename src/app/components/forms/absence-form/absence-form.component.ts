@@ -8,6 +8,7 @@ import {Select, Store} from '@ngxs/store';
 import {AddAbsence} from 'src/app/actions/absences.action';
 import {Observable} from 'rxjs';
 import {SalariesState} from '../../../states/salaries.state';
+import {HttpEventType} from '@angular/common/http';
 
 @Component({
   selector: 'app-absence-form',
@@ -67,7 +68,7 @@ export class AbsenceFormComponent implements OnInit {
     );
   }
 
-  onSubmit() {
+  onSubmit($event) {
     const formData: FormData = new FormData();
     formData.append('salarie_id', this.absenceForm.get('salarieId').value);
     formData.append('dateDebut', this.absenceForm.get('dateDebut').value);
@@ -79,7 +80,32 @@ export class AbsenceFormComponent implements OnInit {
       formData.append('justificatif', null);
     }
 
-    this.store.dispatch(new AddAbsence(formData)).subscribe(() => this.dialogRef.close());
+    console.log('BTN EVNT', $event);
+
+    // (data: HttpEvent<any>) => {
+    //   console.log(data);
+    //   if (data.type === HttpEventType.UploadProgress) {
+    //     this.uploading = true;
+    //     this.uploadProgress = Math.round(100 * data.loaded / data.total);
+    //   } else if (data.type === HttpEventType.Response) {
+    //     this.openSnackBar('Photo de profil a été chargée avec succès !');
+    //     this.store.dispatch(new ModifyPhoto(data.body));
+    //     // this.currentUser = data.body;
+    //     this.uploading = false;
+    //   }
+
+    $event.target.disabled = true;
+    this.absenceService.createAbsence(formData)
+      .subscribe(data => {
+        if (data.type === HttpEventType.UploadProgress && this.justificatif) {
+          console.log(Math.round(100 * data.loaded / data.total));
+          $event.target.innerText = `Enregistrement en cours (${Math.round(100 * data.loaded / data.total)} %)`;
+        } else if (data.type === HttpEventType.Response) {
+          this.store.dispatch(new AddAbsence(data.body)).subscribe(() => this.dialogRef.close());
+        }
+      });
+
+    // this.store.dispatch(new AddAbsence(formData)).subscribe(() => this.dialogRef.close());
 
   }
 

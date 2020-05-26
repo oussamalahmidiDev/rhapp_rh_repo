@@ -1,5 +1,6 @@
 <div class="form">
   <div class="mat-title">Retirer les avantages de {{ (salarie | async).nom }} {{ (salarie |async).prenom }}</div>
+  <div *ngIf="!(avantages | async).length">Ce salarié n'a aucun avantage en nature</div>
   <form style="margin-top: 10px;">
     <mat-checkbox (change)="handleCheckboxChange($event, avantage)" *ngFor="let avantage of avantages | async"
                   style="display: block">{{ avantage.specification }} ({{ avantage.type.typeAvantage }})
@@ -8,6 +9,8 @@
   </form>
 
   <mat-card-actions class="container  mb-0">
-    <button mat-raised-button style="width: 421px;" color="primary" (click)="onSubmit()">Valider</button>
+    <button (click)="onSubmit()" color="primary" mat-raised-button style="width: 422px">
+      {{ (avantages | async).length ? 'Valider' : 'Valider la retraite' }}
+    </button>
   </mat-card-actions>
 </div>

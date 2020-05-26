@@ -33,14 +33,14 @@
               <form class="sign-form" [formGroup] = "loginForm" (keyup.enter)="login()">
                 <mat-form-field appearance="outline" style="width: -moz-available; width: -webkit-fill-available ;" >
                   <mat-label>Adresse éléctronique</mat-label>
-                  <input formControlName = "email" type = "email" autofocus matInput  required >
+                  <input autofocus formControlName="email" matInput required trim="blur" type="email">
                 </mat-form-field>
                 <mat-form-field appearance="outline"  style="width: -moz-available; width: -webkit-fill-available ;" >
                   <mat-label>Mot de passe</mat-label>
                   <input formControlName = "password" type="password"  matInput required >
                 </mat-form-field>
-                <mat-error *ngIf="error">
-                    {{ error }}
+                <mat-error *ngIf="error || true">
+                  {{ error }}
                 </mat-error>
               </form >
 
@@ -72,10 +72,10 @@
               <mat-card-subtitle>Veuillez entrer votre email</mat-card-subtitle>
             </mat-card-header>
             <mat-card-content>
-              <form class="sign-form" [formGroup] = "forgotPasswordForm" (keyup.enter)="sendPasswordForgery()">
-                <mat-form-field appearance="outline" style="width: -moz-available; width: -webkit-fill-available ;" >
+              <form (keyup.enter)="sendPasswordRecovery()" [formGroup]="forgotPasswordForm" class="sign-form">
+                <mat-form-field appearance="outline" style="width: -moz-available; width: -webkit-fill-available ;">
                   <mat-label>Adresse éléctronique</mat-label>
-                  <input formControlName = "email" type = "email" autofocus matInput  required >
+                  <input formControlName="email" type="email" autofocus matInput required>
                 </mat-form-field>
                 <mat-error *ngIf="error">
                   {{ error }}

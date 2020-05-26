@@ -4,7 +4,7 @@
     <span>Chargement des Informations du salarié</span>
   </div>
 </div>
-<div class="mt-5 container" *ngIf="salarieLoaded">
+<div *ngIf="salarieLoaded" class="mt-5 container" style="height: 100vh;">
   <a class="row mb-4" (click)="goBack()">
     <button mat-icon-button>
       <mat-icon>arrow_back</mat-icon>

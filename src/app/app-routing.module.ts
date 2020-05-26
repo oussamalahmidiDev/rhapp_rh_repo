@@ -17,6 +17,7 @@ import {ProfileServiceResolver} from './resolvers/profile.service.resolver';
 import {SalarieServiceResolver} from './resolvers/salarie.service.resolver';
 import {SalarieRetraiteComponent} from './components/salarie-retraite/salarie-retraite.component';
 import {SalarieAvantagesComponent} from './components/salarie-avantages/salarie-avantages.component';
+import {NotFoundComponent} from './views/not-found/not-found.component';
 
 const routes: Routes = [
   {
@@ -93,6 +94,8 @@ const routes: Routes = [
     ],
   },
   {path: '', component: WelcomePageComponent, canActivate: [GuestGuard]},
+  {path: '**', component: NotFoundComponent},
+  {path: 'error', component: NotFoundComponent}
 
 ];
 

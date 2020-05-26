@@ -78,6 +78,7 @@
               (click)="onSubmit()"
               mat-button
               matStepperNext
+              [disabled]="congeMaladieForm.invalid"
             >
               Enregistrer
             </button>

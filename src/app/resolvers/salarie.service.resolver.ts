@@ -1,7 +1,7 @@
 import {Injectable} from '@angular/core';
 import {ActivatedRouteSnapshot, Resolve, Router, RouterStateSnapshot} from '@angular/router';
 import {catchError, map} from 'rxjs/operators';
-import {Observable} from 'rxjs';
+import {Observable, of} from 'rxjs';
 import {Salarie} from '../models/salarie';
 import {SalariesService} from '../services/salaries.service';
 import {Store} from '@ngxs/store';
@@ -19,33 +19,16 @@ export class SalarieServiceResolver implements Resolve<Salarie> {
   }
 
   resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<any> {
-    // console.log(this.service.getSalarie(parseInt(route.paramMap.get('id'))));
     return this.store.dispatch(new GetSalarieById(parseInt(route.paramMap.get('id'), 10))).pipe(
       map(() => this.store.selectSnapshot(SalariesState)),
       catchError(error => {
-        console.log(error);
-        return error;
+        if (error.status === 404) {
+          console.log('NOT FOUND');
+          this.router.navigateByUrl('/error');
+        }
+        return of(error);
       })
     );
-    // return this.store.dispatch(new GetSalarieById(parseInt(route.paramMap.get('id')))).subscribe(
-    //   map(() => this.store.selectSnapshot(SalariesState.getSelectedSalarie))
-    // )
-    // return this.service.getSalarie(parseInt(route.paramMap.get('id')))
-    // .pipe(
-    //   map (salarie => salarie),
-    //   catchError(error => {
-    //     console.log(error);
-    //     if (error.status == 404) {
-    //       alert("Ce salarié est introuvable");
-    //       this.router.navigate(['/home/salaries']);
-    //     }
-    //     else {
-    //       alert("Something went wrong...");
-    //       this.router.navigate(['/home/dashboard']);
-    //     }
-    //     return of({ salarie: null });
-    //   })
-    // );
   }
 
 }

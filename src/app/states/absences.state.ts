@@ -31,8 +31,9 @@ export class AbsencesState {
 
   @Action(AddAbsence)
   createAbsence(ctx: StateContext<MainStore>, {payload}: AddAbsence) {
-    return this.service.createAbsence(payload).pipe(
-      tap(res => ctx.setState(patch({absences: insertItem(res)})))
-    );
+    ctx.setState(patch({absences: insertItem(payload)}));
+    // return this.service.createAbsence(payload).pipe(
+    //   tap(res => ctx.setState(patch({absences: insertItem(res)})))
+    // );
   }
 }

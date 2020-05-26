@@ -11,6 +11,8 @@ import {Select, Store} from '@ngxs/store';
 import {Observable} from 'rxjs';
 import {GetSalaries} from 'src/app/actions/salaries.action';
 import {SalariesState} from '../../states/salaries.state';
+import {GetServices} from '../../actions/services.action';
+import {GetDirections} from '../../actions/directions.action';
 
 
 @Injectable()
@@ -42,7 +44,12 @@ export class SalariesListComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.store.dispatch(new GetSalaries());
+    this.store.dispatch(new GetSalaries()).subscribe(
+      () => {
+        this.store.dispatch(new GetServices());
+        this.store.dispatch(new GetDirections());
+      }
+    );
     this.salaries.subscribe(data => {
       this.salariesDs = new MatTableDataSource<Salarie>(data);
       this.salariesDs.filterPredicate = (data: any, filter) => {

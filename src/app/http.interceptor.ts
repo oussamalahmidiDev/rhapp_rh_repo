@@ -6,12 +6,13 @@ import {catchError, tap} from 'rxjs/operators';
 import {CacheService} from './services/cache.service';
 import {Store} from '@ngxs/store';
 import {SetFetchingState} from './actions/app.action';
+import {Router} from '@angular/router';
 
 
 @Injectable()
 export class MainHttpInterceptor implements HttpInterceptor {
 
-  constructor(private tokenService: TokenService, private cache: CacheService, private store: Store) {
+  constructor(private tokenService: TokenService, private cache: CacheService, private store: Store, private router: Router) {
   }
 
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
@@ -29,23 +30,23 @@ export class MainHttpInterceptor implements HttpInterceptor {
       return of(cachedResponse);
     }
 
+    if (req.method !== 'GET') {
+      return next.handle(req);
+    }
+
     // cache image files responses only. Other requests are cached in the state.
     return next.handle(req).pipe(
       tap((event: HttpEvent<any>) => {
-          if (req.method === 'GET') {
-            this.store.dispatch(new SetFetchingState(false));
-          }
+        this.store.dispatch(new SetFetchingState(false));
 
-          if (event instanceof HttpResponse && req.method === 'GET' && event.body instanceof Blob) {
-            this.cache.put(req, event);
-            // console.log('CACHE STATE', this.cache.state());
-          }
+        if (event instanceof HttpResponse && event.body instanceof Blob) {
+          this.cache.put(req, event);
+          // console.log('CACHE STATE', this.cache.state());
+        }
         }
       ),
       catchError((error: HttpErrorResponse) => {
-
         this.store.dispatch(new SetFetchingState(false));
-
         if (error.status === 0) {
           const cachedResponse = this.cache.get(req);
           if (cachedResponse) {
@@ -53,7 +54,8 @@ export class MainHttpInterceptor implements HttpInterceptor {
             return of(cachedResponse);
           }
         }
-        throwError(error);
+
+        return throwError(error);
       })
     );
 

@@ -10,3 +10,10 @@ export class AddCongeMaladie {
   constructor(public payload: CongeMaladieRequest) {
   }
 }
+
+export class RepondreConge {
+  static readonly type = '[Conges] REPONDRE';
+
+  constructor(public id: number, public payload: any) {
+  }
+}

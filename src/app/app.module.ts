@@ -72,6 +72,7 @@ import {MainHttpInterceptor} from './http.interceptor';
 import {BackgroundUrlPipe} from './pipes/background-url.pipe';
 import {NgxsModule} from '@ngxs/store';
 import {NgxsReduxDevtoolsPluginModule} from '@ngxs/devtools-plugin';
+import {NgxTrimDirectiveModule} from 'ngx-trim-directive';
 
 import {environment} from '../environments/environment';
 import {ProfileState} from './states/profile.state';
@@ -86,6 +87,7 @@ import {AppState} from './states/app.state';
 import {ServiceWorkerModule} from '@angular/service-worker';
 import {CacheService} from './services/cache.service';
 import {BlobPipe} from './pipes/blob.pipe';
+import {NotFoundComponent} from './views/not-found/not-found.component';
 
 
 @NgModule({
@@ -94,6 +96,7 @@ import {BlobPipe} from './pipes/blob.pipe';
     DashboardComponent,
     WelcomePageComponent,
     HomeComponent,
+    NotFoundComponent,
 
 
     PostesComponent,
@@ -161,6 +164,8 @@ import {BlobPipe} from './pipes/blob.pipe';
     MatMenuModule,
     MatProgressBarModule,
     MatCheckboxModule,
+
+    NgxTrimDirectiveModule,
 
     NgxsModule.forRoot([
       AppState,

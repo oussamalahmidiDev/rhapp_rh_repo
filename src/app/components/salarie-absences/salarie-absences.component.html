@@ -13,7 +13,7 @@
 The actual rendered columns are set as a property on the row definition" -->
 
       <!-- Position Column -->
-  
+
       <ng-container matColumnDef="datedebut">
         <th mat-header-cell *matHeaderCellDef  mat-sort-header> Date de début</th>
         <td mat-cell *matCellDef="let absence"> {{absence.dateDebut | date:'medium'}} </td>
@@ -31,7 +31,8 @@ The actual rendered columns are set as a property on the row definition" -->
       <ng-container matColumnDef="justificatif">
         <th mat-header-cell *matHeaderCellDef> Reference</th>
         <td mat-cell *matCellDef="let absence">
-          <a [href]="absence.justificatif_link" target="_blank" *ngIf="absence.justificatif">Telecharger le justificatif </a>
+          <a (click)="handleDownload($event, absence.justificatif_link, absence.justificatif)"
+             *ngIf="absence.justificatif" class="text-primary">Telecharger le justificatif </a>
           <span *ngIf="!absence.justificatif">Pas de justificatif</span>
           <!-- <span class="text-primary" style="cursor: pointer;" (click) = "downloadJustificatif(absence.id)" *ngIf="absence.justificatif">Telecharger le justificatif</span> -->
         </td>

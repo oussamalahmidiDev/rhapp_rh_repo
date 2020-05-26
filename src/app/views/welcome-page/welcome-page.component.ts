@@ -56,7 +56,7 @@ export class WelcomePageComponent implements OnInit {
     }
     this.error = null;
     this.loggingIn = true;
-    this.authService.login(this.loginForm.value.email.toLocaleLowerCase().trim(), this.loginForm.value.password).subscribe(
+    this.authService.login(this.loginForm.value.email.toLocaleLowerCase(), this.loginForm.value.password).subscribe(
       data => {
         console.log(data);
         this.loggingIn = false;
@@ -64,7 +64,6 @@ export class WelcomePageComponent implements OnInit {
         this.router.navigate(['/home/dashboard']).then(() => this.router.navigate(['/home/dashboard'])).catch(err => console.log(err));
       },
       error => {
-        console.log(error);
         this.loggingIn = false;
         this.error = error.error.message;
       }

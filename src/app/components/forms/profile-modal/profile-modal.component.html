@@ -5,7 +5,7 @@
   </div>
   <div class="profil-top">
     <div *ngIf="(currentUser | async).photo"
-         [ngStyle]="{ 'background-image': (currentUser | async).photo | url | async }" class="avatar"></div>
+         [ngStyle]="{ 'background-image': (currentUser | async).photo | blob | async | url }" class="avatar"></div>
     <div *ngIf="!(currentUser | async).photo"
          [ngStyle]="{ 'background-image': 'url(' + 'assets/images/default.jpg' + ')'}" class="avatar"></div>
     <h5 style="margin-top: 10px;">{{ (currentUser | async).nom }} {{ (currentUser | async).prenom }}</h5>

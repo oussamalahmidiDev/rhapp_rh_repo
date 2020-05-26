@@ -1,6 +1,6 @@
 import {Injectable} from '@angular/core';
 import {environment} from '../../environments/environment';
-import {HttpClient} from '@angular/common/http';
+import {HttpClient, HttpHeaderResponse, HttpProgressEvent, HttpResponse, HttpSentEvent, HttpUserEvent} from '@angular/common/http';
 import {Observable} from 'rxjs';
 import {Absence} from '../models/absence';
 
@@ -18,7 +18,11 @@ export class AbsencesService {
     return this.http.get<Absence[]>(this.BASE_URL + '/api/absences');
   }
 
-  public createAbsence(formData: FormData): Observable<Absence> {
-    return this.http.post<Absence>(`${this.BASE_URL}/api/absences/create`, formData);
+  public createAbsence(formData: FormData): Observable<HttpSentEvent | HttpHeaderResponse | HttpResponse<Absence> | HttpProgressEvent | HttpUserEvent<Absence>> {
+    return this.http.post<Absence>(`${this.BASE_URL}/api/absences/create`, formData, {
+      responseType: 'json',
+      reportProgress: true,
+      observe: 'events'
+    });
   }
 }

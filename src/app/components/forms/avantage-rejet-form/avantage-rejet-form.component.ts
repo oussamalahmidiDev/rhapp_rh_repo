@@ -5,7 +5,7 @@ import {MatDialogRef} from '@angular/material';
 import {Salarie} from '../../../models/salarie';
 import {Select, Store} from '@ngxs/store';
 import {Observable} from 'rxjs';
-import {RetirerAvantages} from 'src/app/actions/salaries.action';
+import {RetirerAvantages, ValiderRetraite} from 'src/app/actions/salaries.action';
 import {SalariesState} from '../../../states/salaries.state';
 
 @Component({
@@ -38,9 +38,17 @@ export class AvantageRejetFormComponent implements OnInit {
 
 
   onSubmit() {
-    if (this.selectedAvantages.length) {
-      this.store.dispatch(new RetirerAvantages(this.selectedAvantages)).subscribe(() => this.dialogRef.close());
-    }
+    this.avantages.subscribe(
+      avantages => {
+        if (!avantages.length) {
+          this.store.dispatch(new ValiderRetraite()).subscribe(() => this.dialogRef.close());
+        } else {
+          if (this.selectedAvantages.length) {
+            this.store.dispatch(new RetirerAvantages(this.selectedAvantages)).subscribe(() => this.dialogRef.close());
+          }
+        }
+      }
+    );
   }
 
   handleCheckboxChange(event, avantage: AvantageNature) {
