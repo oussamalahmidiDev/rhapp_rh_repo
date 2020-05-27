@@ -87,6 +87,14 @@ export class CongesComponent implements OnInit {
     });
   }
 
+  openCongeMaladieModifForm(conge: Conge) {
+    const dialogRef = this.dialog.open(CongeMaladieFormComponent, {
+      width: '500px',
+      disableClose: true,
+      data: conge
+    });
+  }
+
   openCongeReponseForm(conge: Conge): void {
     const dialogRef = this.dialog.open(CongeReponseFormComponent, {
       width: '460px',

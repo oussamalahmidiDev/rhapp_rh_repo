@@ -6,11 +6,12 @@ import {PosteAffectationFormComponent} from '../forms/poste-affectation-form/pos
 import {ActivatedRoute} from '@angular/router';
 import {Select, Store} from '@ngxs/store';
 import {PostesState} from '../../states/postes.state';
-import {Observable} from 'rxjs';
+import {Observable, of} from 'rxjs';
 import {GetSalaries} from 'src/app/actions/salaries.action';
 import {GetServices} from 'src/app/actions/services.action';
-import {DeletePosteSalarie, GetPostes} from 'src/app/actions/postes.action';
+import {DeletePoste, DeletePosteSalarie, GetPostes} from 'src/app/actions/postes.action';
 import {GetDirections} from 'src/app/actions/directions.action';
+import {map} from 'rxjs/operators';
 
 
 @Injectable()
@@ -24,7 +25,7 @@ export class PostesComponent implements OnInit {
   @Select(PostesState.getPostes)
   postes: Observable<Poste[]>;
   postesDs: MatTableDataSource<Poste>;
-  posteCols: string[] = ['nom', 'direction', 'division', 'service', 'competences', 'salarie'];
+  posteCols: string[] = ['nom', 'direction', 'division', 'service', 'competences', 'salarie', 'actions'];
 
   // @ts-ignore
   @ViewChild(MatSort, {static: true}) sort: MatSort;
@@ -70,6 +71,13 @@ export class PostesComponent implements OnInit {
     // });
   }
 
+  openPosteModifForm(poste: Poste) {
+    const dialogRef = this.dialog.open(PosteFormComponent, {
+      width: '500px',
+      data: poste
+    });
+  }
+
   openPosteAffectationForm(poste: Poste): void {
     const dialogRef = this.dialog.open(PosteAffectationFormComponent, {
       width: '500px',
@@ -94,10 +102,11 @@ export class PostesComponent implements OnInit {
     // });
   }
 
-  deleteSelectedSalarie(poste: Poste) {
+  deleteSelectedSalarie(poste: Poste): Observable<boolean> {
     if (confirm(`Voulez vous désaffecter le salarié ${poste.salarie.nom} du poste de ${poste.nom} ?`)) {
-      this.store.dispatch(new DeletePosteSalarie(poste.id));
+      return this.store.dispatch(new DeletePosteSalarie(poste.id)).pipe((map(() => true)));
     }
+    return of(false);
   }
 
   //
@@ -105,5 +114,19 @@ export class PostesComponent implements OnInit {
   search($event) {
     const filterValue = (event.target as HTMLInputElement).value;
     this.postesDs.filter = filterValue.trim().toLowerCase();
+  }
+
+  deletePoste(poste: Poste) {
+    if (poste.salarie) {
+      if (confirm(`Ce poste est affecté au salarié ${poste.salarie.prenom} ${poste.salarie.nom}. Voulez-vous continuez ?`)) {
+        this.store.dispatch(new DeletePosteSalarie(poste.id))
+          .subscribe(() => this.store.dispatch(new DeletePoste(poste.id)));
+      }
+    } else {
+      if (confirm(`Voulez-vous supprimer le poste de ${poste.nom}`)) {
+        this.store.dispatch(new DeletePoste(poste.id));
+        // this.store.dispatch(new DeletePoste(poste.id));
+      }
+    }
   }
 }

@@ -49,14 +49,35 @@
           <td mat-cell *matCellDef="let element"> {{element.direction? element.direction.nom: 'Pas définie'}} </td>
         </ng-container>
         <ng-container matColumnDef="division">
-          <th mat-header-cell *matHeaderCellDef  mat-sort-header>Division</th>
-          <td mat-cell *matCellDef="let element"> {{element.division? element.division: 'Pas définie'}} </td>
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>Division</th>
+          <td mat-cell *matCellDef="let element"> {{element.division ? element.division : 'Pas définie'}} </td>
         </ng-container>
 
         <!-- Name Column -->
         <ng-container matColumnDef="service">
           <th mat-header-cell *matHeaderCellDef>Service</th>
-          <td mat-cell *matCellDef="let element">{{element.service ? element.service.nom: 'Pas définie' }} </td>
+          <td mat-cell *matCellDef="let element">{{element.service ? element.service.nom : 'Pas définie' }} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="actions">
+          <th *matHeaderCellDef mat-header-cell></th>
+          <td *matCellDef="let element" mat-cell>
+
+            <button [matMenuTriggerFor]="menu" mat-icon-button>
+              <mat-icon>more_horiz</mat-icon>
+            </button>
+            <mat-menu #menu="matMenu">
+              <button (click)="openSalarieModifForm(element)" mat-menu-item>
+                <mat-icon>edit</mat-icon>
+                <span>Modifier</span>
+              </button>
+              <button (click)="deleteSalarie(element)" class="text-danger" mat-menu-item>
+                <mat-icon color="warn">delete</mat-icon>
+                <span>Supprimer</span>
+              </button>
+            </mat-menu>
+
+          </td>
         </ng-container>
 
         <tr mat-header-row *matHeaderRowDef="salarieCols"></tr>

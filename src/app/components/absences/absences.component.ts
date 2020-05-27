@@ -9,7 +9,7 @@ import {Select, Store} from '@ngxs/store';
 import {AbsencesState} from 'src/app/states/absences.state';
 import {Observable} from 'rxjs';
 import {GetSalaries} from 'src/app/actions/salaries.action';
-import {GetAbsences} from 'src/app/actions/absences.action';
+import {DeleteAbsence, GetAbsences} from 'src/app/actions/absences.action';
 import {DownloadService} from '../../services/download.service';
 
 import {saveAs} from 'file-saver';
@@ -28,7 +28,7 @@ export class AbsencesComponent implements OnInit {
   absences: Observable<Absence[]>;
 
   absencesDs: MatTableDataSource<Absence>;
-  absenceCols: string[] = ['salarie', 'datedebut', 'datefin', 'type', 'justificatif'];
+  absenceCols: string[] = ['salarie', 'datedebut', 'datefin', 'type', 'justificatif', 'actions'];
 
   // @ts-ignore
   @ViewChild(MatSort, {static: true}) sort: MatSort;
@@ -107,6 +107,12 @@ export class AbsencesComponent implements OnInit {
 
       }
     );
+  }
+
+  deleteAbsence(absence: Absence) {
+    // if (confirm(`Voulez-vous supprimer le poste de ${poste.nom}`)) {
+    this.store.dispatch(new DeleteAbsence(absence.id));
+    // }
   }
 
 

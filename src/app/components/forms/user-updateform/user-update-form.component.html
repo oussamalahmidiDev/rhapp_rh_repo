@@ -1,0 +1,50 @@
+<div class="form">
+  <div class="mat-title">Modifier les informations de {{ data.nom }} {{ data.prenom }}</div>
+  <p class="mat-body">Verifiez bien les
+    informations avant de valider !</p>
+  <mat-vertical-stepper linear>
+    <mat-step [stepControl]="formGroup">
+      <form [formGroup]="formGroup">
+        <ng-template matStepLabel>Entrez les informations d'utilisateur</ng-template>
+        <mat-form-field [style.width.px]=327>
+          <mat-label>Le nom</mat-label>
+          <input formControlName="nom" matInput placeholder="Ex : 678951948581479" required>
+          <mat-error *ngIf="formGroup.controls.nom.value != '' && formGroup.controls.nom.invalid">Nom invalide
+          </mat-error>
+
+        </mat-form-field>
+        <mat-form-field [style.width.px]=327>
+          <mat-label>Le prénom</mat-label>
+          <input formControlName="prenom" matInput placeholder="Ex : 678951948581479" required>
+          <mat-error *ngIf="formGroup.controls.prenom.value != '' && formGroup.controls.prenom.invalid">Prenom
+            invalide
+          </mat-error>
+
+        </mat-form-field>
+        <mat-form-field [style.width.px]=327>
+          <mat-label>L'adresse électronique</mat-label>
+          <input formControlName="email" matInput placeholder="Ex : 678951948581479" required type="email">
+          <mat-error *ngIf="formGroup.controls.email.invalid">Email invalide</mat-error>
+
+        </mat-form-field>
+        <mat-form-field [style.width.px]=327>
+          <mat-label>Role</mat-label>
+          <mat-select formControlName="role">
+            <mat-option *ngFor="let role of roles" [value]="role.value">
+              {{role.text}}
+            </mat-option>
+          </mat-select>
+
+        </mat-form-field>
+        <mat-error *ngFor="let error of errors" class="mb-2">{{ error }}</mat-error>
+        <div>
+          <button (click)="submitForm()" [disabled]="!formGroup.valid || !formGroup.dirty" mat-button matStepperNext
+                  type="submit">Enregistrer
+          </button>
+        </div>
+      </form>
+    </mat-step>
+
+
+  </mat-vertical-stepper>
+</div>

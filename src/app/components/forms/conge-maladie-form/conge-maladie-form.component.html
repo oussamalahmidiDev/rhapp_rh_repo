@@ -1,13 +1,15 @@
 <div class="form">
-  <div class="mat-title">Enregistrer un congé de maladie d'un salarié</div>
-  <p class="mat-body">
+  <div *ngIf="!editForm" class="mat-title">Enregistrer un congé de maladie d'un salarié</div>
+  <div *ngIf="editForm" class="mat-title">Modifier les informations du congé de maladie
+    de {{ data.salarie.nom }} {{ data.salarie.prenom }}</div>
+  <p *ngIf="!editForm" class="mat-body">
     Formualaire d'enregistrement congé de maladie des salariés. Verifiez bien les
     informations avant de valider !
   </p>
   <mat-vertical-stepper linear>
     <mat-step [stepControl]="congeMaladieForm">
       <form [formGroup]="congeMaladieForm">
-        <ng-template matStepLabel>Selectionner le salarié concerné</ng-template>
+        <ng-template matStepLabel>Informations sur la demande</ng-template>
         <div class="row" *ngIf="!salariesLoaded">
           <mat-spinner
             class="mr-2"
@@ -16,7 +18,7 @@
           ></mat-spinner>
           <span>Chargement de liste de salariés</span>
         </div>
-        <mat-form-field [style.width.px]="327" *ngIf="salariesLoaded">
+        <mat-form-field *ngIf="salariesLoaded && !editForm" [style.width.px]="327">
           <mat-label>Selectionner le salarié</mat-label>
           <mat-select formControlName="salarieId">
             <mat-option

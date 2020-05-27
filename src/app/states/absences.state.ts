@@ -1,10 +1,11 @@
 import {Action, Selector, State, StateContext, Store} from '@ngxs/store';
 import {AbsencesService} from '../services/absences.service';
 import {MainStore} from '../store';
-import {AddAbsence, GetAbsences} from '../actions/absences.action';
+import {AddAbsence, DeleteAbsence, GetAbsences} from '../actions/absences.action';
 import {tap} from 'rxjs/operators';
-import {insertItem, patch} from '@ngxs/store/operators';
+import {insertItem, patch, removeItem} from '@ngxs/store/operators';
 import {SetFetchingState} from '../actions/app.action';
+import {Absence} from '../models/absence';
 
 @State({
   name: 'absences'
@@ -32,8 +33,14 @@ export class AbsencesState {
   @Action(AddAbsence)
   createAbsence(ctx: StateContext<MainStore>, {payload}: AddAbsence) {
     ctx.setState(patch({absences: insertItem(payload)}));
-    // return this.service.createAbsence(payload).pipe(
-    //   tap(res => ctx.setState(patch({absences: insertItem(res)})))
-    // );
   }
+
+  @Action(DeleteAbsence)
+  deleteAbsence(ctx: StateContext<MainStore>, {id}: DeleteAbsence) {
+    return this.service.deleteAbsence(id).pipe(
+      tap(res => ctx.setState(patch({absences: removeItem<Absence>(absence => absence.id === id)})))
+    );
+  }
+
+
 }

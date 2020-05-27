@@ -20,6 +20,13 @@ export class LoadSalariePhoto {
   }
 }
 
+export class ModifierSalarie {
+  static readonly type = '[Salaries] UPDATE';
+
+  constructor(public id: number, public payload: Salarie) {
+  }
+}
+
 export class DeleteSalariePoste {
   static readonly type = '[Salaries] POSTE DELETE';
 }
@@ -55,4 +62,11 @@ export class RetirerAvantages {
 export class ValiderRetraite {
   static readonly type = '[Salaries] RETRAITE VALIDER';
   // constructor(public {id}: Retraite) {}
+}
+
+export class DeleteSalarie {
+  static readonly type = '[Salaries] DELETE';
+
+  constructor(public id: number) {
+  }
 }

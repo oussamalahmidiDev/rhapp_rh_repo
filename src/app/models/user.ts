@@ -10,9 +10,11 @@ export class User {
     public telephone: string,
     public dateNaissance: string,
     public adresse: string,
-    public id: string,
+    public id: number,
     public avatarLink: string,
-    public token: string
+    public token: string,
+    public role: 'ADMIN' | 'RH',
+    public dateCreation: string
   ) {
 
   }

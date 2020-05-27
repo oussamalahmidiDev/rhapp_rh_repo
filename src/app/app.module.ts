@@ -88,6 +88,12 @@ import {ServiceWorkerModule} from '@angular/service-worker';
 import {CacheService} from './services/cache.service';
 import {BlobPipe} from './pipes/blob.pipe';
 import {NotFoundComponent} from './views/not-found/not-found.component';
+import {UsersComponent} from './components/utilisateurs/users.component';
+import {UserFormComponent} from './components/forms/user-form/user-form.component';
+import {UserUpdateFormComponent} from './components/forms/user-updateform/user-update-form.component';
+import {UsersState} from './states/users.state';
+import {JournalComponent} from './components/journal/journal.component';
+import {JournalState} from './states/evenements.state';
 
 
 @NgModule({
@@ -99,6 +105,7 @@ import {NotFoundComponent} from './views/not-found/not-found.component';
     NotFoundComponent,
 
 
+    UsersComponent,
     PostesComponent,
     PosteFormComponent,
     CongesComponent,
@@ -124,7 +131,11 @@ import {NotFoundComponent} from './views/not-found/not-found.component';
     AvantageRejetFormComponent,
     BackgroundUrlPipe,
     BlobPipe,
-    NavbarComponent
+    NavbarComponent,
+    JournalComponent,
+
+    UserFormComponent,
+    UserUpdateFormComponent
 
   ],
   imports: [
@@ -175,7 +186,9 @@ import {NotFoundComponent} from './views/not-found/not-found.component';
       ServicesState,
       DirectionsState,
       AbsencesState,
-      CongesState
+      CongesState,
+      UsersState,
+      JournalState
     ], {developmentMode: true}),
 
     // NgxsLoggerPluginModule.forRoot(),
@@ -210,6 +223,8 @@ import {NotFoundComponent} from './views/not-found/not-found.component';
   ],
   bootstrap: [AppComponent],
   entryComponents: [
+    UserFormComponent,
+    UserUpdateFormComponent,
     PosteFormComponent,
     PosteAffectationFormComponent,
     CongeReponseFormComponent,

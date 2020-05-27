@@ -61,6 +61,27 @@
             <!-- <span class="text-primary" style="cursor: pointer;" (click) = "downloadJustificatif(absence.id)" *ngIf="absence.justificatif">Telecharger le justificatif</span> -->
           </td>
         </ng-container>
+        <ng-container matColumnDef="actions">
+          <th *matHeaderCellDef mat-header-cell mat-sort-header></th>
+          <td *matCellDef="let element" mat-cell>
+
+            <button [matMenuTriggerFor]="menu" mat-icon-button>
+              <mat-icon>more_horiz</mat-icon>
+            </button>
+            <mat-menu #menu="matMenu">
+              <button mat-menu-item>
+                <mat-icon>edit</mat-icon>
+                <span>Modifier</span>
+              </button>
+              <button (click)="deleteAbsence(element)" class="text-danger" mat-menu-item>
+                <mat-icon color="warn">delete</mat-icon>
+                <span>Supprimer</span>
+              </button>
+            </mat-menu>
+
+          </td>
+        </ng-container>
+
 
         <tr mat-header-row *matHeaderRowDef="absenceCols"></tr>
         <tr mat-row *matRowDef="let row; columns: absenceCols;"></tr>

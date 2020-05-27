@@ -2,9 +2,10 @@ import {Action, Selector, State, StateContext, Store} from '@ngxs/store';
 import {CongesService} from '../services/conges.service';
 import {MainStore} from '../store';
 import {tap} from 'rxjs/operators';
-import {AddCongeMaladie, GetConges, RepondreConge} from '../actions/conges.action';
-import {insertItem, patch, updateItem} from '@ngxs/store/operators';
+import {AddCongeMaladie, DeleteConge, GetConges, ModifierConge, RepondreConge} from '../actions/conges.action';
+import {insertItem, patch, removeItem, updateItem} from '@ngxs/store/operators';
 import {SetFetchingState} from '../actions/app.action';
+import {Conge} from '../models/conge';
 
 @State({
   name: 'conges'
@@ -42,10 +43,24 @@ export class CongesState {
     );
   }
 
+  @Action(ModifierConge)
+  modifierConge(ctx: StateContext<MainStore>, {id, payload}: ModifierConge) {
+    return this.service.modifierConge(id, payload).pipe(
+      tap(res => ctx.setState(patch({conges: updateItem(item => item.id === id, res)})))
+    );
+  }
+
   @Action(RepondreConge)
   repondreConge(ctx: StateContext<MainStore>, {id, payload}: RepondreConge) {
     return this.service.repondreConge(id, payload).pipe(
       tap(res => ctx.setState(patch({conges: updateItem(item => item.id === id, res)})))
+    );
+  }
+
+  @Action(DeleteConge)
+  deleteAbsence(ctx: StateContext<MainStore>, {id}: DeleteConge) {
+    return this.service.deleteConge(id).pipe(
+      tap(res => ctx.setState(patch({conges: removeItem<Conge>(conge => conge.id === id)})))
     );
   }
 }

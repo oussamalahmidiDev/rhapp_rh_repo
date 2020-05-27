@@ -2,9 +2,9 @@ import {Action, Selector, State, StateContext, Store} from '@ngxs/store';
 import {MainStore} from '../store';
 import {PosteService} from '../services/poste.service';
 import {tap} from 'rxjs/operators';
-import {AffecterSalarie, CreatePoste, DeletePoste, DeletePosteSalarie, GetPostes} from '../actions/postes.action';
+import {AffecterSalarie, CreatePoste, DeletePoste, DeletePosteSalarie, GetPostes, ModifierPoste} from '../actions/postes.action';
 import {Poste} from '../models/poste';
-import {patch, removeItem, updateItem} from '@ngxs/store/operators';
+import {insertItem, patch, removeItem, updateItem} from '@ngxs/store/operators';
 import {AddDirection} from '../actions/directions.action';
 import {AddService} from '../actions/services.action';
 import {SetFetchingState} from '../actions/app.action';
@@ -36,7 +36,7 @@ export class PostesState {
   createPoste(ctx: StateContext<MainStore>, {payload}: CreatePoste) {
     return this.service.createPoste(payload).pipe(
       tap(res => {
-        ctx.patchState({postes: [...ctx.getState().postes, res]});
+        ctx.setState(patch({postes: insertItem(res)}));
         const directionsList = this.store.selectSnapshot(state => state.directions.directions);
         const servicesList = this.store.selectSnapshot(state => state.services.services);
 
@@ -50,6 +50,13 @@ export class PostesState {
           this.store.dispatch(new AddService(res.service));
         }
       })
+    );
+  }
+
+  @Action(ModifierPoste)
+  modifierPoste(ctx: StateContext<MainStore>, {id, payload}: ModifierPoste) {
+    return this.service.modifierPoste(id, payload).pipe(
+      tap(res => ctx.setState(patch({postes: updateItem(item => item.id === id, res)})))
     );
   }
 
@@ -76,7 +83,17 @@ export class PostesState {
 
   @Action(DeletePoste)
   deletePoste(ctx: StateContext<MainStore>, {id}: DeletePoste) {
-    ctx.setState(patch({postes: removeItem<Poste>(poste => poste.id === id)}));
+    // return this.service.deletePoste(id).pipe(
+    //   map(res => {
+    //       return this.service.deletePoste(id).pipe(
+    //         tap(_ => ctx.setState(patch({postes: removeItem<Poste>(poste => poste.id === id)})))
+    //       );
+    //     }
+    //   )
+    // );
+    return this.service.deletePoste(id).pipe(
+      tap(_ => ctx.setState(patch({postes: removeItem<Poste>(poste => poste.id === id)})))
+    );
   }
 
   @Action(DeletePosteSalarie)

@@ -6,6 +6,13 @@
      [active]="dashboard.isActive">
     Page d'accueil
   </a>
+  <a #utilisateurs="routerLinkActive"
+     *ngIf="(profile | async).role === 'ADMIN'"
+     [active]="utilisateurs.isActive"
+     mat-tab-link routerLink="utilisateurs"
+     routerLinkActive>
+    Utilisateurs
+  </a>
 
   <a mat-tab-link
      routerLink="postes"
@@ -31,6 +38,12 @@
      routerLinkActive #salaries="routerLinkActive"
      [active]="salaries.isActive">
     Salariés
+  </a>
+  <a #journal="routerLinkActive"
+     [active]="journal.isActive"
+     mat-tab-link routerLink="journal"
+     routerLinkActive>
+    Journal d'activités
   </a>
 
 </nav>

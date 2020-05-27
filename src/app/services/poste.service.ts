@@ -15,8 +15,6 @@ export class PosteService {
 
   BASE_URL: string = environment.BASE_URL;
 
-  postes: Poste[] = [];
-
   constructor(private salariesService: SalariesService, private http: HttpClient) {
 
   }
@@ -37,11 +35,19 @@ export class PosteService {
     return this.http.post<Poste>(`${this.BASE_URL}/api/postes/create`, poste);
   }
 
+  modifierPoste(id: number, poste: Poste): Observable<Poste> {
+    return this.http.put<Poste>(`${this.BASE_URL}/api/postes/${id}/modifier`, poste);
+  }
+
   affecterSalarie(id: number, request: AffectationRequest): Observable<Poste> {
     return this.http.post<Poste>(`${this.BASE_URL}/api/postes/${id}/affecter`, request);
   }
 
   deleteSalarie(id: number): Observable<Poste> {
     return this.http.put<Poste>(`${this.BASE_URL}/api/postes/${id}/salarie/supprimer`, {});
+  }
+
+  deletePoste(id: number): Observable<any> {
+    return this.http.delete<any>(`${this.BASE_URL}/api/postes/${id}/supprimer`);
   }
 }

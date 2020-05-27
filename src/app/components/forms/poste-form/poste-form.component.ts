@@ -7,7 +7,7 @@ import {Direction} from '../../../models/direction';
 
 import {COMMA, ENTER} from '@angular/cdk/keycodes';
 import {Select, Store} from '@ngxs/store';
-import {CreatePoste} from '../../../actions/postes.action';
+import {CreatePoste, ModifierPoste} from '../../../actions/postes.action';
 import {ServicesState} from 'src/app/states/services.state';
 import {Observable} from 'rxjs';
 import {DirectionsState} from 'src/app/states/directions.state';
@@ -18,6 +18,8 @@ import {DirectionsState} from 'src/app/states/directions.state';
   styleUrls: ['./poste-form.component.css']
 })
 export class PosteFormComponent implements OnInit {
+
+  editForm = false;
 
   firstFormGroup: FormGroup;
   secondFormGroup: FormGroup;
@@ -39,7 +41,7 @@ export class PosteFormComponent implements OnInit {
   constructor(
     private formBuilder: FormBuilder,
     public dialogRef: MatDialogRef<PosteFormComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: Poste[],
+    @Inject(MAT_DIALOG_DATA) public data: Poste,
     // private salariesService: SalariesService,
     private store: Store,
   ) {
@@ -103,18 +105,34 @@ export class PosteFormComponent implements OnInit {
 
 
   submitForm() {
-    console.log(this.firstFormGroup, this.secondFormGroup, this.selectedDirection);
-
+    // console.log(this.firstFormGroup, this.secondFormGroup, this.selectedDirection);
 
     const newPoste: Poste = {
       competences: this.competences,
-      direction: this.selectedDirection,
-      division: this.firstFormGroup.get('division').value,
+      direction: this.firstFormGroup.get('direction').value,
+      service: this.firstFormGroup.get('service').value,
       nom: this.secondFormGroup.get('posteName').value,
-      service: this.selectedService
+      division: this.firstFormGroup.get('division').value
     };
 
-    this.store.dispatch(new CreatePoste(newPoste)).subscribe(() => this.dialogRef.close());
+    console.log('SUB POST', newPoste);
+
+    // const newPoste: Poste = {
+    //   competences: this.competences,
+    //   direction: this.selectedDirection,
+    //   division: this.firstFormGroup.get('division').value,
+    //   nom: this.secondFormGroup.get('posteName').value,
+    //   service: this.selectedService
+    // };
+    if (!this.editForm) {
+      this.store.dispatch(new CreatePoste(newPoste)).subscribe(() => this.dialogRef.close());
+    } else {
+      this.store.dispatch(new ModifierPoste(this.data.id, newPoste)).subscribe(() => this.dialogRef.close());
+    }
+  }
+
+  showNom(element: Direction | Service) {
+    return element ? element.nom : element;
   }
 
 
@@ -129,6 +147,20 @@ export class PosteFormComponent implements OnInit {
       competences: this.formBuilder.array([])
     });
     this.competences = [];
+
+    if (this.data) {
+      this.editForm = true;
+      console.log('mode editing');
+      this.competences.push(...this.data.competences);
+      this.firstFormGroup.patchValue({
+        service: this.data.service,
+        division: this.data.division,
+        direction: this.data.direction
+      });
+      this.secondFormGroup.patchValue({
+        posteName: this.data.nom
+      });
+    }
   }
 
 }

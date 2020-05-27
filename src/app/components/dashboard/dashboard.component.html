@@ -1,5 +1,35 @@
 <div class="mt-5 container">
-  <h1 class="mat-subheading">Bienvenue sur la plateforme</h1>
+  <h1 *ngIf="(profile | async).role === 'ADMIN'" class="mat-subheading">Côté administratif</h1>
+  <mat-divider *ngIf="(profile | async).role === 'ADMIN'"></mat-divider>
+  <div *ngIf="(profile | async).role === 'ADMIN'" class="cards container mt-3">
+    <div class="row row-cols-2">
+      <div class="card col-sm mr-4 mb-4">
+        <div class="card-body">
+          <h5 class="card-title">Gestion des utilisateurs</h5>
+          <p class="card-text">
+            Some quick example text to build on the card title and make up the
+            bulk of the card's content.
+          </p>
+          <a routerLink="../utilisateurs">
+            <button mat-stroked-button color="primary">Voir plus</button>
+          </a>
+        </div>
+      </div>
+      <div class="card col-sm mr-4 mb-4">
+        <div class="card-body">
+          <h5 class="card-title">Journal d'évenements de l'application</h5>
+          <p class="card-text">
+            Some quick example text to build on the card title and make up the
+            bulk of the card's content.
+          </p>
+          <a routerLink="../journal">
+            <button mat-stroked-button color="primary">Voir plus</button>
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+  <h1 class="mat-subheading">Côté gestion des resources humaines</h1>
   <mat-divider></mat-divider>
   <div class="cards container mt-3">
     <div class="row row-cols-3">
@@ -46,30 +76,6 @@
 
       <div class="card col-sm mr-4 mb-4">
         <div class="card-body">
-          <h5 class="card-title">Gestion des retraites</h5>
-          <p class="card-text">
-            Some quick example text to build on the card title and make up the
-            bulk of the card's content.
-          </p>
-          <a routerLink="../retraites">
-            <button mat-stroked-button color="primary">Voir plus</button>
-          </a>
-        </div>
-      </div>
-      <div class="card col-sm mr-4 mb-4">
-        <div class="card-body">
-          <h5 class="card-title">Gestion des avantages de nature</h5>
-          <p class="card-text">
-            Some quick example text to build on the card title and make up the
-            bulk of the card's content.
-          </p>
-          <a routerLink="../">
-            <button mat-stroked-button color="primary">Voir plus</button>
-          </a>
-        </div>
-      </div>
-      <div class="card col-sm mr-4 mb-4">
-        <div class="card-body">
           <h5 class="card-title">Gestion des salariés</h5>
           <p class="card-text">
             Some quick example text to build on the card title and make up the
@@ -77,6 +83,18 @@
           </p>
           <a routerLink="../salaries">
             <button mat-stroked-button color="primary">Voir plus</button>
+          </a>
+        </div>
+      </div>
+      <div *ngIf="(profile | async).role === 'RH'" class="card col-sm mr-4 mb-4">
+        <div class="card-body">
+          <h5 class="card-title">Journal d'évenements de salariés</h5>
+          <p class="card-text">
+            Some quick example text to build on the card title and make up the
+            bulk of the card's content.
+          </p>
+          <a routerLink="../journal">
+            <button color="primary" mat-stroked-button>Voir plus</button>
           </a>
         </div>
       </div>

@@ -9,7 +9,7 @@ import {SalarieFormComponent} from '../forms/salarie-form/salarie-form.component
 import {ActivatedRoute} from '@angular/router';
 import {Select, Store} from '@ngxs/store';
 import {Observable} from 'rxjs';
-import {GetSalaries} from 'src/app/actions/salaries.action';
+import {DeleteSalarie, GetSalaries} from 'src/app/actions/salaries.action';
 import {SalariesState} from '../../states/salaries.state';
 import {GetServices} from '../../actions/services.action';
 import {GetDirections} from '../../actions/directions.action';
@@ -24,7 +24,7 @@ import {GetDirections} from '../../actions/directions.action';
 export class SalariesListComponent implements OnInit {
 
   salariesDs: MatTableDataSource<Salarie>;
-  salarieCols: string[] = ['salarie', 'email', 'direction', 'division', 'service'];
+  salarieCols: string[] = ['salarie', 'email', 'direction', 'division', 'service', 'actions'];
 
   @Select(SalariesState.getSalaries)
   salaries: Observable<Salarie[]>;
@@ -80,6 +80,14 @@ export class SalariesListComponent implements OnInit {
     // )
   }
 
+  openSalarieModifForm(salarie: Salarie) {
+    const dialogRef = this.dialog.open(SalarieFormComponent, {
+      width: '600px',
+      disableClose: true,
+      data: salarie
+    });
+  }
+
   openRetraiteFrom(conge: Conge): void {
     console.log('CONG', conge);
     const dialogRef = this.dialog.open(RetraiteFormComponent, {
@@ -88,6 +96,12 @@ export class SalariesListComponent implements OnInit {
       // data: this.mesVirements
       // virement: this.newVirement
     });
+  }
+
+  deleteSalarie(salarie: Salarie) {
+    if (confirm(`Voulez-vous supprimer le salarié ${salarie.nom} ${salarie.prenom}`)) {
+      this.store.dispatch(new DeleteSalarie(salarie.id));
+    }
   }
 
   search($event) {

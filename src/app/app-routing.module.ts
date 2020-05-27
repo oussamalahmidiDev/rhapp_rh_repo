@@ -18,18 +18,31 @@ import {SalarieServiceResolver} from './resolvers/salarie.service.resolver';
 import {SalarieRetraiteComponent} from './components/salarie-retraite/salarie-retraite.component';
 import {SalarieAvantagesComponent} from './components/salarie-avantages/salarie-avantages.component';
 import {NotFoundComponent} from './views/not-found/not-found.component';
+import {UsersComponent} from './components/utilisateurs/users.component';
+import {JournalComponent} from './components/journal/journal.component';
+import {AdminGuard} from './guards/admin.guard';
 
 const routes: Routes = [
   {
     path: 'home',
     component: HomeComponent,
-    resolve: { profile: ProfileServiceResolver },
+    resolve: {profile: ProfileServiceResolver},
     canActivate: [AuthenticatedGuard],
     children: [
       {
         path: 'dashboard',
         component: DashboardComponent,
         canActivate: [AuthenticatedGuard],
+      },
+      {
+        path: 'utilisateurs',
+        component: UsersComponent,
+        canActivate: [AuthenticatedGuard, AdminGuard]
+      },
+      {
+        path: 'journal',
+        component: JournalComponent,
+        canActivate: [AuthenticatedGuard]
       },
       {
         path: 'postes',

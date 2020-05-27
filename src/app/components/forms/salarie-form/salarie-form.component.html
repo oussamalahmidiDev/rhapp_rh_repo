@@ -1,26 +1,30 @@
 <div class="form">
-  <div class="mat-title">Enregistrer un nouveau salarié</div>
-  <p class="mat-body">Formualaire d'Enregistrement d'un salarié dans l'entreprise. Verifiez bien les informations avant de valider !</p>
-    <mat-vertical-stepper   linear>
-      <mat-step [stepControl]="firstFormGroup" >
-        <form [formGroup]="firstFormGroup" >
-          <ng-template matStepLabel>Préciser la direction et le service, et le nº de somme du salarié</ng-template>
-          <mat-form-field  [style.width.px]=400>
-            <mat-label>Préciser la direction</mat-label>
-            <input  matInput placeholder="Ex : 678951948581479" formControlName="direction" (change)="handleDirectionChange()" [matAutocomplete]="autoDirection" required>
-            <mat-autocomplete #autoDirection="matAutocomplete">
-              <mat-option (click)="handleDirectionSelect(direction)" *ngFor="let direction of directions | async"
-                          [value]="direction.id">{{ direction.nom }}</mat-option>
-            </mat-autocomplete>
-          </mat-form-field>
-          <mat-form-field [style.width.px]=400>
-            <mat-label>Préciser la service</mat-label>
-            <input  matInput placeholder="Ex : 678951948581479" formControlName="service" (change)="handleServiceChange()" [matAutocomplete]="autoService" required>
-            <mat-autocomplete #autoService="matAutocomplete">
-              <mat-option (click)="handleServiceSelect(service)" *ngFor="let service of services | async"
-                          [value]="service">{{ service.nom }}</mat-option>
-            </mat-autocomplete>
-          </mat-form-field>
+  <div *ngIf="!editForm" class="mat-title">Enregistrer un nouveau salarié</div>
+  <p *ngIf="!editForm" class="mat-body">Formualaire d'Enregistrement d'un salarié dans l'entreprise. Verifiez bien les
+    informations avant de valider !</p>
+  <div *ngIf="editForm" class="mat-title">Modifier les informations de {{ data.nom }} {{ data.prenom }}</div>
+  <mat-vertical-stepper linear>
+    <mat-step [stepControl]="firstFormGroup">
+      <form [formGroup]="firstFormGroup">
+        <ng-template matStepLabel>Préciser la direction et le service, et le nº de somme du salarié</ng-template>
+        <mat-form-field [style.width.px]=400>
+          <mat-label>Préciser la direction</mat-label>
+          <input matInput placeholder="Ex : 678951948581479" formControlName="direction"
+                 (change)="handleDirectionChange()" [matAutocomplete]="autoDirection" required>
+          <mat-autocomplete #autoDirection="matAutocomplete" [displayWith]="showNom">
+            <mat-option *ngFor="let direction of directions | async"
+                        [value]="direction">{{ direction.nom }}</mat-option>
+          </mat-autocomplete>
+        </mat-form-field>
+        <mat-form-field [style.width.px]=400>
+          <mat-label>Préciser la service</mat-label>
+          <input matInput placeholder="Ex : 678951948581479" formControlName="service" (change)="handleServiceChange()"
+                 [matAutocomplete]="autoService" required>
+          <mat-autocomplete #autoService="matAutocomplete" [displayWith]="showNom">
+            <mat-option *ngFor="let service of services | async"
+                        [value]="service">{{ service.nom }}</mat-option>
+          </mat-autocomplete>
+        </mat-form-field>
           <mat-form-field [style.width.px]=400>
             <mat-label>Le nº de somme</mat-label>
             <input matInput  formControlName="numSomme" placeholder="Ex : 678951948581479"

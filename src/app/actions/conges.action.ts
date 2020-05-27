@@ -11,9 +11,24 @@ export class AddCongeMaladie {
   }
 }
 
+export class ModifierConge {
+  static readonly type = '[Conges] UPDATE';
+
+  constructor(public id: number, public payload: any) {
+  }
+}
+
+
 export class RepondreConge {
   static readonly type = '[Conges] REPONDRE';
 
   constructor(public id: number, public payload: any) {
+  }
+}
+
+export class DeleteConge {
+  static readonly type = '[Conges] DELETE';
+
+  constructor(public id: number) {
   }
 }

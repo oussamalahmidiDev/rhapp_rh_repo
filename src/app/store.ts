@@ -5,6 +5,7 @@ import {Absence} from './models/absence';
 import {Service} from './models/service';
 import {Direction} from './models/direction';
 import {Conge} from './models/conge';
+import {Activity} from './models/activity';
 
 
 export class MainStore {
@@ -17,6 +18,11 @@ export class MainStore {
   conges: Conge[];
   selectedSalarie: Salarie;
 
+  users: User[];
+  // events:
+
   fetching: boolean;
   offline: boolean;
+
+  journal: Activity[];
 }

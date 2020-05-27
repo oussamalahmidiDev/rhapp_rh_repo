@@ -50,4 +50,12 @@ export class SalariesService {
   searchSalaries(query: string): Observable<Salarie[]> {
     return this.http.get<Salarie[]>(`${this.BASE_URL}/api/salaries/search?query=${query}`);
   }
+
+  deleteSalarie(id: number): Observable<any> {
+    return this.http.delete<any>(`${this.BASE_URL}/api/salaries/${id}/supprimer`);
+  }
+
+  modifierSalarie(id: number, salarie: Salarie): Observable<Salarie> {
+    return this.http.put<Salarie>(`${this.BASE_URL}/api/salaries/${id}/modifier`, salarie);
+  }
 }

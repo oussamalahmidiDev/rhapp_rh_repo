@@ -10,3 +10,10 @@ export class AddAbsence {
   constructor(public payload: Absence) {
   }
 }
+
+export class DeleteAbsence {
+  static readonly type = '[Absences] DELETE';
+
+  constructor(public id: number) {
+  }
+}

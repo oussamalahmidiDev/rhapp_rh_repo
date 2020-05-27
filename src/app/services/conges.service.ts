@@ -26,4 +26,13 @@ export class CongesService {
   public repondreConge(id: number, request: any): Observable<Conge> {
     return this.http.post<Conge>(`${this.BASE_URL}/api/conges/${id}/repondre`, request);
   }
+
+  public modifierConge(id: number, request: Conge): Observable<Conge> {
+    return this.http.put<Conge>(`${this.BASE_URL}/api/conges/${id}/modifier`, request);
+  }
+
+
+  deleteConge(id: number): Observable<any> {
+    return this.http.delete<any>(`${this.BASE_URL}/api/conges/${id}/supprimer`);
+  }
 }

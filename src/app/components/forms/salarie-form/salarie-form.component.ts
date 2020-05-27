@@ -1,11 +1,11 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, Inject, OnInit} from '@angular/core';
 import {Service} from '../../../models/service';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
-import {MatDialogRef} from '@angular/material';
+import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material';
 import {Direction} from '../../../models/direction';
 import {Salarie} from '../../../models/salarie';
 import {Select, Store} from '@ngxs/store';
-import {AddSalarie} from 'src/app/actions/salaries.action';
+import {AddSalarie, ModifierSalarie} from 'src/app/actions/salaries.action';
 import {ServicesState} from '../../../states/services.state';
 import {Observable} from 'rxjs';
 import {DirectionsState} from '../../../states/directions.state';
@@ -17,6 +17,7 @@ import {DirectionsState} from '../../../states/directions.state';
 })
 export class SalarieFormComponent implements OnInit {
 
+  editForm = false;
 
   @Select(ServicesState.getServices)
   services: Observable<Service[]>;
@@ -34,6 +35,7 @@ export class SalarieFormComponent implements OnInit {
   constructor(
     private formBuilder: FormBuilder,
     private store: Store,
+    @Inject(MAT_DIALOG_DATA) public data: Salarie,
     public dialogRef: MatDialogRef<SalarieFormComponent>,
   ) {
   }
@@ -55,6 +57,13 @@ export class SalarieFormComponent implements OnInit {
     this.thirdFormGroup = this.formBuilder.group({
       solde: ['', [Validators.required, Validators.min(1)]]
     });
+
+    if (this.data) {
+      this.editForm = true;
+      this.firstFormGroup.patchValue({...this.data});
+      this.secondFormGroup.patchValue({...this.data});
+      this.thirdFormGroup.patchValue({...this.data});
+    }
 
     this.dialogRef.backdropClick().subscribe(() => {
       if (this.firstFormGroup.dirty || this.secondFormGroup.dirty || this.thirdFormGroup.dirty) {
@@ -106,16 +115,26 @@ export class SalarieFormComponent implements OnInit {
       email: this.secondFormGroup.value.email,
 
       numSomme: this.firstFormGroup.value.numSomme,
-      direction: this.selectedDirection,
-      service: this.selectedService,
+      direction: this.firstFormGroup.value.direction,
+      service: this.firstFormGroup.value.service,
       solde: this.thirdFormGroup.value.solde
     };
     console.log('FINAL SALARIE :', salarie);
-    this.store.dispatch(new AddSalarie(salarie)).subscribe(
-      () => this.dialogRef.close(),
-      err => alert(err.error.message)
-    );
+    if (!this.editForm) {
+      this.store.dispatch(new AddSalarie(salarie)).subscribe(
+        () => this.dialogRef.close(),
+        err => alert(err.error.message)
+      );
+    } else {
+      this.store.dispatch(new ModifierSalarie(this.data.id, salarie)).subscribe(
+        () => this.dialogRef.close(),
+        err => alert(err.error.message)
+      );
+    }
+  }
 
+  showNom(element: Direction | Service) {
+    return element ? element.nom : element;
   }
 
 

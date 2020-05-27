@@ -5,15 +5,17 @@ import {
   AddAvantage,
   AddRetraite,
   AddSalarie,
+  DeleteSalarie,
   DeleteSalariePoste,
   GetSalarieById,
   GetSalaries,
   LoadSalariePhoto,
+  ModifierSalarie,
   RetirerAvantages,
   ValiderRetraite
 } from '../actions/salaries.action';
 import {tap} from 'rxjs/operators';
-import {insertItem, patch, updateItem} from '@ngxs/store/operators';
+import {insertItem, patch, removeItem, updateItem} from '@ngxs/store/operators';
 import {RetraitesService} from '../services/retraites.service';
 import {AvantagesService} from '../services/avantages.service';
 import {DeletePosteSalarie} from '../actions/postes.action';
@@ -70,6 +72,13 @@ export class SalariesState {
       tap((res: Salarie[]) => {
         ctx.setState(patch({salaries: res}));
       })
+    );
+  }
+
+  @Action(ModifierSalarie)
+  modifierSalarie(ctx: StateContext<MainStore>, {id, payload}: ModifierSalarie) {
+    return this.service.modifierSalarie(id, payload).pipe(
+      tap(res => ctx.setState(patch({salaries: updateItem(item => item.id === id, res)})))
     );
   }
 
@@ -138,6 +147,13 @@ export class SalariesState {
   validerRetraite(ctx: StateContext<MainStore>) {
     return this.retraitesService.validerRetraite(ctx.getState().selectedSalarie.id).pipe(
       tap(res => ctx.patchState({selectedSalarie: {...ctx.getState().selectedSalarie, retraite: res}}))
+    );
+  }
+
+  @Action(DeleteSalarie)
+  deleteSalarie(ctx: StateContext<MainStore>, {id}: DeleteSalarie) {
+    return this.service.deleteSalarie(id).pipe(
+      tap(res => ctx.setState(patch({salaries: removeItem<Salarie>(salarie => salarie.id === id)})))
     );
   }
 }

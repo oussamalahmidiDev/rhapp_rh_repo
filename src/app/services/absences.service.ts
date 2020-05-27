@@ -25,4 +25,8 @@ export class AbsencesService {
       observe: 'events'
     });
   }
+
+  deleteAbsence(id: number): Observable<any> {
+    return this.http.delete<any>(`${this.BASE_URL}/api/absences/${id}/supprimer`);
+  }
 }

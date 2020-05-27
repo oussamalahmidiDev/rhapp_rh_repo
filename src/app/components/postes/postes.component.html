@@ -86,11 +86,32 @@
               </div>
             </div>
             <mat-action-list *ngIf="element.salarie == null">
-              <button style="margin-left: 20px;" (click)="openPosteAffectationForm(element)" mat-stroked-button color="primary"> Affecter à un salarié</button>
+              <button style="margin-left: 20px;" (click)="openPosteAffectationForm(element)" mat-stroked-button
+                      color="primary"> Affecter à un salarié
+              </button>
             </mat-action-list>
           </td>
         </ng-container>
+        <ng-container matColumnDef="actions">
+          <th *matHeaderCellDef mat-header-cell mat-sort-header></th>
+          <td *matCellDef="let element" mat-cell>
 
+            <button [matMenuTriggerFor]="menu" mat-icon-button>
+              <mat-icon>more_horiz</mat-icon>
+            </button>
+            <mat-menu #menu="matMenu">
+              <button (click)="openPosteModifForm(element)" mat-menu-item>
+                <mat-icon>edit</mat-icon>
+                <span>Modifier</span>
+              </button>
+              <button (click)="deletePoste(element)" class="text-danger" mat-menu-item>
+                <mat-icon color="warn">delete</mat-icon>
+                <span>Supprimer</span>
+              </button>
+            </mat-menu>
+
+          </td>
+        </ng-container>
         <tr mat-header-row *matHeaderRowDef="posteCols"></tr>
         <tr mat-row *matRowDef="let row; columns: posteCols;"></tr>
       </table>

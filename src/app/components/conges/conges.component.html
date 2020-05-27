@@ -58,6 +58,20 @@
                     *ngIf="conge.etat == 'PENDING_RESPONSE'">Répondre
             </button> -->
 
+            <button [matMenuTriggerFor]="menu" mat-icon-button>
+              <mat-icon>more_horiz</mat-icon>
+            </button>
+            <mat-menu #menu="matMenu">
+              <button (click)="openCongeMaladieModifForm(conge)" mat-menu-item>
+                <mat-icon>edit</mat-icon>
+                <span>Modifier</span>
+              </button>
+              <!-- <button mat-menu-item class="text-danger" (click)="deleteConge(element)">
+                <mat-icon color="warn">delete</mat-icon>
+                <span>Supprimer</span>
+              </button> -->
+            </mat-menu>
+
           </td>
         </ng-container>
 

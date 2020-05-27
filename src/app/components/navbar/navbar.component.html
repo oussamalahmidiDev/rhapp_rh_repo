@@ -38,7 +38,11 @@
            class="avatar"></div>
       <div *ngIf="!(currentUser | async).photo"
            [ngStyle]="{ 'background-image': 'url(' + 'assets/images/default.jpg' + ')'}" class="avatar"></div>
-      <div class="user-name">{{ (currentUser | async).nom }} {{ (currentUser | async).prenom }}</div>
+      <div class="user-name">{{ (currentUser | async).nom }} {{ (currentUser | async).prenom }}
+        <span *ngIf="(currentUser | async).role === 'ADMIN'"
+              style="display: block;font-size: 13px;line-height: normal;">(Administeur)</span>
+        <span *ngIf="(currentUser | async).role === 'RH'" style="display: block;font-size: 13px;line-height: normal;">(Agent RH)</span>
+      </div>
     </div>
     <mat-menu #appMenu="matMenu" class="top-menu" xPosition="before">
       <ng-template let-name="name" matMenuContent>

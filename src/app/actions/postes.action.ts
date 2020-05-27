@@ -31,3 +31,10 @@ export class DeletePoste {
   constructor(public id: number) {
   }
 }
+
+export class ModifierPoste {
+  static readonly type = '[Postes] UPDATE';
+
+  constructor(public id: number, public payload: Poste) {
+  }
+}
