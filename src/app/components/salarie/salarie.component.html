@@ -31,7 +31,7 @@
         <div class="sal-contacts">
           <div class="detail-item">
             <strong class="detail-name">CIN :</strong>
-            <span>{{ (salarie | async).cin }}</span>
+            <span>{{ (salarie | async).cin || 'Non précisé' }}</span>
           </div>
           <div class="detail-item">
             <strong class="detail-name">Numéro de somme :</strong>
@@ -45,7 +45,8 @@
       </div>
     </div>
     <div *ngIf="!(salarie | async).poste" class="header-right">
-      Aucun poste affecté. <span class="text-primary">Cliquer pour à un poste</span>
+      Aucun poste affecté.
+       <!-- <span class="text-primary">Cliquer pour à un poste</span> -->
     </div>
     <div *ngIf="(salarie | async).poste" class="header-right">
       <div class="poste-top">

@@ -1,6 +1,6 @@
 import {Action, Selector, State, StateContext} from '@ngxs/store';
 import {UserService} from '../services/user.service';
-import {GetProfile, LoadProfilePhoto, ModifyName, ModifyPhoto, ModifyProfile, UnsetProfile} from '../actions/profile.action';
+import {GetProfile, LoadProfilePhoto, ModifyName, ModifyPhoto, ModifyProfile, UnsetProfile, UnsetPhoto} from '../actions/profile.action';
 import {tap} from 'rxjs/operators';
 import {MainStore} from '../store';
 import {BlobPipe} from '../pipes/blob.pipe';
@@ -37,9 +37,11 @@ export class ProfileState {
     );
   }
 
-  @Action(UnsetProfile)
+  @Action(UnsetPhoto)
   unsetProfile(ctx: StateContext<MainStore>) {
-    ctx.patchState({profile: null});
+    return this.service.deletePhoto().pipe(
+      tap(res => ctx.patchState({profile: {...ctx.getState().profile, photo: null}}))
+    );
   }
 
   @Action(ModifyName)

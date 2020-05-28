@@ -8,7 +8,7 @@ import {TokenService} from '../../../services/token.service';
 import {ProfileState} from 'src/app/states/profile.state';
 import {Select, Store} from '@ngxs/store';
 import {Observable} from 'rxjs';
-import {ModifyPhoto, ModifyProfile} from 'src/app/actions/profile.action';
+import {ModifyPhoto, ModifyProfile, UnsetPhoto} from 'src/app/actions/profile.action';
 
 @Component({
   selector: 'app-profile-modal',
@@ -92,6 +92,7 @@ export class ProfileModalComponent implements OnInit {
   }
 
   deletePhoto() {
+    this.store.dispatch(new UnsetPhoto());
     // this.userService.deletePhoto().subscribe(
     //   data => this.currentUser.photo = this.currentUser.avatar_link = null,
     //   error => console.log(error.error)

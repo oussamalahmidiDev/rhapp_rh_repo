@@ -22,7 +22,7 @@
     </div>
     <div class="detail-item">
       <div class="detail-name">Adresse</div>
-      <div class="detail-content">{{ (salarie | async).adresse }}</div>
+      <div class="detail-content">{{ (salarie | async).adresse || 'Non précisé' }}</div>
     </div>
     <div class="detail-item">
       <div class="detail-name">Numero de somme</div>
@@ -30,39 +30,72 @@
     </div>
     <div class="detail-item">
       <div class="detail-name">Date de naissance</div>
-      <div class="detail-content">{{ (salarie | async).dateNaissance }}</div>
+      <div class="detail-content">{{ (salarie | async).dateNaissance || 'Non précisé' }}</div>
     </div>
     <div class="detail-item">
       <div class="detail-name">Lieu de naissance</div>
-      <div class="detail-content">{{ (salarie | async).lieuNaissance }}</div>
+      <div class="detail-content">{{ (salarie | async).lieuNaissance || 'Non précisé' }}</div>
+    </div>
+    <div class="detail-item">
+      <div class="detail-name">Situation familiale</div>
+      <div class="detail-content">{{ (salarie | async).etatFamiliale || 'Non précisé' }}</div>
+    </div>
+    <div class="detail-item">
+      <div class="detail-name">Nombre d'enfants</div>
+      <div class="detail-content">{{ (salarie | async).nmbEnf === 0 ? 'Aucun': (salarie | async).nmbEnf + ' enfants' || 'Non précisé' }}</div>
     </div>
 
   </mat-expansion-panel>
+  <mat-expansion-panel >
+    <mat-expansion-panel-header>
+      <mat-panel-title>
+        Informations professionnelles 
+      </mat-panel-title>
+      <mat-panel-description>
+       Direction, service, durée du congé restante
+      </mat-panel-description>
+    </mat-expansion-panel-header>
+    <div class="detail-item">
+      <div class="detail-name">Direction</div>
+      <div class="detail-content">{{ (salarie | async).direction.nom }}</div>
+    </div>
+    <div class="detail-item">
+      <div class="detail-name">Service</div>
+      <div class="detail-content">{{ (salarie | async).service.nom }}</div>
+    </div>
+    <div class="detail-item">
+      <div class="detail-name">Nombre de jours de congés</div>
+      <div class="detail-content">{{ (salarie | async).solde }}</div>
+    </div>
+  </mat-expansion-panel>
+
   <mat-expansion-panel>
     <mat-expansion-panel-header>
       <mat-panel-title>
         Cursus professionnel
       </mat-panel-title>
       <mat-panel-description>
-        Diplôme obtenu, direction, division, service
+        Diplômes et certificats obtenus
       </mat-panel-description>
     </mat-expansion-panel-header>
-    <div class="detail-item">
-      <div class="detail-name">Diplôme obtenu</div>
-      <div class="detail-content">Oussama Lahmidi</div>
-    </div>
-    <div class="detail-item">
-      <div class="detail-name">Direction</div>
-      <div class="detail-content">{{ (salarie | async).direction?.nom }}</div>
-    </div>
-    <div class="detail-item">
-      <div class="detail-name">Division</div>
-      <div class="detail-content">{{ (salarie | async).division }}</div>
-    </div>
-    <div class="detail-item">
-      <div class="detail-name">Service</div>
-      <div class="detail-content">{{ (salarie | async).service?.nom }}</div>
-    </div>
+    <p  *ngIf = "!(salarie | async).diplomeObt.length">
+      Aucune information sur les diplômes et les certificats obtenus.
+    </p>
+    <div class="cards mb-3 mt-3" *ngIf = "(salarie | async).diplomeObt.length">
+        <div class="card col-sm" *ngFor = "let diplome of (salarie | async).diplomeObt">
+          <div class="card-body">
+            <h5 class="card-title font-weight-bold">{{ diplome.name }}</h5>
+            <p class="card-text text-info font-weight-bold">
+              Obtenu le {{ diplome.dateDiplome | date: 'dd/MM/yyyy' }}
+            </p>
+            <p class="card-text "  *ngIf = "diplome.expDiplome">
+              Expire le {{ diplome.expDiplome | date: 'dd/MM/yyyy' }}
+            </p>
+            <button mat-stroked-button color="primary">Télecharger le document</button>
+          </div>
+        </div>
+
+      </div>
 
   </mat-expansion-panel>
   <mat-expansion-panel>
@@ -74,23 +107,23 @@
     </mat-expansion-panel-header>
     <div class="detail-item">
       <div class="detail-name">CIN</div>
-      <div class="detail-content">{{ (salarie | async).cinUrg }}</div>
+      <div class="detail-content">{{ (salarie | async).cinUrg || 'Non précisé' }}</div>
     </div>
     <div class="detail-item">
       <div class="detail-name">Nom et prénom</div>
-      <div class="detail-content">{{ (salarie | async).nomUrg }} {{ (salarie | async).prenomUrg }}</div>
+      <div class="detail-content">{{ (salarie | async).nomUrg || 'Non précisé' }} {{ (salarie | async).prenomUrg }}</div>
     </div>
     <div class="detail-item">
       <div class="detail-name">Adresse d'urgence</div>
-      <div class="detail-content">{{ (salarie | async).adresseUrg }}</div>
+      <div class="detail-content">{{ (salarie | async).adresseUrg || 'Non précisé' }}</div>
     </div>
     <div class="detail-item">
       <div class="detail-name">Téléphone</div>
-      <div class="detail-content">{{ (salarie | async).adresseUrg }}</div>
+      <div class="detail-content">{{ (salarie | async).adresseUrg || 'Non précisé' }}</div>
     </div>
     <div class="detail-item">
       <div class="detail-name">Email d'urgence</div>
-      <div class="detail-content">{{ (salarie | async).emailUrg }}</div>
+      <div class="detail-content">{{ (salarie | async).emailUrg || 'Non précisé' }}</div>
     </div>
 
   </mat-expansion-panel>
@@ -103,7 +136,8 @@
     </mat-expansion-panel-header>
     <div class="detail-item">
       <div class="detail-name">Document CV</div>
-      <a href="" class="detail-content">Télécharger le fichier</a>
+      <a href="" class="detail-content" *ngIf = "(salarie | async).cv">Télécharger le fichier</a>
+      <div  class="detail-content" *ngIf = "!(salarie | async).cv">Non précisé</div>
     </div>
 
 

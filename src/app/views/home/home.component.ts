@@ -2,9 +2,10 @@ import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
 import {User} from '../../models/user';
 import {Router} from '@angular/router';
 import {Observable} from 'rxjs';
-import {Select} from '@ngxs/store';
+import {Select, Store} from '@ngxs/store';
 import {ProfileState} from 'src/app/states/profile.state';
 import {AppState} from 'src/app/states/app.state';
+import { GetNotifications } from 'src/app/actions/notifications.action';
 
 @Component({
   selector: 'app-home',
@@ -23,12 +24,14 @@ export class HomeComponent implements OnInit {
   @ViewChild('searchField') input: ElementRef;
 
   constructor(
-    public router: Router
+    public router: Router,
+    public store: Store
   ) {
 
   }
 
   ngOnInit() {
+    // this.store.dispatch(new GetNotifications());
   }
 
 }

@@ -94,6 +94,7 @@ import {UserUpdateFormComponent} from './components/forms/user-updateform/user-u
 import {UsersState} from './states/users.state';
 import {JournalComponent} from './components/journal/journal.component';
 import {JournalState} from './states/evenements.state';
+import { NotificationsState } from './states/notifications.state';
 
 
 @NgModule({
@@ -188,7 +189,8 @@ import {JournalState} from './states/evenements.state';
       AbsencesState,
       CongesState,
       UsersState,
-      JournalState
+      JournalState,
+      NotificationsState
     ], {developmentMode: true}),
 
     // NgxsLoggerPluginModule.forRoot(),

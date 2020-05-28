@@ -9,8 +9,9 @@ import {COMMA, ENTER} from '@angular/cdk/keycodes';
 import {Select, Store} from '@ngxs/store';
 import {CreatePoste, ModifierPoste} from '../../../actions/postes.action';
 import {ServicesState} from 'src/app/states/services.state';
-import {Observable} from 'rxjs';
+import {Observable, of} from 'rxjs';
 import {DirectionsState} from 'src/app/states/directions.state';
+import { tap, catchError } from 'rxjs/operators';
 
 @Component({
   selector: 'app-poste-form',
@@ -104,7 +105,7 @@ export class PosteFormComponent implements OnInit {
   }
 
 
-  submitForm() {
+  submitForm($event) {
     // console.log(this.firstFormGroup, this.secondFormGroup, this.selectedDirection);
 
     const newPoste: Poste = {
@@ -117,6 +118,8 @@ export class PosteFormComponent implements OnInit {
 
     console.log('SUB POST', newPoste);
 
+    $event.target.disabled = true;
+
     // const newPoste: Poste = {
     //   competences: this.competences,
     //   direction: this.selectedDirection,
@@ -125,9 +128,15 @@ export class PosteFormComponent implements OnInit {
     //   service: this.selectedService
     // };
     if (!this.editForm) {
-      this.store.dispatch(new CreatePoste(newPoste)).subscribe(() => this.dialogRef.close());
+      this.store.dispatch(new CreatePoste(newPoste)).pipe(
+        tap(() => this.dialogRef.close()),
+        catchError((e) => {console.log(e); return of(e) })
+      )
     } else {
-      this.store.dispatch(new ModifierPoste(this.data.id, newPoste)).subscribe(() => this.dialogRef.close());
+      this.store.dispatch(new ModifierPoste(this.data.id, newPoste)).pipe(
+        tap(() => this.dialogRef.close()),
+        catchError((e) => {console.log(e); return of(e) })
+      )
     }
   }
 

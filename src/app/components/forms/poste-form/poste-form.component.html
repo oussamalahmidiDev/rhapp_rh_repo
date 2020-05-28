@@ -11,7 +11,7 @@
         <ng-template matStepLabel>Préciser la direction, la division et le service</ng-template>
         <mat-form-field [style.width.px]=327>
           <mat-label>Préciser la direction</mat-label>
-          <input matInput placeholder="Ex : 678951948581479" formControlName="direction"
+          <input matInput placeholder="Direction des RH" formControlName="direction"
                  (change)="handleDirectionChange()" [matAutocomplete]="autoDirection" required>
           <mat-autocomplete #autoDirection="matAutocomplete" [displayWith]="showNom">
             <mat-option *ngFor="let direction of directions | async"
@@ -20,11 +20,11 @@
         </mat-form-field>
           <mat-form-field [style.width.px]=327>
             <mat-label>Préciser la division</mat-label>
-            <input  matInput placeholder="Ex : 678951948581479" formControlName="division" required>
+            <input  matInput placeholder="Division B" formControlName="division" required>
           </mat-form-field>
         <mat-form-field [style.width.px]=327>
           <mat-label>Préciser la service</mat-label>
-          <input matInput placeholder="Ex : 678951948581479" formControlName="service" (change)="handleServiceChange()"
+          <input matInput  placeholder="Service d'achats" formControlName="service" (change)="handleServiceChange()"
                  [matAutocomplete]="autoService" required>
           <mat-autocomplete #autoService="matAutocomplete" [displayWith]="showNom">
             <mat-option *ngFor="let service of services | async"
@@ -41,7 +41,7 @@
           <ng-template matStepLabel>informations sur le poste</ng-template>
           <mat-form-field [style.width.px]=327>
             <mat-label>Le nom du poste</mat-label>
-            <input matInput  formControlName="posteName" placeholder="Ex : 678951948581479"
+            <input matInput  formControlName="posteName" placeholder="Poste de gestion des RH"
                    required>
           </mat-form-field>
             <!-- <mat-form-field
@@ -70,7 +70,7 @@
 
           <div>
             <button mat-button matStepperPrevious>Retour</button>
-            <button mat-button matStepperNext (click)="submitForm()" [disabled]="!secondFormGroup.valid" >Enregistrer</button>
+            <button mat-button matStepperNext (click)="submitForm($event)" [disabled]="!secondFormGroup.valid" >Enregistrer</button>
           </div>
         </form>
       </mat-step>

@@ -29,6 +29,10 @@ export class ModifyPhoto {
   }
 }
 
+export class UnsetPhoto {
+  static readonly type = '[Profile] DELETE PHOTO';
+}
+
 export class UnsetProfile {
   static readonly type = '[Profile] UNSET';
 }

@@ -25,4 +25,5 @@ export class MainStore {
   offline: boolean;
 
   journal: Activity[];
+  notifications: Notification[];
 }

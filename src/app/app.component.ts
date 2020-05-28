@@ -1,6 +1,8 @@
 import {Component, OnInit} from '@angular/core';
 import {Router} from '@angular/router';
 import {Store} from '@ngxs/store';
+import { WebsocketService } from './services/websocket.service';
+import { interval } from 'rxjs';
 
 
 @Component({
@@ -11,7 +13,7 @@ import {Store} from '@ngxs/store';
 export class AppComponent implements OnInit {
 
 
-  constructor(private store: Store, private router: Router) {
+  constructor(private store: Store, private router: Router /*private websocketService: WebsocketService*/) {
   }
 
   ngOnInit() {
@@ -32,10 +34,12 @@ export class AppComponent implements OnInit {
     //     // Add your own custom user variables here, ie:
     //     });
     // }
-
+    
   }
 
   refresh() {
+    console.log("calling logout api via web socket..");
+    // this.websocketService.send('random message' + Math.random());
     // this.location.reload();
     // this.store.dispatch(new GetProfile());
     // this.router.navigateByUrl('.', { skipLocationChange: true });
