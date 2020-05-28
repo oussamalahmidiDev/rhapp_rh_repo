@@ -8,7 +8,7 @@ import {environment} from '../../environments/environment';
 @Injectable({
   providedIn: 'root'
 })
-export class UserService {
+export class ProfileService {
 
   currentUser: User;
   BASE_URL: string = environment.BASE_URL;
@@ -53,5 +53,5 @@ export class UserService {
 }
 
 export const AUTH_PROVIDERS: Array<any> = [
-  {provide: UserService, useClass: UserService}
+  {provide: ProfileService, useClass: ProfileService}
 ];

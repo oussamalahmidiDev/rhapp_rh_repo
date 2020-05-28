@@ -1,4 +1,4 @@
-import {Salarie} from './salarie';
+import { Salarie } from "./salarie";
 
 export interface Retraite {
   id?: number;
@@ -8,5 +8,5 @@ export interface Retraite {
   remarques: string;
   salarie?: Salarie;
   reference: string;
-  type: { id?: number; typeRetraite: string; };
+  type: { id?: number; typeRetraite: string };
 }

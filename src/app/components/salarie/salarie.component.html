@@ -12,26 +12,51 @@
   </a>
   <div class="salarie-header">
     <div class="header-left">
-      <div *ngIf="(salarie | async).photo"
-           [ngStyle]="{ 'background-image': (salarie | async).photo | blob: 'salarie': (salarie | async).id | async | url }"
-           class="avatar"></div>
-      <div *ngIf="!(salarie | async).photo" class="avatar"
-           [ngStyle]="{ 'background-image': 'url(' + 'assets/images/default.jpg' + ')'}"></div>
+      <div
+        *ngIf="(salarie | async).photo"
+        [ngStyle]="{
+          'background-image':
+            (salarie | async).photo
+            | blob: 'salarie':(salarie | async).id
+            | async
+            | url
+        }"
+        class="avatar"
+      ></div>
+      <div
+        *ngIf="!(salarie | async).photo"
+        class="avatar"
+        [ngStyle]="{
+          'background-image': 'url(' + 'assets/images/default.jpg' + ')'
+        }"
+      ></div>
       <div class="pers-infos">
-        <h3 class="sal-name">{{ (salarie | async).nom }} {{ (salarie | async).prenom }}</h3>
+        <h3 class="sal-name">
+          {{ (salarie | async).nom }} {{ (salarie | async).prenom }}
+        </h3>
         <mat-chip-list style="display: inline-block;">
-          <mat-chip *ngIf="(salarie | async).retraite" color="accent" selected>Retraité</mat-chip>
-          <mat-chip *ngIf="(salarie | async).retraite && (salarie | async).retraite.etat === 'PENDING_RT_AVTG'">En
-            attente de retraite des avantages
+          <mat-chip *ngIf="(salarie | async).retraite" color="accent" selected
+            >Retraité</mat-chip
+          >
+          <mat-chip
+            *ngIf="
+              (salarie | async).retraite &&
+              (salarie | async).retraite.etat === 'PENDING_RT_AVTG'
+            "
+            >En attente de retraite des avantages
           </mat-chip>
-          <mat-chip *ngIf="(salarie | async).retraite && (salarie | async).retraite.etat === 'PENDING_VALID'">En attente
-            de validation
+          <mat-chip
+            *ngIf="
+              (salarie | async).retraite &&
+              (salarie | async).retraite.etat === 'PENDING_VALID'
+            "
+            >En attente de validation
           </mat-chip>
         </mat-chip-list>
         <div class="sal-contacts">
           <div class="detail-item">
             <strong class="detail-name">CIN :</strong>
-            <span>{{ (salarie | async).cin || 'Non précisé' }}</span>
+            <span>{{ (salarie | async).cin || "Non précisé" }}</span>
           </div>
           <div class="detail-item">
             <strong class="detail-name">Numéro de somme :</strong>
@@ -46,7 +71,7 @@
     </div>
     <div *ngIf="!(salarie | async).poste" class="header-right">
       Aucun poste affecté.
-       <!-- <span class="text-primary">Cliquer pour à un poste</span> -->
+      <!-- <span class="text-primary">Cliquer pour à un poste</span> -->
     </div>
     <div *ngIf="(salarie | async).poste" class="header-right">
       <div class="poste-top">
@@ -72,40 +97,53 @@
     </div>
   </div>
   <nav mat-tab-nav-bar class="mb-3">
-    <a mat-tab-link
-       routerLinkActive #infos="routerLinkActive"
-       routerLink="./infos"
-       [active]="infos.isActive">
+    <a
+      mat-tab-link
+      routerLinkActive
+      #infos="routerLinkActive"
+      routerLink="./infos"
+      [active]="infos.isActive"
+    >
       Informations personnelles
     </a>
 
-    <a mat-tab-link
-       routerLink="./absences"
-       routerLinkActive #abs="routerLinkActive"
-       [active]="abs.isActive">
+    <a
+      mat-tab-link
+      routerLink="./absences"
+      routerLinkActive
+      #abs="routerLinkActive"
+      [active]="abs.isActive"
+    >
       Historique d'absences
     </a>
-    <a mat-tab-link
-       routerLink="./conges"
-       routerLinkActive #conges="routerLinkActive"
-       [active]="conges.isActive">
+    <a
+      mat-tab-link
+      routerLink="./conges"
+      routerLinkActive
+      #conges="routerLinkActive"
+      [active]="conges.isActive"
+    >
       Demandes de congés
     </a>
-    <a mat-tab-link
-       routerLink="./retraites"
-       routerLinkActive #retraites="routerLinkActive"
-       [active]="retraites.isActive">
+    <a
+      mat-tab-link
+      routerLink="./retraites"
+      routerLinkActive
+      #retraites="routerLinkActive"
+      [active]="retraites.isActive"
+    >
       Informations sur la retraite
     </a>
 
-    <a mat-tab-link
-       routerLink="./avantages"
-       routerLinkActive #avantages="routerLinkActive"
-       [active]="avantages.isActive">
+    <a
+      mat-tab-link
+      routerLink="./avantages"
+      routerLinkActive
+      #avantages="routerLinkActive"
+      [active]="avantages.isActive"
+    >
       Les avantages en nature
     </a>
-
-
   </nav>
   <router-outlet></router-outlet>
 </div>

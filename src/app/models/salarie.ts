@@ -1,11 +1,11 @@
-import {Direction} from './direction';
-import {Service} from './service';
-import {Poste} from './poste';
-import {Retraite} from './retraite';
-import {AvantageNature} from './avatange';
-import {Absence} from './absence';
-import {Conge} from './conge';
-import { Diplome } from './diplome';
+import { Direction } from "./direction";
+import { Service } from "./service";
+import { Poste } from "./poste";
+import { Retraite } from "./retraite";
+import { AvantageNature } from "./avatange";
+import { Absence } from "./absence";
+import { Conge } from "./conge";
+import { Diplome } from "./diplome";
 
 export interface Salarie {
   id?: number;
@@ -33,7 +33,6 @@ export interface Salarie {
   diplomeObt?: Diplome[];
   fonction?: string;
   cv?: string;
-
 
   // contact urgence
 
@@ -81,6 +80,5 @@ export interface Salarie {
 //   avantages?: AvantageNature[];
 //   absences?: Absence[];
 //   conges?: Conge[];
-
 
 // }

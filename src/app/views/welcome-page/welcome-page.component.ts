@@ -1,6 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {Router} from '@angular/router';
-import {UserService} from '../../services/user.service';
+import {ProfileService} from '../../services/user.service';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {CookieService} from '../../services/cookie.service';
 import {TokenService} from '../../services/token.service';
@@ -24,7 +24,7 @@ export class WelcomePageComponent implements OnInit {
   constructor(
     private router: Router,
     private snackBar: MatSnackBar,
-    private authService: UserService,
+    private authService: ProfileService,
     private formGroup: FormBuilder,
     private cookieService: CookieService,
     private tokenService: TokenService
