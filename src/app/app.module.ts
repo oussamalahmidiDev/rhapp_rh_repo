@@ -37,6 +37,7 @@ import {
   MatTabsModule,
   MatToolbarModule,
   MatTooltipModule,
+  MatBadgeModule,
 } from "@angular/material";
 import { DashboardComponent } from "./components/dashboard/dashboard.component";
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
@@ -97,6 +98,7 @@ import { NotificationsState } from "./states/notifications.state";
 import { JournalPersonnelComponent } from "./components/journal-personnel/journal-personnel.component";
 import { StompRService } from "@stomp/ng2-stompjs";
 import { WebsocketService } from "./services/websocket.service";
+import { NotificationDrawerComponent } from "./components/notification-drawer/notification-drawer.component";
 
 @NgModule({
   declarations: [
@@ -135,6 +137,7 @@ import { WebsocketService } from "./services/websocket.service";
     NavbarComponent,
     JournalComponent,
     JournalPersonnelComponent,
+    NotificationDrawerComponent,
 
     UserFormComponent,
     UserUpdateFormComponent,
@@ -176,6 +179,7 @@ import { WebsocketService } from "./services/websocket.service";
     MatMenuModule,
     MatProgressBarModule,
     MatCheckboxModule,
+    MatBadgeModule,
 
     NgxTrimDirectiveModule,
 
@@ -244,6 +248,7 @@ import { WebsocketService } from "./services/websocket.service";
     SearchResultsComponent,
     AvantageFormComponent,
     AvantageRejetFormComponent,
+    NotificationDrawerComponent,
   ],
 })
 export class AppModule {}

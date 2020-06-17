@@ -6,6 +6,7 @@ import { Service } from "./models/service";
 import { Direction } from "./models/direction";
 import { Conge } from "./models/conge";
 import { Activity } from "./models/activity";
+import { Notification } from "./models/notification";
 
 export class MainStore {
   profile: User;

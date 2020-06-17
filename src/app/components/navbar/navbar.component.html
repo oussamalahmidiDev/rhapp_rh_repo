@@ -34,8 +34,13 @@
     </div>
   </form>
   <div class="right-items">
-    <button (click)="redirect(2)" class="mr-2" mat-icon-button>
-      <mat-icon>notifications</mat-icon>
+    <button (click)="openNotificationDrawer()" class="mr-2" mat-icon-button>
+      <mat-icon
+        [matBadge]="notificationsCount"
+        [matBadgeHidden]="notificationsCount == 0"
+        matBadgeColor="warn"
+        >notifications</mat-icon
+      >
     </button>
     <div
       [matMenuTriggerData]="{ name: 'Sally' }"

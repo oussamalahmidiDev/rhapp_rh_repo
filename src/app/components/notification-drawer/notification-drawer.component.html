@@ -1,0 +1,24 @@
+<div class="container">
+  <div class="modal-top">
+    <h2>Notifications</h2>
+    <mat-icon
+      style="opacity: 0.8; cursor: pointer;"
+      class="close-btn"
+      (click)="closeModal()"
+      >cancel</mat-icon
+    >
+  </div>
+  <hr />
+  <div class="notifications-list">
+    <div
+      class="notification-item"
+      [ngClass]="{ unseen: !notification.isSeen }"
+      *ngFor="let notification of notifications | async"
+    >
+      <div class="content">{{ notification.content }}</div>
+      <div class="timestamp">
+        {{ notification.timestamp | date: "hh:mm" }}
+      </div>
+    </div>
+  </div>
+</div>

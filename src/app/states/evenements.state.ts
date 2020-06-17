@@ -5,6 +5,7 @@ import { tap } from "rxjs/operators";
 import {
   GetUsersEvenements,
   GetPersonnalEvenements,
+  AddUsersEvenement,
 } from "../actions/evenements.action";
 
 @State({
@@ -32,6 +33,19 @@ export class JournalState {
         })
       )
     );
+  }
+
+  @Action(AddUsersEvenement)
+  addUsersEvenement(
+    ctx: StateContext<MainStore>,
+    { payload }: AddUsersEvenement
+  ) {
+    return ctx.patchState({
+      journal: {
+        ...ctx.getState().journal,
+        utilisateurs: [payload, ...ctx.getState().journal.utilisateurs],
+      },
+    });
   }
 
   @Action(GetPersonnalEvenements)

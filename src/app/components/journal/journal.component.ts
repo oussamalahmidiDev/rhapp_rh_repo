@@ -7,7 +7,11 @@ import { Observable, interval, Subscription } from "rxjs";
 import { User } from "../../models/user";
 import { ProfileState } from "../../states/profile.state";
 import { startWith, switchMap } from "rxjs/operators";
-import { GetUsersEvenements } from "src/app/actions/evenements.action";
+import {
+  GetUsersEvenements,
+  AddUsersEvenement,
+} from "src/app/actions/evenements.action";
+import { WebsocketService } from "src/app/services/websocket.service";
 
 @Injectable()
 @Component({
@@ -32,7 +36,10 @@ export class JournalComponent implements OnInit {
   // @ts-ignore
   @ViewChild(MatSort) sort: MatSort;
 
-  constructor(private store: Store) {
+  constructor(
+    private store: Store,
+    private websocketService: WebsocketService
+  ) {
     this.subscription = new Subscription();
   }
 
@@ -47,16 +54,17 @@ export class JournalComponent implements OnInit {
         console.log(dataStr, filter, dataStr.indexOf(filter));
         return dataStr.indexOf(filter) !== -1;
       };
-      // this.activitiesDs.sortingDataAccessor = (item, property) => {
-      //   switch (property) {
-      //     case 'timestamp':
-      //       return new Date(item.timestamp);
-      //     default:
-      //       return item[property];
-      //   }
-      // };
     });
     this.store.dispatch(new GetUsersEvenements(this.limit));
+
+    this.subscription = this.websocketService
+      .getStomp()
+      .subscribe("/user/topic/activities")
+      .subscribe((data) => {
+        const activity = JSON.parse(data.body);
+        this.store.dispatch(new AddUsersEvenement(activity));
+        console.log("Received : ", JSON.parse(data.body));
+      });
 
     // interval(5000)
     // .pipe(

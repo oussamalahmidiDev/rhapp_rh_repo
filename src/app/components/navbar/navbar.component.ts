@@ -19,9 +19,13 @@ import { ProfileModalComponent } from "../forms/profile-modal/profile-modal.comp
 import { UnsetProfile } from "src/app/actions/profile.action";
 import { CacheService } from "src/app/services/cache.service";
 import { WebsocketService } from "src/app/services/websocket.service";
-import { AddNotification } from "src/app/actions/notifications.action";
+import {
+  AddNotification,
+  GetNotifications,
+} from "src/app/actions/notifications.action";
 import { GetAbsences } from "src/app/actions/absences.action";
 import { GetConges } from "src/app/actions/conges.action";
+import { NotificationDrawerComponent } from "../notification-drawer/notification-drawer.component";
 
 @Component({
   selector: "app-navbar",
@@ -54,6 +58,7 @@ export class NavbarComponent implements OnInit {
 
   ngOnInit() {
     this.searchQuery = null;
+    this.store.dispatch(new GetNotifications());
     this.websocketService.connect();
     this.websocketSubscription = this.websocketService
       .getStomp()
@@ -67,7 +72,26 @@ export class NavbarComponent implements OnInit {
         this.store.dispatch(new GetConges());
         console.log("Received : ", JSON.parse(data.body));
       });
+
+    this.store
+      .select((store) => store.notifications.notifications)
+      .subscribe((notifications) => {
+        if (notifications)
+          notifications.forEach((element) => {
+            console.log("Is seen : ", element.isSeen);
+            if (!element.isSeen) this.notificationsCount++;
+          });
+      });
     // this.store.dispatch(new LoadProfilePhoto());
+  }
+
+  openNotificationDrawer() {
+    const dialogRef = this.dialog.open(NotificationDrawerComponent, {
+      width: "500px",
+      position: { top: "30px", right: "25px" },
+    });
+
+    dialogRef.afterOpened().subscribe(() => (this.notificationsCount = 0));
   }
 
   logout() {
