@@ -1,12 +1,11 @@
-import {User} from './models/user';
-import {Salarie} from './models/salarie';
-import {Poste} from './models/poste';
-import {Absence} from './models/absence';
-import {Service} from './models/service';
-import {Direction} from './models/direction';
-import {Conge} from './models/conge';
-import {Activity} from './models/activity';
-
+import { User } from "./models/user";
+import { Salarie } from "./models/salarie";
+import { Poste } from "./models/poste";
+import { Absence } from "./models/absence";
+import { Service } from "./models/service";
+import { Direction } from "./models/direction";
+import { Conge } from "./models/conge";
+import { Activity } from "./models/activity";
 
 export class MainStore {
   profile: User;
@@ -24,6 +23,6 @@ export class MainStore {
   fetching: boolean;
   offline: boolean;
 
-  journal: Activity[];
+  journal: { utilisateurs: Activity[]; personnel: Activity[] };
   notifications: Notification[];
 }

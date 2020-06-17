@@ -1,12 +1,11 @@
-import {Injectable} from '@angular/core';
-import * as jwt_decode from 'jwt-decode';
-import {CookieService} from './cookie.service';
+import { Injectable } from "@angular/core";
+import * as jwt_decode from "jwt-decode";
+import { CookieService } from "./cookie.service";
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: "root",
 })
 export class TokenService {
-
   token: string;
   decodedToken: any;
 
@@ -15,24 +14,24 @@ export class TokenService {
   }
 
   getToken() {
-    return this.token;
+    return localStorage.getItem("token");
   }
 
   setNewToken(token) {
-    localStorage.removeItem('token');
-    localStorage.setItem('token', token);
+    localStorage.removeItem("token");
+    localStorage.setItem("token", token);
     this.token = token;
   }
 
   setToken() {
-    const token = localStorage.getItem('token');
+    const token = localStorage.getItem("token");
     if (token) {
       this.token = token;
     }
   }
 
   unsetToken() {
-    localStorage.removeItem('token');
+    localStorage.removeItem("token");
     this.token = this.decodedToken = null;
   }
 
@@ -64,7 +63,7 @@ export class TokenService {
   isTokenExpired(): boolean {
     const expiryTime: number = this.getExpiryTime();
     if (expiryTime) {
-      return ((1000 * expiryTime) - (new Date()).getTime()) < 5000;
+      return 1000 * expiryTime - new Date().getTime() < 5000;
     } else {
       return false;
     }

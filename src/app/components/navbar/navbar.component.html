@@ -4,15 +4,20 @@
   <form class="example-form navbar-nav mr-auto">
     <div class="example-full-width">
       <!-- <mat-label>Favorite food</mat-label> -->
-      <input #searchField
-             [matAutocomplete]="auto"
-
-             class="search"
-             name="searchQuery" placeholder="Rechercher par nom de salarié, divison, direction">
-      <mat-autocomplete #auto="matAutocomplete" (optionSelected)="redirect($event.option.value.id)"
-                        [displayWith]="showSalarieNom">
+      <input
+        #searchField
+        [matAutocomplete]="auto"
+        class="search"
+        name="searchQuery"
+        placeholder="Rechercher par nom de salarié, divison, direction"
+      />
+      <mat-autocomplete
+        #auto="matAutocomplete"
+        (optionSelected)="redirect($event.option.value.id)"
+        [displayWith]="showSalarieNom"
+      >
         <mat-option *ngFor="let salarie of searchResults" [value]="salarie">
-          {{salarie.nom}} {{salarie.prenom}}
+          {{ salarie.nom }} {{ salarie.prenom }}
           <!-- <div class="account-inline" >
             <div class="avatar" *ngIf="salarie.photo" [ngStyle]="{ 'background-image': 'url(' + salarie.photo + ')'}"></div>
             <div class="avatar" *ngIf="!salarie.photo" [ngStyle]="{ 'background-image': 'url(' + 'assets/images/default.jpg' + ')'}"></div>
@@ -32,24 +37,52 @@
     <button (click)="redirect(2)" class="mr-2" mat-icon-button>
       <mat-icon>notifications</mat-icon>
     </button>
-    <div [matMenuTriggerData]="{name: 'Sally'}" [matMenuTriggerFor]="appMenu" class="inline-avatar">
-      <div *ngIf="(currentUser | async).photo"
-           [ngStyle]="{ 'background-image': (currentUser | async).photo | blob | async | url }"
-           class="avatar"></div>
-      <div *ngIf="!(currentUser | async).photo"
-           [ngStyle]="{ 'background-image': 'url(' + 'assets/images/default.jpg' + ')'}" class="avatar"></div>
-      <div class="user-name">{{ (currentUser | async).nom }} {{ (currentUser | async).prenom }}
-        <span *ngIf="(currentUser | async).role === 'ADMIN'"
-              style="display: block;font-size: 13px;line-height: normal;">(Administeur)</span>
-        <span *ngIf="(currentUser | async).role === 'RH'" style="display: block;font-size: 13px;line-height: normal;">(Agent RH)</span>
+    <div
+      [matMenuTriggerData]="{ name: 'Sally' }"
+      [matMenuTriggerFor]="appMenu"
+      class="inline-avatar"
+    >
+      <div
+        *ngIf="(currentUser | async).photo"
+        [ngStyle]="{
+          'background-image': (currentUser | async).photo | blob | async | url
+        }"
+        class="avatar"
+      ></div>
+      <div
+        *ngIf="!(currentUser | async).photo"
+        [ngStyle]="{
+          'background-image': 'url(' + 'assets/images/default.jpg' + ')'
+        }"
+        class="avatar"
+      ></div>
+      <div class="user-name">
+        {{ (currentUser | async).nom }} {{ (currentUser | async).prenom }}
+        <span
+          *ngIf="(currentUser | async).role === 'ADMIN'"
+          style="display: block; font-size: 13px; line-height: normal;"
+          >(Administeur)</span
+        >
+        <span
+          *ngIf="(currentUser | async).role === 'RH'"
+          style="display: block; font-size: 13px; line-height: normal;"
+          >(Agent RH)</span
+        >
       </div>
     </div>
     <mat-menu #appMenu="matMenu" class="top-menu" xPosition="before">
       <ng-template let-name="name" matMenuContent>
-        <button (click)="openProfileModal()" mat-menu-item>Voir votre profil</button>
+        <button (click)="openProfileModal()" mat-menu-item>
+          Voir votre profil
+        </button>
+        <a routerLink="journal_personnel" mat-menu-item
+          >Voir mon journal d'activités
+        </a>
         <!-- <button mat-menu-item>Historique d'activités</button> -->
         <mat-divider></mat-divider>
-        <button (click)="logout()" class="text-danger" mat-menu-item>Deconnexion</button>
+        <button (click)="logout()" class="text-danger" mat-menu-item>
+          Deconnexion
+        </button>
       </ng-template>
     </mat-menu>
   </div>

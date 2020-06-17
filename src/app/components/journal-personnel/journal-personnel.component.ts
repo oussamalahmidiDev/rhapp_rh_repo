@@ -1,22 +1,20 @@
-import { Component, Injectable, OnInit, ViewChild } from "@angular/core";
-import { MatSort, MatTableDataSource } from "@angular/material";
-import { Activity } from "../../models/activity";
+import { Component, OnInit, Injectable } from "@angular/core";
 import { Select, Store } from "@ngxs/store";
-import { JournalState } from "../../states/evenements.state";
-import { Observable, interval, Subscription } from "rxjs";
-import { User } from "../../models/user";
-import { ProfileState } from "../../states/profile.state";
-import { startWith, switchMap } from "rxjs/operators";
-import { GetUsersEvenements } from "src/app/actions/evenements.action";
+import { JournalState } from "src/app/states/evenements.state";
+import { Observable, Subscription } from "rxjs";
+import { Activity } from "src/app/models/activity";
+import { ProfileState } from "src/app/states/profile.state";
+import { User } from "src/app/models/user";
+import { MatTableDataSource } from "@angular/material";
+import { GetPersonnalEvenements } from "src/app/actions/evenements.action";
 
-@Injectable()
 @Component({
-  selector: "app-journal",
-  templateUrl: "./journal.component.html",
-  styleUrls: ["./journal.component.css"],
+  selector: "app-journal-personnel",
+  templateUrl: "./journal-personnel.component.html",
+  styleUrls: ["./journal-personnel.component.css"],
 })
-export class JournalComponent implements OnInit {
-  @Select(JournalState.getUsersEvenements)
+export class JournalPersonnelComponent implements OnInit {
+  @Select(JournalState.getPersonnalEvenements)
   activities: Observable<Activity[]>;
 
   @Select(ProfileState.getProfile)
@@ -27,10 +25,10 @@ export class JournalComponent implements OnInit {
   limit = 50;
 
   activitiesDs: MatTableDataSource<Activity>;
-  activityCols: string[] = ["evenement", "service", "timestamp", "user"];
+  activityCols: string[] = ["evenement", "service", "timestamp"];
 
   // @ts-ignore
-  @ViewChild(MatSort) sort: MatSort;
+  // @ViewChild(MatSort) sort: MatSort;
 
   constructor(private store: Store) {
     this.subscription = new Subscription();
@@ -56,7 +54,7 @@ export class JournalComponent implements OnInit {
       //   }
       // };
     });
-    this.store.dispatch(new GetUsersEvenements(this.limit));
+    this.store.dispatch(new GetPersonnalEvenements(this.limit));
 
     // interval(5000)
     // .pipe(
@@ -88,7 +86,7 @@ export class JournalComponent implements OnInit {
     if (scrollLocation === tableScrollHeight - tableViewHeight) {
       this.limit += 50;
       // console.log('INCREMENTING LIMIT', this.limit);
-      this.store.dispatch(new GetUsersEvenements(this.limit));
+      this.store.dispatch(new GetPersonnalEvenements(this.limit));
       // this.dataSource = this.dataSource.concat(ELEMENT_DATA);
     }
     // console.log('scrolling', scrollLocation, tableScrollHeight - tableViewHeight, limit);

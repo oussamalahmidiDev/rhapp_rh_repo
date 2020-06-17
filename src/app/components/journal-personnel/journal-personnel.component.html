@@ -1,9 +1,9 @@
 <div class="mt-5 container" style="max-width: 85vw;">
-  <h1 class="mat-subheading">Journal d'évenements</h1>
+  <h1 class="mat-subheading">Mon historique d'activités</h1>
   <mat-divider></mat-divider>
   <mat-card class="dashboard-card mt-4 mb-5">
     <mat-card-header>
-      <mat-card-title>Liste d'activités des agents</mat-card-title>
+      <mat-card-title>Liste d'activités récentes</mat-card-title>
       <mat-form-field class="ml-auto mr-3" style="width: 500px;">
         <input
           (keyup)="search($event)"
@@ -23,6 +23,7 @@
         (scroll)="onScroll($event)"
         [dataSource]="activitiesDs"
         class="accounts"
+        style="width: 100%;"
         mat-table
         matSort
       >
@@ -58,14 +59,6 @@
           <th *matHeaderCellDef mat-header-cell mat-sort-header>Temps</th>
           <td *matCellDef="let element" mat-cell>
             {{ element.timestamp | date: "medium" }}
-          </td>
-        </ng-container>
-        <ng-container matColumnDef="user">
-          <th *matHeaderCellDef mat-header-cell mat-sort-header>
-            {{ (currentUser | async).role === "ADMIN" ? "Agent" : "Salarié" }}
-          </th>
-          <td *matCellDef="let element" mat-cell>
-            {{ element.user.nom }} {{ element.user.prenom }}
           </td>
         </ng-container>
 

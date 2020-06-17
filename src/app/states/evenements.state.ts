@@ -1,27 +1,53 @@
-import {Action, Selector, State, StateContext} from '@ngxs/store';
-import {MainStore} from '../store';
-import {ActivityService} from '../services/activity.service';
-import {tap} from 'rxjs/operators';
-import {GetEvenements} from '../actions/evenements.action';
+import { Action, Selector, State, StateContext } from "@ngxs/store";
+import { MainStore } from "../store";
+import { ActivityService } from "../services/activity.service";
+import { tap } from "rxjs/operators";
+import {
+  GetUsersEvenements,
+  GetPersonnalEvenements,
+} from "../actions/evenements.action";
 
 @State({
-  name: 'journal'
+  name: "journal",
 })
 export class JournalState {
+  constructor(private service: ActivityService) {}
 
-  constructor(private service: ActivityService) {
+  @Selector()
+  static getUsersEvenements(store: MainStore) {
+    return store.journal.utilisateurs;
   }
 
   @Selector()
-  static getEvenements(store: MainStore) {
-    return store.journal;
+  static getPersonnalEvenements(store: MainStore) {
+    return store.journal.personnel;
   }
 
-  @Action(GetEvenements)
-  fetchEvenements(ctx: StateContext<MainStore>, {limit}: GetEvenements) {
+  @Action(GetUsersEvenements)
+  fetchEvenements(ctx: StateContext<MainStore>, { limit }: GetUsersEvenements) {
     return this.service.getActivities(limit).pipe(
-      tap(res => ctx.patchState({journal: res.content}))
+      tap((res) =>
+        ctx.patchState({
+          journal: { ...ctx.getState().journal, utilisateurs: res.content },
+        })
+      )
     );
   }
 
+  @Action(GetPersonnalEvenements)
+  fetchPersonnalEvenements(
+    ctx: StateContext<MainStore>,
+    { limit }: GetPersonnalEvenements
+  ) {
+    return this.service.getPersonnalActivities(limit).pipe(
+      tap((res) =>
+        ctx.patchState({
+          journal: {
+            ...ctx.getState().journal,
+            personnel: res.content,
+          },
+        })
+      )
+    );
+  }
 }
