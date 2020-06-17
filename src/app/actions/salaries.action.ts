@@ -1,72 +1,64 @@
-import {Salarie} from '../models/salarie';
-import {Retraite} from '../models/retraite';
-import {AvantageNature} from '../models/avatange';
+import { Salarie } from "../models/salarie";
+import { Retraite } from "../models/retraite";
+import { AvantageNature } from "../models/avatange";
 
 export class GetSalaries {
-  static readonly type = '[Salaries] Get';
+  static readonly type = "[Salaries] Get";
 }
 
 export class GetSalarieById {
-  static readonly type = '[Salaries] Get One';
+  static readonly type = "[Salaries] Get One";
 
-  constructor(public id: number) {
-  }
+  constructor(public id: number) {}
 }
 
 export class LoadSalariePhoto {
-  static readonly type = '[Salaries] Get PHOTO';
+  static readonly type = "[Salaries] Get PHOTO";
 
-  constructor(public id: number, public payload: string) {
-  }
+  constructor(public id: number, public payload: string) {}
 }
 
 export class ModifierSalarie {
-  static readonly type = '[Salaries] UPDATE';
+  static readonly type = "[Salaries] UPDATE";
 
-  constructor(public id: number, public payload: Salarie) {
-  }
+  constructor(public id: number, public payload: Salarie) {}
 }
 
 export class DeleteSalariePoste {
-  static readonly type = '[Salaries] POSTE DELETE';
+  static readonly type = "[Salaries] POSTE DELETE";
 }
 
 export class AddSalarie {
-  static readonly type = '[Salaries] CREATE';
+  static readonly type = "[Salaries] CREATE";
 
-  constructor(public payload: Salarie) {
-  }
+  constructor(public payload: Salarie) {}
 }
 
 export class AddRetraite {
-  static readonly type = '[Salaries] RETRAITE CREATE';
+  static readonly type = "[Salaries] RETRAITE CREATE";
 
-  constructor(public payload: Retraite) {
-  }
+  constructor(public payload: Retraite) {}
 }
 
 export class AddAvantage {
-  static readonly type = '[Salaries] AVANTAGES ADD';
+  static readonly type = "[Salaries] AVANTAGES ADD";
 
-  constructor(public payload: AvantageNature) {
-  }
+  constructor(public payload: AvantageNature) {}
 }
 
 export class RetirerAvantages {
-  static readonly type = '[Salaries] AVANTAGES RETIER';
+  static readonly type = "[Salaries] AVANTAGES RETIER";
 
-  constructor(public payload: AvantageNature[]) {
-  }
+  constructor(public payload: AvantageNature[]) {}
 }
 
 export class ValiderRetraite {
-  static readonly type = '[Salaries] RETRAITE VALIDER';
+  static readonly type = "[Salaries] RETRAITE VALIDER";
   // constructor(public {id}: Retraite) {}
 }
 
 export class DeleteSalarie {
-  static readonly type = '[Salaries] DELETE';
+  static readonly type = "[Salaries] DELETE";
 
-  constructor(public id: number) {
-  }
+  constructor(public id: number, public payload: Salarie) {}
 }

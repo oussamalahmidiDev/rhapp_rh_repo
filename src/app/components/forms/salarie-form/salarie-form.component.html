@@ -1,83 +1,184 @@
 <div class="form">
   <div *ngIf="!editForm" class="mat-title">Enregistrer un nouveau salarié</div>
-  <p *ngIf="!editForm" class="mat-body">Formualaire d'Enregistrement d'un salarié dans l'entreprise. Verifiez bien les
-    informations avant de valider !</p>
-  <div *ngIf="editForm" class="mat-title">Modifier les informations de {{ data.nom }} {{ data.prenom }}</div>
+  <p *ngIf="!editForm" class="mat-body">
+    Formualaire d'Enregistrement d'un salarié dans l'entreprise. Verifiez bien
+    les informations avant de valider !
+  </p>
+  <div *ngIf="editForm" class="mat-title">
+    Modifier les informations de {{ data.nom }} {{ data.prenom }}
+  </div>
   <mat-vertical-stepper linear>
     <mat-step [stepControl]="firstFormGroup">
       <form [formGroup]="firstFormGroup">
-        <ng-template matStepLabel>Préciser la direction et le service, et le nº de somme du salarié</ng-template>
-        <mat-form-field [style.width.px]=400>
+        <ng-template matStepLabel
+          >Préciser la direction et le service, et le nº de somme du
+          salarié</ng-template
+        >
+        <mat-form-field [style.width.px]="400">
           <mat-label>Préciser la direction</mat-label>
-          <input matInput placeholder="Ex : 678951948581479" formControlName="direction"
-                 (change)="handleDirectionChange()" [matAutocomplete]="autoDirection" required>
-          <mat-autocomplete #autoDirection="matAutocomplete" [displayWith]="showNom">
-            <mat-option *ngFor="let direction of directions | async"
-                        [value]="direction">{{ direction.nom }}</mat-option>
+          <input
+            matInput
+            placeholder="Ex : 678951948581479"
+            formControlName="direction"
+            (change)="handleDirectionChange()"
+            [matAutocomplete]="autoDirection"
+            required
+          />
+          <mat-autocomplete
+            #autoDirection="matAutocomplete"
+            [displayWith]="showNom"
+          >
+            <mat-option
+              *ngFor="let direction of directions | async"
+              [value]="direction"
+              >{{ direction.nom }}</mat-option
+            >
           </mat-autocomplete>
         </mat-form-field>
-        <mat-form-field [style.width.px]=400>
+        <mat-form-field [style.width.px]="400">
           <mat-label>Préciser la service</mat-label>
-          <input matInput placeholder="Ex : 678951948581479" formControlName="service" (change)="handleServiceChange()"
-                 [matAutocomplete]="autoService" required>
-          <mat-autocomplete #autoService="matAutocomplete" [displayWith]="showNom">
-            <mat-option *ngFor="let service of services | async"
-                        [value]="service">{{ service.nom }}</mat-option>
+          <input
+            matInput
+            placeholder="Ex : 678951948581479"
+            formControlName="service"
+            (change)="handleServiceChange()"
+            [matAutocomplete]="autoService"
+            required
+          />
+          <mat-autocomplete
+            #autoService="matAutocomplete"
+            [displayWith]="showNom"
+          >
+            <mat-option
+              *ngFor="let service of services | async"
+              [value]="service"
+              >{{ service.nom }}</mat-option
+            >
           </mat-autocomplete>
         </mat-form-field>
-          <mat-form-field [style.width.px]=400>
-            <mat-label>Le nº de somme</mat-label>
-            <input matInput  formControlName="numSomme" placeholder="Ex : 678951948581479"
-                   required>
-          </mat-form-field>
-          <div>
-            <button type="submit" [disabled] = "firstFormGroup.invalid"  mat-button matStepperNext>Suivant</button>
-          </div>
-        </form>
-      </mat-step>
-      <mat-step [stepControl]="secondFormGroup">
-        <form [formGroup]="secondFormGroup">
-          <ng-template matStepLabel>Informations personnelles du salarié</ng-template>
-          <mat-form-field [style.width.px]=400>
-            <mat-label>Le nom du salarié</mat-label>
-            <input matInput  formControlName="nom" placeholder="Ex : 678951948581479"
-                   required>
-          </mat-form-field>
-          <mat-form-field [style.width.px]=400>
-            <mat-label>Le prénom du salarié</mat-label>
-            <input matInput  formControlName="prenom" placeholder="Ex : 678951948581479"
-                   required>
-          </mat-form-field>
-          <mat-form-field [style.width.px]=400>
-            <mat-label>L'email du salarié</mat-label>
-            <input matInput  formControlName="email" placeholder="Ex : 678951948581479"
-                   required>
-          </mat-form-field>
-          <div>
-            <button mat-button matStepperPrevious>Retour</button>
-            <button type="submit" mat-button matStepperNext [disabled] = "secondFormGroup.invalid" >Suivant</button>
-          </div>
-        </form>
-      </mat-step>
-      <mat-step [stepControl]="thirdFormGroup">
-        <form [formGroup]="thirdFormGroup">
-          <ng-template matStepLabel>Autre informations administratives</ng-template>
-          <mat-form-field [style.width.px]=400>
-            <mat-label>Le nombre de jours restants de congé</mat-label>
-            <input matInput  formControlName="solde" type="number" placeholder="Ex : 678951948581479"
-                   required>
-          </mat-form-field>
-          <div>
-            <button mat-button matStepperPrevious>Retour</button>
-            <button mat-button matStepperNext  (click)="onSubmit()" [disabled] = "thirdFormGroup.invalid">Enregistrer</button>
-          </div>
-        </form>
-      </mat-step>
-
-
-    </mat-vertical-stepper>
-<!--    <mat-card-actions class="container pr-5 mb-0" >-->
-<!--      <button mat-button class="ml-3 mt-3" color="primary"(click)="createVirement()" >Valider le virement</button>-->
-<!--      <button mat-button class="ml-3 mt-3" color="primary"  >Revoir les détails</button>-->
-<!--    </mat-card-actions>-->
-  </div>
+        <mat-form-field [style.width.px]="400">
+          <mat-label>Le nº de somme</mat-label>
+          <input
+            matInput
+            formControlName="numSomme"
+            placeholder="Ex : 678951948581479"
+            required
+          />
+        </mat-form-field>
+        <div>
+          <button
+            type="submit"
+            [disabled]="firstFormGroup.invalid"
+            mat-button
+            matStepperNext
+          >
+            Suivant
+          </button>
+        </div>
+      </form>
+    </mat-step>
+    <mat-step [stepControl]="secondFormGroup">
+      <form [formGroup]="secondFormGroup">
+        <ng-template matStepLabel
+          >Informations personnelles du salarié</ng-template
+        >
+        <mat-form-field [style.width.px]="400">
+          <mat-label>Le nom du salarié</mat-label>
+          <input
+            matInput
+            formControlName="nom"
+            placeholder="Ex : 678951948581479"
+            required
+          />
+        </mat-form-field>
+        <mat-form-field [style.width.px]="400">
+          <mat-label>Le prénom du salarié</mat-label>
+          <input
+            matInput
+            formControlName="prenom"
+            placeholder="Ex : 678951948581479"
+            required
+          />
+        </mat-form-field>
+        <mat-form-field [style.width.px]="400">
+          <mat-label>L'email du salarié</mat-label>
+          <input
+            matInput
+            formControlName="email"
+            placeholder="Ex : 678951948581479"
+            required
+          />
+        </mat-form-field>
+        <mat-form-field [style.width.px]="400">
+          <mat-label>La date de naissance</mat-label>
+          <input
+            matInput
+            formControlName="dateNaissance"
+            [matDatepicker]="dateNaissance"
+          />
+          <mat-datepicker-toggle
+            matSuffix
+            [for]="dateNaissance"
+          ></mat-datepicker-toggle>
+          <mat-datepicker #dateNaissance></mat-datepicker>
+        </mat-form-field>
+        <div>
+          <button mat-button matStepperPrevious>Retour</button>
+          <button
+            type="submit"
+            mat-button
+            matStepperNext
+            [disabled]="secondFormGroup.invalid"
+          >
+            Suivant
+          </button>
+        </div>
+      </form>
+    </mat-step>
+    <mat-step [stepControl]="thirdFormGroup">
+      <form [formGroup]="thirdFormGroup">
+        <ng-template matStepLabel
+          >Autre informations administratives</ng-template
+        >
+        <mat-form-field [style.width.px]="400">
+          <mat-label>Le nombre de jours restants de congé</mat-label>
+          <input
+            matInput
+            formControlName="solde"
+            type="number"
+            placeholder="Ex : 678951948581479"
+            required
+          />
+        </mat-form-field>
+        <mat-form-field [style.width.px]="400">
+          <mat-label>La date de recrutement</mat-label>
+          <input
+            matInput
+            formControlName="dateRecrutement"
+            [matDatepicker]="dateRecrutement"
+          />
+          <mat-datepicker-toggle
+            matSuffix
+            [for]="dateRecrutement"
+          ></mat-datepicker-toggle>
+          <mat-datepicker #dateRecrutement></mat-datepicker>
+        </mat-form-field>
+        <div>
+          <button mat-button matStepperPrevious>Retour</button>
+          <button
+            mat-button
+            matStepperNext
+            (click)="onSubmit()"
+            [disabled]="thirdFormGroup.invalid"
+          >
+            Enregistrer
+          </button>
+        </div>
+      </form>
+    </mat-step>
+  </mat-vertical-stepper>
+  <!--    <mat-card-actions class="container pr-5 mb-0" >-->
+  <!--      <button mat-button class="ml-3 mt-3" color="primary"(click)="createVirement()" >Valider le virement</button>-->
+  <!--      <button mat-button class="ml-3 mt-3" color="primary"  >Revoir les détails</button>-->
+  <!--    </mat-card-actions>-->
+</div>

@@ -66,6 +66,19 @@
             <strong class="detail-name">Email :</strong>
             <span>{{ (salarie | async).email }}</span>
           </div>
+          <div class="detail-item">
+            <strong class="detail-name">Date de recrutement :</strong>
+            <span>{{ (salarie | async).dateRecrutement | date: "short" }}</span>
+          </div>
+          <div
+            class="detail-item text-danger"
+            *ngIf="(salarie | async).deleted"
+          >
+            <strong class="detail-name">Supprimé pour la raison :</strong>
+            <span>{{
+              (salarie | async).raisonSuppression || "Pas spécifiée"
+            }}</span>
+          </div>
         </div>
       </div>
     </div>

@@ -16,6 +16,7 @@ export class MainStore {
   services: Service[];
   directions: Direction[];
   conges: Conge[];
+  parametres: { nombreMinJoursConge: number };
   selectedSalarie: Salarie;
 
   users: User[];

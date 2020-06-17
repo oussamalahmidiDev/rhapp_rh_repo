@@ -18,6 +18,7 @@ export interface Salarie {
   cin?: string;
   adresse?: string;
   dateNaissance?: string;
+  dateRecrutement: Date;
   lieuNaissance?: string;
   telephone?: string;
   dateCreation?: Date;
@@ -33,6 +34,9 @@ export interface Salarie {
   diplomeObt?: Diplome[];
   fonction?: string;
   cv?: string;
+
+  raisonSuppression?: string;
+  deleted?: boolean;
 
   // contact urgence
 

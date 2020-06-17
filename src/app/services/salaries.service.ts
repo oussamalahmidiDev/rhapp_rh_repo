@@ -1,13 +1,13 @@
-import {Injectable} from '@angular/core';
-import {Salarie} from '../models/salarie';
-import {HttpClient} from '@angular/common/http';
-import {environment} from '../../environments/environment';
-import {BehaviorSubject, Observable, Subject} from 'rxjs';
-import {Conge} from '../models/conge';
-import {Absence} from '../models/absence';
+import { Injectable } from "@angular/core";
+import { Salarie } from "../models/salarie";
+import { HttpClient } from "@angular/common/http";
+import { environment } from "../../environments/environment";
+import { BehaviorSubject, Observable, Subject } from "rxjs";
+import { Conge } from "../models/conge";
+import { Absence } from "../models/absence";
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: "root",
 })
 export class SalariesService {
   BASE_URL: string = environment.BASE_URL;
@@ -16,11 +16,10 @@ export class SalariesService {
 
   emitChange$: Subject<Salarie> = new BehaviorSubject<Salarie>(null);
 
-  constructor(private http: HttpClient) {
-  }
+  constructor(private http: HttpClient) {}
 
   get emitChange(): BehaviorSubject<Salarie> {
-    return (this.emitChange$ as BehaviorSubject<Salarie>);
+    return this.emitChange$ as BehaviorSubject<Salarie>;
   }
 
   emit(salarie: Salarie) {
@@ -36,7 +35,10 @@ export class SalariesService {
   }
 
   createSalarie(salarie: Salarie): Observable<Salarie> {
-    return this.http.post<Salarie>(`${this.BASE_URL}/api/salaries/create`, salarie);
+    return this.http.post<Salarie>(
+      `${this.BASE_URL}/api/salaries/create`,
+      salarie
+    );
   }
 
   getSalarieConges(id: number): Observable<Conge[]> {
@@ -44,18 +46,29 @@ export class SalariesService {
   }
 
   getSalarieAbsences(id: number): Observable<Absence[]> {
-    return this.http.get<Absence[]>(`${this.BASE_URL}/api/salaries/${id}/absences`);
+    return this.http.get<Absence[]>(
+      `${this.BASE_URL}/api/salaries/${id}/absences`
+    );
   }
 
   searchSalaries(query: string): Observable<Salarie[]> {
-    return this.http.get<Salarie[]>(`${this.BASE_URL}/api/salaries/search?query=${query}`);
+    return this.http.get<Salarie[]>(
+      `${this.BASE_URL}/api/salaries/search?query=${query}`
+    );
   }
 
-  deleteSalarie(id: number): Observable<any> {
-    return this.http.delete<any>(`${this.BASE_URL}/api/salaries/${id}/supprimer`);
+  deleteSalarie(id: number, body: Salarie): Observable<any> {
+    return this.http.request<any>(
+      "DELETE",
+      `${this.BASE_URL}/api/salaries/${id}/supprimer`,
+      { body }
+    );
   }
 
   modifierSalarie(id: number, salarie: Salarie): Observable<Salarie> {
-    return this.http.put<Salarie>(`${this.BASE_URL}/api/salaries/${id}/modifier`, salarie);
+    return this.http.put<Salarie>(
+      `${this.BASE_URL}/api/salaries/${id}/modifier`,
+      salarie
+    );
   }
 }
