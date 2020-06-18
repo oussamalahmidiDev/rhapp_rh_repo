@@ -152,4 +152,9 @@ export class SalarieFormComponent implements OnInit {
   showNom(element: Direction | Service) {
     return element ? element.nom : element;
   }
+
+  dateFilter = (d: Date | null): boolean => {
+    const date = d || new Date();
+    return date.getTime() <= new Date().getTime();
+  };
 }

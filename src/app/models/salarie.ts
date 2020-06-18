@@ -38,6 +38,8 @@ export interface Salarie {
   raisonSuppression?: string;
   deleted?: boolean;
 
+  properties?: any;
+
   // contact urgence
 
   cinUrg?: string;

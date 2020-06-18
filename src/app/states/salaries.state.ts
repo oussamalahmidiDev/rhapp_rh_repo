@@ -200,7 +200,7 @@ export class SalariesState {
   @Action(DeleteSalarie)
   deleteSalarie(ctx: StateContext<MainStore>, { id, payload }: DeleteSalarie) {
     return this.service
-      .deleteSalarie(id, payload)
+      .deleteSalarie(id, { raisonSuppression: payload.raisonSuppression })
       .pipe(
         tap((res) =>
           ctx.setState(

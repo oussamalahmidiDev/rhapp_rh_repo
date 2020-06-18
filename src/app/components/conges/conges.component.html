@@ -62,6 +62,15 @@
                 <div class="account-labels">
                   <div class="account-name">
                     {{ conge.salarie.nom }} {{ conge.salarie.prenom }}
+                    <span
+                      class="text-danger"
+                      [matTooltip]="
+                        'Supprimé pour la raison : ' +
+                        (conge.salarie.raisonSuppression || 'Pas spécifiée')
+                      "
+                      *ngIf="conge.salarie.deleted"
+                      >(Supprimé)</span
+                    >
                   </div>
                   <div class="account-details">
                     {{ conge.salarie.numSomme }}
@@ -179,6 +188,15 @@
                 <div class="account-labels">
                   <div class="account-name">
                     {{ conge.salarie.nom }} {{ conge.salarie.prenom }}
+                    <span
+                      class="text-danger"
+                      [matTooltip]="
+                        'Supprimé pour la raison : ' +
+                        (conge.salarie.raisonSuppression || 'Pas spécifiée')
+                      "
+                      *ngIf="conge.salarie.deleted"
+                      >(Supprimé)</span
+                    >
                   </div>
                   <div class="account-details">
                     {{ conge.salarie.numSomme }}

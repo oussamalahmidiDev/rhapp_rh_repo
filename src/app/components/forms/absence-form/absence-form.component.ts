@@ -115,4 +115,11 @@ export class AbsenceFormComponent implements OnInit {
     this.justificatif = $event.target.files[0];
     console.log(this.justificatif);
   }
+
+  dateFilter = (d: Date | null): boolean => {
+    const day = (d || new Date()).getDay();
+    // Prevent Saturday and Sunday from being selected.
+    return day !== 0 && day !== 6 && d.getTime() <= new Date().getTime();
+  };
 }
+1;

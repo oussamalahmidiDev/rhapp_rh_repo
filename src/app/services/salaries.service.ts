@@ -57,7 +57,7 @@ export class SalariesService {
     );
   }
 
-  deleteSalarie(id: number, body: Salarie): Observable<any> {
+  deleteSalarie(id: number, body: any): Observable<any> {
     return this.http.request<any>(
       "DELETE",
       `${this.BASE_URL}/api/salaries/${id}/supprimer`,
