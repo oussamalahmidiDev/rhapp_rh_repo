@@ -36,8 +36,12 @@
         </h3>
         <mat-chip-list style="display: inline-block;">
           <mat-chip *ngIf="(salarie | async).retraite" color="accent" selected
-            >Retraité</mat-chip
-          >
+            >{{
+              (salarie | async).retraite.etat !== "SCHEDULED"
+                ? "Retraité"
+                : "Il reste moins de six mois pour la retraite"
+            }}
+          </mat-chip>
           <mat-chip
             *ngIf="
               (salarie | async).retraite &&
@@ -68,7 +72,9 @@
           </div>
           <div class="detail-item">
             <strong class="detail-name">Date de recrutement :</strong>
-            <span>{{ (salarie | async).dateRecrutement | date: "short" }}</span>
+            <span>{{
+              (salarie | async).dateRecrutement | date: "EEEE d MMMM y"
+            }}</span>
           </div>
           <div class="detail-item">
             <strong class="detail-name">Nombre de jours de travail :</strong>

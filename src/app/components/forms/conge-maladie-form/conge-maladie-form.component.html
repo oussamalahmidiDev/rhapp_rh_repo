@@ -1,10 +1,14 @@
 <div class="form">
-  <div *ngIf="!editForm" class="mat-title">Enregistrer un congé de maladie d'un salarié</div>
-  <div *ngIf="editForm" class="mat-title">Modifier les informations du congé de maladie
-    de {{ data.salarie.nom }} {{ data.salarie.prenom }}</div>
+  <div *ngIf="!editForm" class="mat-title">
+    Enregistrer un congé de maladie d'un salarié
+  </div>
+  <div *ngIf="editForm" class="mat-title">
+    Modifier les informations du congé de maladie de {{ data.salarie.nom }}
+    {{ data.salarie.prenom }}
+  </div>
   <p *ngIf="!editForm" class="mat-body">
-    Formualaire d'enregistrement congé de maladie des salariés. Verifiez bien les
-    informations avant de valider !
+    Formualaire d'enregistrement congé de maladie des salariés. Verifiez bien
+    les informations avant de valider !
   </p>
   <mat-vertical-stepper linear>
     <mat-step [stepControl]="congeMaladieForm">
@@ -18,11 +22,15 @@
           ></mat-spinner>
           <span>Chargement de liste de salariés</span>
         </div>
-        <mat-form-field *ngIf="salariesLoaded && !editForm" [style.width.px]="327">
+        <mat-form-field
+          *ngIf="salariesLoaded && !editForm"
+          [style.width.px]="327"
+        >
           <mat-label>Selectionner le salarié</mat-label>
           <mat-select formControlName="salarieId">
             <mat-option
               class="account-inline"
+              [disabled]="salarie.deleted"
               *ngFor="let salarie of salaries | async"
               [value]="salarie.id"
             >
@@ -41,11 +49,7 @@
         <div *ngIf="salariesLoaded">
           <mat-form-field [style.width.px]="327">
             <mat-label>Préciser le motif de maladie</mat-label>
-            <input
-              type="text"
-              matInput
-              formControlName="motif"
-            />
+            <input type="text" matInput formControlName="motif" />
           </mat-form-field>
           <mat-form-field [style.width.px]="327">
             <mat-label>Date de début</mat-label>

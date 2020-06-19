@@ -5,52 +5,84 @@
     <mat-card-header>
       <mat-card-title>Liste d'utilisateurs</mat-card-title>
       <mat-form-field class="ml-auto mr-3" style="width: 500px;">
-        <input (keyup)="search($event)" matInput placeholder="Rechercher dans le tableau">
+        <input
+          (keyup)="search($event)"
+          matInput
+          placeholder="Rechercher dans le tableau"
+        />
       </mat-form-field>
       <!-- <button class="ml-auto" color="primary" mat-flat-button>Voir plus</button> -->
     </mat-card-header>
     <mat-card-content class="pr-5 container">
       <table [dataSource]="usersDs" class="accounts" mat-table matSort>
-
         <!--- Note that these columns can be defined in any order.
   The actual rendered columns are set as a property on the row definition" -->
 
         <!-- Position Column -->
         <ng-container matColumnDef="nomcomplet">
-          <th *matHeaderCellDef mat-header-cell mat-sort-header style="padding-left: 20px;">Nom complet</th>
-          <td *matCellDef="let element" mat-cell> {{element.nom}} {{ element.prenom }} </td>
+          <th
+            *matHeaderCellDef
+            mat-header-cell
+            mat-sort-header
+            style="padding-left: 20px;"
+          >
+            Nom complet
+          </th>
+          <td *matCellDef="let element" mat-cell>
+            {{ element.nom }} {{ element.prenom }}
+          </td>
         </ng-container>
 
         <!-- Name Column -->
         <ng-container matColumnDef="email">
           <th *matHeaderCellDef mat-header-cell mat-sort-header>Email</th>
-          <td *matCellDef="let element" mat-cell> {{element.email}} </td>
+          <td *matCellDef="let element" mat-cell>{{ element.email }}</td>
         </ng-container>
 
         <!-- Weight Column -->
         <ng-container matColumnDef="role">
-          <th *matHeaderCellDef mat-header-cell mat-sort-header> role</th>
-          <td *matCellDef="let element" mat-cell> {{element.role === 'ADMIN' ? 'Adminsitrateur' : 'Agent RH'}} </td>
+          <th *matHeaderCellDef mat-header-cell mat-sort-header>role</th>
+          <td *matCellDef="let element" mat-cell>
+            {{ element.role === "ADMIN" ? "Adminsitrateur" : "Agent RH" }}
+          </td>
         </ng-container>
         <ng-container matColumnDef="date">
-          <th *matHeaderCellDef mat-header-cell mat-sort-header> Date de création</th>
-          <td *matCellDef="let element" mat-cell> {{element.dateCreation | date:'medium' }} </td>
+          <th *matHeaderCellDef mat-header-cell mat-sort-header>
+            Date de création
+          </th>
+          <td *matCellDef="let element" mat-cell>
+            {{ element.dateCreation | date: "EEEE d MMMM y" }}
+          </td>
         </ng-container>
 
         <ng-container matColumnDef="actions">
-          <th *matHeaderCellDef mat-header-cell style="padding-left: 20px;"></th>
+          <th
+            *matHeaderCellDef
+            mat-header-cell
+            style="padding-left: 20px;"
+          ></th>
           <td *matCellDef="let element" mat-cell>
-            <button (click)="modifyUser(element)" color="primary" mat-stroked-button>Modifier
+            <button
+              (click)="modifyUser(element)"
+              color="primary"
+              mat-stroked-button
+            >
+              Modifier
             </button>
-            <button (click)="deleteUser(element.id)" class="ml-2" color="warn" mat-flat-button>Supprimer
+            <button
+              (click)="deleteUser(element.id)"
+              class="ml-2"
+              color="warn"
+              mat-flat-button
+            >
+              Supprimer
             </button>
           </td>
         </ng-container>
 
         <tr *matHeaderRowDef="userCols" mat-header-row></tr>
-        <tr *matRowDef="let row; columns: userCols;" mat-row></tr>
+        <tr *matRowDef="let row; columns: userCols" mat-row></tr>
       </table>
-
     </mat-card-content>
   </mat-card>
   <div class="footer">
@@ -58,5 +90,4 @@
       <mat-icon>create</mat-icon>
     </button>
   </div>
-
 </div>

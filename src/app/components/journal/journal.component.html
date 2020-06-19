@@ -51,7 +51,9 @@
         <!-- Name Column -->
         <ng-container matColumnDef="service">
           <th *matHeaderCellDef mat-header-cell mat-sort-header>Service</th>
-          <td *matCellDef="let element" mat-cell>{{ element.service }}</td>
+          <td style="width: 300px;" *matCellDef="let element" mat-cell>
+            {{ element.service }}
+          </td>
         </ng-container>
 
         <ng-container matColumnDef="timestamp">

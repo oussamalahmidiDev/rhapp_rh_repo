@@ -1,36 +1,67 @@
 <div class="form">
   <div class="mat-title">Affecter un salarié au poste de {{ poste.nom }}</div>
-  <p class="mat-body">Formualaire d'affectation de salarié à un poste. Verifiez bien les informations avant de valider !</p>
-    <mat-vertical-stepper   linear>
-      <mat-step [stepControl]="affectationForm" >
-        <form [formGroup]="affectationForm" >
-          <ng-template matStepLabel>Selectionner le salarié et entrer les fonctions</ng-template>
-          <div class="row" *ngIf = "!salariesLoaded" >
-            <mat-spinner class="mr-2" strokeWidth="3" [diameter]="25"></mat-spinner>
-            <span>Chargement de liste de salariés</span>
-          </div>
-          <mat-form-field  [style.width.px]=327  *ngIf = "salariesLoaded">
-            <mat-label>Selectionner le salarié</mat-label>
-            <mat-select formControlName="salarieId">
-              <mat-option *ngFor="let salarie of salaries | async" [value]="salarie.id" class="account-inline">
-                <span
-                  [matTooltip]="(salarie.direction && salarie.service)? salarie.direction.nom + ' / ' + salarie.service.nom : 'Aucune information sur la direction et le service.' "
-                  matTooltipPosition="right">{{salarie.nom}} {{salarie.prenom}}</span>
-              </mat-option>
-            </mat-select>
-          </mat-form-field>
-          <mat-form-field [style.width.px]=327   *ngIf = "salariesLoaded">
-            <mat-label>Préciser les fonctions</mat-label>
-            <!-- <input  matInput placeholder="Ex : 678951948581479" formControlName="division" required> -->
-            <textarea rows="4" style="resize: none;" formControlName="fonctions" matInput></textarea>
-          </mat-form-field>
+  <p class="mat-body">
+    Formualaire d'affectation de salarié à un poste. Verifiez bien les
+    informations avant de valider !
+  </p>
+  <mat-vertical-stepper linear>
+    <mat-step [stepControl]="affectationForm">
+      <form [formGroup]="affectationForm">
+        <ng-template matStepLabel
+          >Selectionner le salarié et entrer les fonctions</ng-template
+        >
+        <div class="row" *ngIf="!salariesLoaded">
+          <mat-spinner
+            class="mr-2"
+            strokeWidth="3"
+            [diameter]="25"
+          ></mat-spinner>
+          <span>Chargement de liste de salariés</span>
+        </div>
+        <mat-form-field [style.width.px]="327" *ngIf="salariesLoaded">
+          <mat-label>Selectionner le salarié</mat-label>
+          <mat-select formControlName="salarieId">
+            <mat-option
+              [disabled]="salarie.deleted"
+              *ngFor="let salarie of salaries | async"
+              [value]="salarie.id"
+              class="account-inline"
+            >
+              <span
+                [matTooltip]="
+                  salarie.direction && salarie.service
+                    ? salarie.direction.nom + ' / ' + salarie.service.nom
+                    : 'Aucune information sur la direction et le service.'
+                "
+                matTooltipPosition="right"
+                >{{ salarie.nom }} {{ salarie.prenom }}</span
+              >
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+        <mat-form-field [style.width.px]="327" *ngIf="salariesLoaded">
+          <mat-label>Préciser les fonctions</mat-label>
+          <!-- <input  matInput placeholder="Ex : 678951948581479" formControlName="division" required> -->
+          <textarea
+            rows="4"
+            style="resize: none;"
+            formControlName="fonctions"
+            matInput
+          ></textarea>
+        </mat-form-field>
 
-          <div *ngIf = "salariesLoaded">
-            <button type="submit" [disabled]="affectationForm.invalid" (click)="submitForm()"  mat-button matStepperNext>Enregistrer</button>
-          </div>
-        </form>
-      </mat-step>
-
-
-    </mat-vertical-stepper>
-  </div>
+        <div *ngIf="salariesLoaded">
+          <button
+            type="submit"
+            [disabled]="affectationForm.invalid"
+            (click)="submitForm()"
+            mat-button
+            matStepperNext
+          >
+            Enregistrer
+          </button>
+        </div>
+      </form>
+    </mat-step>
+  </mat-vertical-stepper>
+</div>

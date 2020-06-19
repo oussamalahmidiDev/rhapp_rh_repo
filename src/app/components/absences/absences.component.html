@@ -77,13 +77,13 @@
             Date de début
           </th>
           <td mat-cell *matCellDef="let absence">
-            {{ absence.dateDebut | date: "medium" }}
+            {{ absence.dateDebut | date: "EEEE d MMMM y" }}
           </td>
         </ng-container>
         <ng-container matColumnDef="datefin">
           <th mat-header-cell *matHeaderCellDef mat-sort-header>Date de fin</th>
           <td mat-cell *matCellDef="let absence">
-            {{ absence.dateFin | date: "medium" }}
+            {{ absence.dateFin | date: "EEEE d MMMM y" }}
           </td>
         </ng-container>
         <ng-container matColumnDef="type">

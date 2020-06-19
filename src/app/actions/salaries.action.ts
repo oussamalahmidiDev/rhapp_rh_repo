@@ -54,7 +54,7 @@ export class RetirerAvantages {
 
 export class ValiderRetraite {
   static readonly type = "[Salaries] RETRAITE VALIDER";
-  // constructor(public {id}: Retraite) {}
+  constructor(public payload: { remarques: string }) {}
 }
 
 export class DeleteSalarie {

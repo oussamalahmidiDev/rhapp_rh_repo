@@ -40,6 +40,7 @@ export class CongesComponent implements OnInit {
     "salarie",
     "motif",
     "type",
+    "dateAjt",
     "datedebut",
     "datefin",
     "etat",
@@ -55,6 +56,7 @@ export class CongesComponent implements OnInit {
   congeMaladieCols: string[] = [
     "salarie",
     "motif",
+    "dateAjt",
     "datedebut",
     "datefin",
     "actions",

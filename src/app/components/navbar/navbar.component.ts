@@ -1,4 +1,10 @@
-import { Component, ElementRef, OnInit, ViewChild } from "@angular/core";
+import {
+  Component,
+  ElementRef,
+  OnInit,
+  ViewChild,
+  OnDestroy,
+} from "@angular/core";
 import { Select, Store } from "@ngxs/store";
 import { ProfileState } from "src/app/states/profile.state";
 import { fromEvent, Observable, Subscription } from "rxjs";
@@ -32,7 +38,7 @@ import { NotificationDrawerComponent } from "../notification-drawer/notification
   templateUrl: "./navbar.component.html",
   styleUrls: ["./navbar.component.css"],
 })
-export class NavbarComponent implements OnInit {
+export class NavbarComponent implements OnInit, OnDestroy {
   @Select(ProfileState.getProfile)
   currentUser: Observable<User>;
 
@@ -66,7 +72,7 @@ export class NavbarComponent implements OnInit {
       .subscribe((data) => {
         const notification = JSON.parse(data.body);
         this.openSnackBar(notification.content);
-        this.notificationsCount++;
+        // this.notificationsCount++;
         this.store.dispatch(new AddNotification(notification));
         this.store.dispatch(new GetAbsences());
         this.store.dispatch(new GetConges());
@@ -76,18 +82,27 @@ export class NavbarComponent implements OnInit {
     this.store
       .select((store) => store.notifications.notifications)
       .subscribe((notifications) => {
-        if (notifications)
+        if (notifications) {
+          this.notificationsCount = 0;
           notifications.forEach((element) => {
             console.log("Is seen : ", element.isSeen);
-            if (!element.isSeen) this.notificationsCount++;
+            if (!element.isSeen) {
+              this.notificationsCount++;
+              console.log("Notf count", this.notificationsCount);
+            }
           });
+        }
       });
     // this.store.dispatch(new LoadProfilePhoto());
   }
 
+  ngOnDestroy() {
+    this.websocketSubscription.unsubscribe();
+  }
+
   openNotificationDrawer() {
     const dialogRef = this.dialog.open(NotificationDrawerComponent, {
-      width: "500px",
+      width: "550px",
       position: { top: "30px", right: "25px" },
     });
 

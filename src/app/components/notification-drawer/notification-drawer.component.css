@@ -31,6 +31,7 @@ h4 {
 
 .content {
   width: 20rem;
+  font-size: 10pt;
 }
 
 .notification-item:not(:last-child) {
@@ -40,6 +41,7 @@ h4 {
 .timestamp {
   font-weight: normal;
   font-size: 10pt;
+  text-align: end;
 }
 
 hr {

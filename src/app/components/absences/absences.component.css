@@ -1,33 +1,41 @@
 .accounts {
-      width: 100%;
+  width: 100%;
 }
-button.mat-fab.mat-accent {
-      position: fixed;
-      bottom: 50px;
-      /* margin-left: auto; */
-      right: 50px;
-  }
-button.mat-raised-button.mat-accent {
-      position: fixed;
-      bottom: 50px;
-      /* margin-left: auto; */
-      right: 50px;
-  }
 
-  td.mat-cell:first-of-type {
-        padding-left: 0;
-  }
+.container {
+  max-width: 85vw;
+}
+
+button.mat-fab.mat-accent {
+  position: fixed;
+  bottom: 50px;
+  /* margin-left: auto; */
+  right: 50px;
+}
+
+button.mat-raised-button.mat-accent {
+  position: fixed;
+  bottom: 50px;
+  /* margin-left: auto; */
+  right: 50px;
+}
+
+td.mat-cell:first-of-type {
+  padding-left: 0;
+}
 
 
 mat-card-header.mat-card-header {
   display: flex;
-  align-items: baseline;}
+  align-items: baseline;
+}
 
 .account-inline {
   padding-left: 20px;
   display: flex;
   align-items: center;
 }
+
 .avatar {
   height: 40px;
   width: 40px;
@@ -35,9 +43,10 @@ mat-card-header.mat-card-header {
   margin-right: 10px;
   border-radius: 90px;
   background-size: cover;
-      background-position: center;
-      background-repeat: no-repeat;
+  background-position: center;
+  background-repeat: no-repeat;
 }
+
 .account-name {
   font-weight: bold;
 }

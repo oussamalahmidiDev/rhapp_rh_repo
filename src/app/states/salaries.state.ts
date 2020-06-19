@@ -182,9 +182,9 @@ export class SalariesState {
   }
 
   @Action(ValiderRetraite)
-  validerRetraite(ctx: StateContext<MainStore>) {
+  validerRetraite(ctx: StateContext<MainStore>, { payload }: ValiderRetraite) {
     return this.retraitesService
-      .validerRetraite(ctx.getState().selectedSalarie.id)
+      .validerRetraite(ctx.getState().selectedSalarie.id, payload)
       .pipe(
         tap((res) =>
           ctx.patchState({

@@ -21,6 +21,7 @@
           <mat-select formControlName="salarieId">
             <mat-option
               class="account-inline"
+              [disabled]="salarie.deleted"
               *ngFor="let salarie of salaries | async"
               [value]="salarie.id"
             >

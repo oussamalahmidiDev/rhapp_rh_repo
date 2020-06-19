@@ -1,25 +1,28 @@
-import {Component, Inject, OnInit} from '@angular/core';
-import {FormBuilder, FormGroup} from '@angular/forms';
-import {MAT_DIALOG_DATA, MatChipInputEvent, MatDialogRef} from '@angular/material';
-import {Poste} from '../../../models/poste';
-import {Service} from '../../../models/service';
-import {Direction} from '../../../models/direction';
+import { Component, Inject, OnInit } from "@angular/core";
+import { FormBuilder, FormGroup } from "@angular/forms";
+import {
+  MAT_DIALOG_DATA,
+  MatChipInputEvent,
+  MatDialogRef,
+} from "@angular/material";
+import { Poste } from "../../../models/poste";
+import { Service } from "../../../models/service";
+import { Direction } from "../../../models/direction";
 
-import {COMMA, ENTER} from '@angular/cdk/keycodes';
-import {Select, Store} from '@ngxs/store';
-import {CreatePoste, ModifierPoste} from '../../../actions/postes.action';
-import {ServicesState} from 'src/app/states/services.state';
-import {Observable, of} from 'rxjs';
-import {DirectionsState} from 'src/app/states/directions.state';
-import { tap, catchError } from 'rxjs/operators';
+import { COMMA, ENTER } from "@angular/cdk/keycodes";
+import { Select, Store } from "@ngxs/store";
+import { CreatePoste, ModifierPoste } from "../../../actions/postes.action";
+import { ServicesState } from "src/app/states/services.state";
+import { Observable, of } from "rxjs";
+import { DirectionsState } from "src/app/states/directions.state";
+import { tap, catchError } from "rxjs/operators";
 
 @Component({
-  selector: 'app-poste-form',
-  templateUrl: './poste-form.component.html',
-  styleUrls: ['./poste-form.component.css']
+  selector: "app-poste-form",
+  templateUrl: "./poste-form.component.html",
+  styleUrls: ["./poste-form.component.css"],
 })
 export class PosteFormComponent implements OnInit {
-
   editForm = false;
 
   firstFormGroup: FormGroup;
@@ -38,29 +41,26 @@ export class PosteFormComponent implements OnInit {
 
   competences: string[];
 
-
   constructor(
     private formBuilder: FormBuilder,
     public dialogRef: MatDialogRef<PosteFormComponent>,
     @Inject(MAT_DIALOG_DATA) public data: Poste,
     // private salariesService: SalariesService,
-    private store: Store,
-  ) {
-  }
-
+    private store: Store
+  ) {}
 
   addCompetence(event: MatChipInputEvent) {
     const input = event.input;
     const value = event.value;
 
     // Add competence
-    if ((value || '').trim()) {
+    if ((value || "").trim()) {
       this.competences.push(value.trim());
     }
 
     // Reset the input value
     if (input) {
-      input.value = '';
+      input.value = "";
     }
     console.log(this.competences);
   }
@@ -73,50 +73,49 @@ export class PosteFormComponent implements OnInit {
   }
 
   handleDirectionSelect(direction: Direction) {
-    this.selectedDirection = {id: direction.id, nom: direction.nom};
-    console.log('SELECTED', this.selectedDirection);
+    this.selectedDirection = { id: direction.id, nom: direction.nom };
+    console.log("SELECTED", this.selectedDirection);
     this.firstFormGroup.patchValue({
-      direction: this.selectedDirection.nom
+      direction: this.selectedDirection.nom,
     });
   }
 
   handleDirectionChange() {
     this.selectedDirection = {
       id: null,
-      nom: this.firstFormGroup.get('direction').value
+      nom: this.firstFormGroup.get("direction").value,
     };
-    console.log('CHANGED', this.selectedDirection);
+    console.log("CHANGED", this.selectedDirection);
   }
 
   handleServiceSelect(service: Service) {
-    this.selectedService = {id: service.id, nom: service.nom};
-    console.log('SELECTED', this.selectedService);
+    this.selectedService = { id: service.id, nom: service.nom };
+    console.log("SELECTED", this.selectedService);
     this.firstFormGroup.patchValue({
-      service: this.selectedService.nom
+      service: this.selectedService.nom,
     });
   }
 
   handleServiceChange() {
     this.selectedService = {
       id: null,
-      nom: this.firstFormGroup.get('service').value
+      nom: this.firstFormGroup.get("service").value,
     };
-    console.log('CHANGED', this.selectedService);
+    console.log("CHANGED", this.selectedService);
   }
-
 
   submitForm($event) {
     // console.log(this.firstFormGroup, this.secondFormGroup, this.selectedDirection);
 
     const newPoste: Poste = {
       competences: this.competences,
-      direction: this.firstFormGroup.get('direction').value,
-      service: this.firstFormGroup.get('service').value,
-      nom: this.secondFormGroup.get('posteName').value,
-      division: this.firstFormGroup.get('division').value
+      direction: this.firstFormGroup.get("direction").value,
+      service: this.firstFormGroup.get("service").value,
+      nom: this.secondFormGroup.get("posteName").value,
+      division: this.firstFormGroup.get("division").value,
     };
 
-    console.log('SUB POST', newPoste);
+    console.log("SUB POST", newPoste);
 
     $event.target.disabled = true;
 
@@ -128,15 +127,27 @@ export class PosteFormComponent implements OnInit {
     //   service: this.selectedService
     // };
     if (!this.editForm) {
-      this.store.dispatch(new CreatePoste(newPoste)).pipe(
-        tap(() => this.dialogRef.close()),
-        catchError((e) => {console.log(e); return of(e) })
-      )
+      this.store
+        .dispatch(new CreatePoste(newPoste))
+        .pipe(
+          tap(() => this.dialogRef.close()),
+          catchError((e) => {
+            console.log(e);
+            return of(e);
+          })
+        )
+        .subscribe(() => this.dialogRef.close());
     } else {
-      this.store.dispatch(new ModifierPoste(this.data.id, newPoste)).pipe(
-        tap(() => this.dialogRef.close()),
-        catchError((e) => {console.log(e); return of(e) })
-      )
+      this.store
+        .dispatch(new ModifierPoste(this.data.id, newPoste))
+        .pipe(
+          tap(() => this.dialogRef.close()),
+          catchError((e) => {
+            console.log(e);
+            return of(e);
+          })
+        )
+        .subscribe(() => this.dialogRef.close());
     }
   }
 
@@ -144,32 +155,30 @@ export class PosteFormComponent implements OnInit {
     return element ? element.nom : element;
   }
 
-
   ngOnInit() {
     this.firstFormGroup = this.formBuilder.group({
-      service: [''],
-      division: [''],
-      direction: ['']
+      service: [""],
+      division: [""],
+      direction: [""],
     });
     this.secondFormGroup = this.formBuilder.group({
-      posteName: [''],
-      competences: this.formBuilder.array([])
+      posteName: [""],
+      competences: this.formBuilder.array([]),
     });
     this.competences = [];
 
     if (this.data) {
       this.editForm = true;
-      console.log('mode editing');
+      console.log("mode editing");
       this.competences.push(...this.data.competences);
       this.firstFormGroup.patchValue({
         service: this.data.service,
         division: this.data.division,
-        direction: this.data.direction
+        direction: this.data.direction,
       });
       this.secondFormGroup.patchValue({
-        posteName: this.data.nom
+        posteName: this.data.nom,
       });
     }
   }
-
 }

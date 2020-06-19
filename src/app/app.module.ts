@@ -1,5 +1,5 @@
 import { BrowserModule } from "@angular/platform-browser";
-import { NgModule } from "@angular/core";
+import { NgModule, LOCALE_ID } from "@angular/core";
 import { MatSliderModule } from "@angular/material/slider";
 
 import { AppRoutingModule } from "./app-routing.module";
@@ -99,7 +99,10 @@ import { JournalPersonnelComponent } from "./components/journal-personnel/journa
 import { StompRService } from "@stomp/ng2-stompjs";
 import { WebsocketService } from "./services/websocket.service";
 import { NotificationDrawerComponent } from "./components/notification-drawer/notification-drawer.component";
-
+import { registerLocaleData } from "@angular/common";
+import localeFr from "@angular/common/locales/fr";
+import { MomentPipe } from "./pipes/moment.pipe";
+registerLocaleData(localeFr, "fr");
 @NgModule({
   declarations: [
     AppComponent,
@@ -134,6 +137,7 @@ import { NotificationDrawerComponent } from "./components/notification-drawer/no
     AvantageRejetFormComponent,
     BackgroundUrlPipe,
     BlobPipe,
+    MomentPipe,
     NavbarComponent,
     JournalComponent,
     JournalPersonnelComponent,
@@ -212,6 +216,7 @@ import { NotificationDrawerComponent } from "./components/notification-drawer/no
     WebsocketService,
     BackgroundUrlPipe,
     BlobPipe,
+    MomentPipe,
     CacheService,
     {
       provide: MatDialogRef,
@@ -221,7 +226,7 @@ import { NotificationDrawerComponent } from "./components/notification-drawer/no
       provide: MAT_DIALOG_DATA,
       useValue: {}, // Add any data you wish to test if it is passed/used correctly
     },
-    { provide: MAT_DATE_LOCALE, useValue: "en-GB" },
+    { provide: MAT_DATE_LOCALE, useValue: "fr-FR" },
     {
       provide: MatDatepickerModule,
       useValue: {},
@@ -231,6 +236,7 @@ import { NotificationDrawerComponent } from "./components/notification-drawer/no
       useClass: MainHttpInterceptor,
       multi: true,
     },
+    { provide: LOCALE_ID, useValue: "fr" },
   ],
   bootstrap: [AppComponent],
   entryComponents: [
