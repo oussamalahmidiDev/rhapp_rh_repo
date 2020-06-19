@@ -1,14 +1,15 @@
-import { Component, OnInit } from "@angular/core";
+import { Component, OnInit, Inject } from "@angular/core";
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { Salarie } from "../../../models/salarie";
 import { AbsencesService } from "../../../services/absences.service";
-import { MatDialogRef } from "@angular/material";
+import { MatDialogRef, MAT_DIALOG_DATA } from "@angular/material";
 import { SalariesService } from "../../../services/salaries.service";
 import { Select, Store } from "@ngxs/store";
 import { AddAbsence } from "src/app/actions/absences.action";
 import { Observable } from "rxjs";
 import { SalariesState } from "../../../states/salaries.state";
 import { HttpEventType } from "@angular/common/http";
+import { Absence } from "src/app/models/absence";
 
 @Component({
   selector: "app-absence-form",
@@ -34,7 +35,8 @@ export class AbsenceFormComponent implements OnInit {
     public dialogRef: MatDialogRef<AbsenceFormComponent>,
     private absenceService: AbsencesService,
     private salariesService: SalariesService,
-    private store: Store
+    private store: Store,
+    @Inject(MAT_DIALOG_DATA) public data: Absence
   ) {}
 
   ngOnInit() {
@@ -59,6 +61,12 @@ export class AbsenceFormComponent implements OnInit {
         }
       }
     });
+
+    if (this.data && this.data.salarie) {
+      this.absenceForm.patchValue({
+        salarieId: this.data.salarie.id,
+      });
+    }
   }
 
   onSubmit($event) {

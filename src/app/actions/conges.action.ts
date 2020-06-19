@@ -1,4 +1,5 @@
 import { CongeMaladieRequest } from "../models/congeMaladieRequest";
+import { Conge } from "../models/conge";
 
 export class GetConges {
   static readonly type = "[Conges] Get";
@@ -35,4 +36,10 @@ export class DeleteConge {
   static readonly type = "[Conges] DELETE";
 
   constructor(public id: number) {}
+}
+
+export class DeclarerRetour {
+  static readonly type = "[Conges] DECLARER RETOUR";
+
+  constructor(public payload: Conge) {}
 }

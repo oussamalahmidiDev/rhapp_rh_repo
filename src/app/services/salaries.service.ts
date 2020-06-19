@@ -51,9 +51,16 @@ export class SalariesService {
     );
   }
 
-  searchSalaries(query: string): Observable<Salarie[]> {
+  searchSalaries(criteria: string): Observable<Salarie[]> {
+    let query = `user.nom:${criteria}* 
+    OR user.prenom:${criteria}*
+    OR fonction:${criteria}*
+    OR numSomme:${criteria}*
+    OR service.nom:${criteria}*
+    OR direction.nom:${criteria}*`;
+
     return this.http.get<Salarie[]>(
-      `${this.BASE_URL}/api/salaries/search?query=${query}`
+      `${this.BASE_URL}/api/salaries/search?search=${query}`
     );
   }
 

@@ -10,6 +10,7 @@ import {
   RepondreConge,
   GetParametres,
   ChangeParametres,
+  DeclarerRetour,
 } from "../actions/conges.action";
 import {
   insertItem,
@@ -79,6 +80,19 @@ export class CongesState {
         tap((res) =>
           ctx.setState(
             patch({ conges: updateItem((item) => item.id === id, res) })
+          )
+        )
+      );
+  }
+
+  @Action(DeclarerRetour)
+  declarerRetour(ctx: StateContext<MainStore>, { payload }: DeclarerRetour) {
+    return this.service
+      .declarerRetour(payload.id)
+      .pipe(
+        tap((res) =>
+          ctx.setState(
+            patch({ conges: updateItem((item) => item.id === payload.id, res) })
           )
         )
       );

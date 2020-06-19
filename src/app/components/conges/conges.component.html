@@ -38,7 +38,7 @@
             Le salarié concerné
           </th>
           <td mat-cell *matCellDef="let conge">
-            <a [routerLink]="['../salaries', conge.salarie.id]">
+            <a [routerLink]="['../salaries', conge.salarie.id, 'conges']">
               <div class="account-inline">
                 <div
                   *ngIf="conge.salarie.photo"
@@ -172,7 +172,7 @@
             Demande de
           </th>
           <td mat-cell *matCellDef="let conge">
-            <a [routerLink]="['../salaries', conge.salarie.id]">
+            <a [routerLink]="['../salaries', conge.salarie.id, 'conges']">
               <div class="account-inline">
                 <div
                   *ngIf="conge.salarie.photo"
@@ -261,16 +261,31 @@
             <strong *ngIf="conge.etat == 'PENDING_RESPONSE'" class=""
               >En attente d'une réponse</strong
             >
-            <strong *ngIf="conge.etat == 'ACCEPTED'" class="text-success"
-              >Accepté</strong
-            >
+            <strong *ngIf="conge.etat == 'ACCEPTED'" class="text-success">{{
+              isCongeEnCours(conge)
+                ? "En cours"
+                : isCongeAchieved(conge)
+                ? "Achevé"
+                : "Accepté"
+            }}</strong>
             <strong *ngIf="conge.etat == 'REJECTED'" class="text-danger"
               >Refusé</strong
             >
+            <strong *ngIf="conge.etat == 'ARCHIVED'">Archivé</strong>
             <br />
-            <small *ngIf="conge.reponse" class="text-muted">{{
-              conge.reponse
-            }}</small>
+            <small
+              *ngIf="conge.etat == 'ARCHIVED' && isCongeAchieved(conge)"
+              class="text-muted"
+            >
+              Le retour déclaré le
+              {{ conge.dateRetour | date: "EEEE d MMMM y" }}</small
+            >
+
+            <small
+              *ngIf="conge.reponse && conge.etat !== 'ARCHIVED'"
+              class="text-muted"
+              >{{ conge.reponse }}</small
+            >
             <!--            <br><small *ngIf="conge.etat === 'Refusée'">{{conge.etat}}</small>-->
           </td>
         </ng-container>
@@ -288,6 +303,14 @@
               *ngIf="conge.etat == 'PENDING_RESPONSE'"
             >
               Répondre
+            </span>
+            <span
+              class="text-primary"
+              style="cursor: pointer;"
+              (click)="declarerRetour(conge)"
+              *ngIf="conge.etat == 'ACCEPTED' && isCongeAchieved(conge)"
+            >
+              Déclarer le retour
             </span>
             <!-- <button mat-stroked-button color="primary" *ngIf="conge.etat == 'ACCEPTED'">Déclarer le retour
             </button> -->

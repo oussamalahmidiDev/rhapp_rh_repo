@@ -19,9 +19,11 @@ import {
   GetConges,
   ChangeParametres,
   GetParametres,
+  DeclarerRetour,
 } from "src/app/actions/conges.action";
 import { ProfileState } from "src/app/states/profile.state";
 import { User } from "src/app/models/user";
+import * as moment from "moment";
 
 @Injectable()
 @Component({
@@ -130,18 +132,7 @@ export class CongesComponent implements OnInit {
       width: "460px",
       data: conge,
     });
-    dialogRef.afterClosed().subscribe((data) => {
-      // if (data !== undefined) {
-      //   this.conges = this.conges.map(
-      //     conge => {
-      //       if (conge.id == data.id) {
-      //         return data;
-      //       }
-      //     }
-      //   );
-      //   this.congesDs.data = this.conges;
-      // }
-    });
+    dialogRef.afterClosed().subscribe((data) => {});
   }
 
   search($event) {
@@ -162,5 +153,20 @@ export class CongesComponent implements OnInit {
     }
 
     this.store.dispatch(new ChangeParametres({ nombreMinJoursConge }));
+  }
+
+  isCongeAchieved(conge: Conge): boolean {
+    return moment(conge.dateFin).isBefore(moment());
+  }
+
+  isCongeEnCours(conge: Conge): boolean {
+    return (
+      moment(conge.dateDebut).isBefore(moment()) &&
+      moment(conge.dateFin).isAfter(moment())
+    );
+  }
+
+  declarerRetour(conge: Conge) {
+    this.store.dispatch(new DeclarerRetour(conge));
   }
 }

@@ -38,6 +38,13 @@ export class CongesService {
     );
   }
 
+  public declarerRetour(id: number): Observable<Conge> {
+    return this.http.put<Conge>(
+      `${this.BASE_URL}/api/conges/${id}/declarer_retour`,
+      {}
+    );
+  }
+
   deleteConge(id: number): Observable<any> {
     return this.http.delete<any>(`${this.BASE_URL}/api/conges/${id}/supprimer`);
   }
