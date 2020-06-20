@@ -11,6 +11,10 @@ import { AddCongeMaladie, ModifierConge } from "src/app/actions/conges.action";
 import { Observable } from "rxjs";
 import { SalariesState } from "../../../states/salaries.state";
 import { Conge } from "src/app/models/conge";
+import * as moment from "moment";
+import { Absence } from "src/app/models/absence";
+import { AbsencesState } from "src/app/states/absences.state";
+import { CongesState } from "src/app/states/conges.state";
 
 @Component({
   selector: "app-conge-maladie-form",
@@ -21,6 +25,9 @@ export class CongeMaladieFormComponent implements OnInit {
   congeMaladieForm: FormGroup;
 
   editForm = false;
+
+  selectedSalarieAbsences: Absence[] = [];
+  selectedSalarieConges: Conge[] = [];
 
   @Select(SalariesState.getSalaries)
   salaries: Observable<Salarie[]>;
@@ -59,11 +66,32 @@ export class CongeMaladieFormComponent implements OnInit {
           .substring(0, 10),
       });
 
+      this.selectedSalarieAbsences = this.data.salarie.absences;
+      this.selectedSalarieConges = this.data.salarie.conges;
+
       // if (this.data && this.data.id === undefined) {
       //   this.editForm = false;
       // }
       console.log(this.data);
     }
+
+    this.congeMaladieForm.get("salarieId").valueChanges.subscribe((value) => {
+      if (this.store.selectSnapshot(AbsencesState.getAbsences))
+        this.selectedSalarieAbsences = this.store
+          .selectSnapshot(AbsencesState.getAbsences)
+          .filter((absence) => absence.salarie.id === value);
+      if (this.store.selectSnapshot(CongesState.getConges))
+        this.selectedSalarieConges = this.store
+          .selectSnapshot(CongesState.getConges)
+          .concat(this.store.selectSnapshot(CongesState.getCongesMaladie))
+          .filter(
+            (conge) => conge.salarie.id === value && conge.etat === "ACCEPTED"
+          );
+      this.congeMaladieForm.patchValue({
+        dateDebut: "",
+        dateFin: "",
+      });
+    });
 
     this.dialogRef.backdropClick().subscribe((_) => {
       if (!this.congeMaladieForm.dirty) {
@@ -76,6 +104,29 @@ export class CongeMaladieFormComponent implements OnInit {
       }
     });
   }
+
+  checkDates(date: any) {
+    return (
+      this.selectedSalarieAbsences
+        .map(
+          (absence) =>
+            moment(date).isBefore(absence.dateDebut) ||
+            moment(date).isAfter(absence.dateFin)
+        )
+        .every((boolean) => boolean) &&
+      this.selectedSalarieConges
+        .map(
+          (conge) =>
+            moment(date).isBefore(conge.dateDebut) ||
+            moment(date).isAfter(conge.dateFin)
+        )
+        .every((boolean) => boolean)
+    );
+  }
+
+  dateFilter = (d: Date | null): boolean => {
+    return this.checkDates(d);
+  };
 
   onSubmit() {
     const congeMaladie: CongeMaladieRequest = this.congeMaladieForm.value;

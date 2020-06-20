@@ -10,7 +10,10 @@ import { Observable } from "rxjs";
 import { SalariesState } from "../../../states/salaries.state";
 import { HttpEventType } from "@angular/common/http";
 import { Absence } from "src/app/models/absence";
-
+import { AbsencesState } from "src/app/states/absences.state";
+import * as moment from "moment";
+import { Conge } from "src/app/models/conge";
+import { CongesState } from "src/app/states/conges.state";
 @Component({
   selector: "app-absence-form",
   templateUrl: "./absence-form.component.html",
@@ -30,6 +33,9 @@ export class AbsenceFormComponent implements OnInit {
 
   types: string[];
 
+  selectedSalarieAbsences: Absence[];
+  selectedSalarieConges: Conge[];
+
   constructor(
     private formBuilder: FormBuilder,
     public dialogRef: MatDialogRef<AbsenceFormComponent>,
@@ -44,11 +50,27 @@ export class AbsenceFormComponent implements OnInit {
 
     this.salariesLoaded = true;
 
+    console.log("DATA", this.data);
+
     this.absenceForm = this.formBuilder.group({
       salarieId: ["", Validators.required],
       dateDebut: ["", Validators.required],
       dateFin: ["", Validators.required],
       type: ["", Validators.required],
+    });
+
+    this.absenceForm.get("salarieId").valueChanges.subscribe((value) => {
+      if (this.store.selectSnapshot(AbsencesState.getAbsences))
+        this.selectedSalarieAbsences = this.store
+          .selectSnapshot(AbsencesState.getAbsences)
+          .filter((absence) => absence.salarie.id === value);
+      if (this.store.selectSnapshot(CongesState.getConges))
+        this.selectedSalarieConges = this.store
+          .selectSnapshot(CongesState.getConges)
+          .concat(this.store.selectSnapshot(CongesState.getCongesMaladie))
+          .filter(
+            (conge) => conge.salarie.id === value && conge.etat === "ACCEPTED"
+          );
     });
 
     this.dialogRef.backdropClick().subscribe((_) => {
@@ -66,7 +88,28 @@ export class AbsenceFormComponent implements OnInit {
       this.absenceForm.patchValue({
         salarieId: this.data.salarie.id,
       });
+      this.selectedSalarieAbsences = this.data.salarie.absences;
+      this.selectedSalarieConges = this.data.salarie.conges;
     }
+  }
+
+  checkDates(date: any) {
+    return (
+      this.selectedSalarieAbsences
+        .map(
+          (absence) =>
+            moment(date).isBefore(absence.dateDebut) ||
+            moment(date).isAfter(absence.dateFin)
+        )
+        .every((boolean) => boolean) &&
+      this.selectedSalarieConges
+        .map(
+          (conge) =>
+            moment(date).isBefore(conge.dateDebut) ||
+            moment(date).isAfter(conge.dateFin)
+        )
+        .every((boolean) => boolean)
+    );
   }
 
   onSubmit($event) {
@@ -126,8 +169,13 @@ export class AbsenceFormComponent implements OnInit {
 
   dateFilter = (d: Date | null): boolean => {
     const day = (d || new Date()).getDay();
+    // console.log("Checking date :", d, this.checkDates(d));
     // Prevent Saturday and Sunday from being selected.
-    return day !== 0 && day !== 6 && d.getTime() <= new Date().getTime();
+    return (
+      day !== 0 &&
+      day !== 6 &&
+      d.getTime() <= new Date().getTime() &&
+      this.checkDates(d)
+    );
   };
 }
-1;

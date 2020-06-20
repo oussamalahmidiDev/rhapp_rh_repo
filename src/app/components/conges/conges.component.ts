@@ -24,6 +24,7 @@ import {
 import { ProfileState } from "src/app/states/profile.state";
 import { User } from "src/app/models/user";
 import * as moment from "moment";
+import { GetAbsences } from "src/app/actions/absences.action";
 
 @Injectable()
 @Component({
@@ -95,7 +96,11 @@ export class CongesComponent implements OnInit {
     this.store.dispatch(new GetParametres());
     this.store
       .dispatch(new GetConges())
-      .subscribe(() => this.store.dispatch(new GetSalaries()));
+      .subscribe(() =>
+        this.store
+          .dispatch(new GetSalaries())
+          .subscribe(() => this.store.dispatch(new GetAbsences()))
+      );
   }
 
   openSnackBar(message: string) {

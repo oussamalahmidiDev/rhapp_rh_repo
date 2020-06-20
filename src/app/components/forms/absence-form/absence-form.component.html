@@ -16,7 +16,7 @@
           ></mat-spinner>
           <span>Chargement de liste de salariés</span>
         </div>
-        <mat-form-field [style.width.px]="327" *ngIf="salariesLoaded">
+        <mat-form-field [style.width.px]="327" *ngIf="!data">
           <mat-label>Selectionner le salarié</mat-label>
           <mat-select formControlName="salarieId">
             <mat-option
