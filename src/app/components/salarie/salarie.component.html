@@ -79,10 +79,10 @@
           <div class="detail-item">
             <strong class="detail-name">Nombre de jours de travail :</strong>
             <span
-              >{{
-                (salarie | async).properties?.jours_travail || 0
+              >{{ (salarie | async).properties?.jours_travail || 0 }} jours ({{
+                (salarie | async).properties?.mois_travail || 0
               }}
-              jours</span
+              mois)</span
             >
           </div>
           <div class="detail-item">
@@ -94,6 +94,12 @@
               jours</span
             >
           </div>
+          <div class="detail-item">
+            <strong class="detail-name">Nombre de jours de congés :</strong>
+            <span
+              >{{ (salarie | async).properties?.jours_conge || 0 }} jours</span
+            >
+          </div>
           <div
             class="detail-item text-danger"
             *ngIf="(salarie | async).deleted"
@@ -103,6 +109,15 @@
               (salarie | async).raisonSuppression || "Pas spécifiée"
             }}</span>
           </div>
+          <button
+            *ngIf="(salarie | async).cv"
+            class="mt-2"
+            (click)="handleDownload($event)"
+            mat-stroked-button
+            color="primary"
+          >
+            Télecharger le CV
+          </button>
         </div>
       </div>
     </div>

@@ -149,4 +149,28 @@ export class CongeMaladieFormComponent implements OnInit {
         );
     }
   }
+
+  dateFinFilter = (d: Date | null): boolean => {
+    const dateDebut = this.congeMaladieForm.get("dateDebut").value;
+    console.log("Selected date debut", dateDebut);
+    const absenceApresDateDebut = this.selectedSalarieAbsences.filter(
+      (absence) => moment(dateDebut).isBefore(absence.dateDebut)
+    )[0];
+    console.log("Absences after date", absenceApresDateDebut);
+
+    const congeApresDateDebut = this.selectedSalarieConges.filter((conge) =>
+      moment(dateDebut).isBefore(moment(conge.dateDebut))
+    )[0];
+    console.log("Conges after date", congeApresDateDebut);
+
+    return (
+      this.dateFilter(d) &&
+      (absenceApresDateDebut
+        ? moment(d).isBefore(absenceApresDateDebut.dateDebut)
+        : true) &&
+      (congeApresDateDebut
+        ? moment(d).isBefore(congeApresDateDebut.dateDebut)
+        : true)
+    );
+  };
 }

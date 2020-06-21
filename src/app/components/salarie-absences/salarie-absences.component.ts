@@ -9,7 +9,14 @@ import { DownloadService } from "../../services/download.service";
 import { saveAs } from "file-saver";
 import { HttpEvent, HttpEventType } from "@angular/common/http";
 import { AbsenceFormComponent } from "../forms/absence-form/absence-form.component";
-import { GetSalarieById } from "src/app/actions/salaries.action";
+import {
+  GetSalarieById,
+  RepondreSelectedSalarieAbsence,
+} from "src/app/actions/salaries.action";
+import {
+  DeleteAbsence,
+  RepondreAbsence,
+} from "src/app/actions/absences.action";
 
 @Component({
   selector: "app-salarie-absences",
@@ -20,7 +27,13 @@ export class SalarieAbsencesComponent implements OnInit {
   @Select(SalariesState.getSelectedSalarieAbsences)
   absences: Observable<Absence[]>;
   absencesDs: MatTableDataSource<Absence>;
-  absenceCols: string[] = ["datedebut", "datefin", "type", "justificatif"];
+  absenceCols: string[] = [
+    "datedebut",
+    "datefin",
+    "type",
+    "justificatif",
+    "actions",
+  ];
 
   constructor(
     private downloadService: DownloadService,
@@ -88,5 +101,32 @@ export class SalarieAbsencesComponent implements OnInit {
           saveAs(blob, name);
         }
       });
+  }
+
+  repondre(absence: Absence, avis: string) {
+    this.store.dispatch(new RepondreSelectedSalarieAbsence(absence.id, avis));
+    // this.store
+    //   .dispatch(new RepondreAbsence(absence.id, avis))
+    //   .subscribe(() =>
+    //     this.store.dispatch(
+    //       new GetSalarieById(
+    //         this.store.selectSnapshot(SalariesState.getSelectedSalarie).id
+    //       )
+    //     )
+    //   );
+  }
+
+  deleteAbsence(absence: Absence) {
+    // if (confirm(`Voulez-vous supprimer le poste de ${poste.nom}`)) {
+    this.store
+      .dispatch(new DeleteAbsence(absence.id))
+      .subscribe(() =>
+        this.store.dispatch(
+          new GetSalarieById(
+            this.store.selectSnapshot(SalariesState.getSelectedSalarie).id
+          )
+        )
+      );
+    // }
   }
 }

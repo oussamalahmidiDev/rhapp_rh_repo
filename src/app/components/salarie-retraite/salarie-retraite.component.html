@@ -7,14 +7,14 @@
     >Aucune retraite enregistrée pour {{ (salarie | async).nom }}
     {{ (salarie | async).prenom }}.</span
   >
-  <span
+  <!-- <span
     (click)="openRetraiteFrom()"
     class="text-primary ml-1"
     style="cursor: pointer;"
     >Voulez vous enregistrer une ?</span
-  >
+  > -->
 </div>
-<mat-accordion *ngIf="salarieLoaded && (salarie | async).retraite">
+<mat-accordion class="mb-5" *ngIf="salarieLoaded && (salarie | async).retraite">
   <mat-expansion-panel expanded>
     <mat-expansion-panel-header>
       <mat-panel-title>
@@ -45,10 +45,18 @@
       <div class="detail-name">État de la retraite</div>
 
       <div
-        *ngIf="(retraite | async).etat === 'PENDING_RT_AVTG'"
+        *ngIf="
+          (retraite | async).etat === 'PENDING_RT_AVTG' &&
+          nombreAvantagesNonRetire !== 0
+        "
         class="detail-content"
       >
-        <span>En attente de retraite des avantages en nature.</span>
+        <span
+          >En attente de retraite des avantages en nature. ({{
+            nombreAvantagesNonRetire
+          }}
+          restants)</span
+        >
       </div>
       <div
         *ngIf="(retraite | async).etat === 'SCHEDULED'"
@@ -60,7 +68,10 @@
         >
       </div>
       <div
-        *ngIf="(retraite | async).etat === 'PENDING_VALID'"
+        *ngIf="
+          (retraite | async).etat === 'PENDING_RT_AVTG' &&
+          nombreAvantagesNonRetire === 0
+        "
         class="detail-content"
       >
         <span>Les avantages ont été retirés.</span>
@@ -77,22 +88,35 @@
       </div>
     </div>
     <mat-action-row *ngIf="(retraite | async).etat !== 'VALID'">
-      <button
-        (click)="retirerAvantages()"
-        *ngIf="(retraite | async).etat === 'PENDING_RT_AVTG'"
-        color="primary"
-        mat-button
+      <!-- <button (click)="modifier()" color="primary" mat-button>
+        Modifier les informations
+      </button> -->
+      <a
+        *ngIf="
+          (retraite | async).etat === 'PENDING_RT_AVTG' &&
+          this.nombreAvantagesNonRetire
+        "
+        routerLink="../avantages"
       >
-        Retirer les avantages en nature
-      </button>
+        <button color="primary" mat-button>
+          Retirer les avantages en nature ({{ this.nombreAvantagesNonRetire }}
+          restants)
+        </button>
+      </a>
       <button
         (click)="validerRetraite()"
-        *ngIf="(retraite | async).etat === 'PENDING_VALID'"
+        *ngIf="
+          (retraite | async).etat === 'PENDING_VALID' ||
+          (retraite | async).etat === 'PENDING_RT_AVTG'
+        "
         color="primary"
         mat-button
       >
         Valider la retraite
       </button>
+      <!-- <button (click)="supprimer()" color="warn" mat-button>
+        Supprimer définitivement
+      </button> -->
       <!--      <button mat-button color="primary" (click)="nextStep()">End</button>-->
     </mat-action-row>
   </mat-expansion-panel>

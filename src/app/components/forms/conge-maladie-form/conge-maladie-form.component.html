@@ -8,7 +8,12 @@
   </div>
   <p *ngIf="!editForm" class="mat-body">
     Formualaire d'enregistrement congé de maladie des salariés. Verifiez bien
-    les informations avant de valider !
+    les informations avant de valider ! <br /><strong
+      style="opacity: 0.7; color: #0091fa;"
+      >Notez-bien que certaines dates ne peuvent pas être sélectionnées
+      parcequ'il peut y exister une absence déjà enregistrée ou le salarié est
+      en congé.</strong
+    >
   </p>
   <mat-vertical-stepper linear>
     <mat-step [stepControl]="congeMaladieForm">
@@ -72,6 +77,7 @@
               formControlName="dateFin"
               [min]="congeMaladieForm.value.dateDebut"
               [matDatepicker]="dateFinPicker"
+              [matDatepickerFilter]="dateFinFilter"
             />
             <mat-datepicker-toggle
               matSuffix

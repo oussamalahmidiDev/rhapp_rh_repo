@@ -23,6 +23,19 @@ export class RetraitesService {
     );
   }
 
+  modifierRetraite(id: number, retraite: Retraite): Observable<Retraite> {
+    return this.http.put<Retraite>(
+      `${this.BASE_URL}/api/salaries/${id}/retraite/modifier`,
+      retraite
+    );
+  }
+
+  supprimerRetraite(id: number): Observable<any> {
+    return this.http.delete<Retraite>(
+      `${this.BASE_URL}/api/salaries/${id}/retraite/supprimer`
+    );
+  }
+
   validerRetraite(
     id: number,
     request: { remarques: string }

@@ -5,6 +5,7 @@ import { environment } from "../../environments/environment";
 import { BehaviorSubject, Observable, Subject } from "rxjs";
 import { Conge } from "../models/conge";
 import { Absence } from "../models/absence";
+import { DownloadService } from "./download.service";
 
 @Injectable({
   providedIn: "root",
@@ -16,7 +17,10 @@ export class SalariesService {
 
   emitChange$: Subject<Salarie> = new BehaviorSubject<Salarie>(null);
 
-  constructor(private http: HttpClient) {}
+  constructor(
+    private http: HttpClient,
+    private downloadService: DownloadService
+  ) {}
 
   get emitChange(): BehaviorSubject<Salarie> {
     return this.emitChange$ as BehaviorSubject<Salarie>;
@@ -76,6 +80,12 @@ export class SalariesService {
     return this.http.put<Salarie>(
       `${this.BASE_URL}/api/salaries/${id}/modifier`,
       salarie
+    );
+  }
+
+  telechargerCV(id: number, filename: string) {
+    return this.downloadService.handleDownload(
+      `${this.BASE_URL}/api/salaries/${id}/cv/${filename}`
     );
   }
 }

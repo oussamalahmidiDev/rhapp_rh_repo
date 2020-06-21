@@ -2,7 +2,12 @@
   <div class="mat-title">Enregistrer une absence d'un salarié</div>
   <p class="mat-body">
     Formualaire d'enregistrement d'absence de salariés. Verifiez bien les
-    informations avant de valider !
+    informations avant de valider ! <br /><strong
+      style="opacity: 0.7; color: #0091fa;"
+      >Notez-bien que certaines dates ne peuvent pas être sélectionnées
+      parcequ'il peut y exister une absence déjà enregistrée ou le salarié est
+      en congé et aussi les week-ends.</strong
+    >
   </p>
   <mat-vertical-stepper linear>
     <mat-step [stepControl]="absenceForm">
@@ -59,6 +64,7 @@
               formControlName="dateDebut"
               [matDatepicker]="dateDebutPicker"
               [matDatepickerFilter]="dateFilter"
+              (dateChange)="dateFinFilter()"
             />
             <mat-datepicker-toggle
               matSuffix
@@ -73,7 +79,7 @@
               formControlName="dateFin"
               [min]="absenceForm.value.dateDebut"
               [matDatepicker]="dateFinPicker"
-              [matDatepickerFilter]="dateFilter"
+              [matDatepickerFilter]="dateFinFilter"
             />
             <mat-datepicker-toggle
               matSuffix

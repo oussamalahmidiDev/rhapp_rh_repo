@@ -5,8 +5,8 @@ export interface Retraite {
   etat?: string;
   dateRetraite: Date;
   dateValidation?: Date;
-  remarques: string;
+  remarques?: string;
   salarie?: Salarie;
   reference: string;
-  type: { id?: number; typeRetraite: string };
+  type?: { id?: number; typeRetraite: string };
 }

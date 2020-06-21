@@ -40,6 +40,17 @@ export class AddRetraite {
   constructor(public payload: Retraite) {}
 }
 
+export class ModifierRetraite {
+  static readonly type = "[Salaries] RETRAITE MODIFER";
+
+  constructor(public payload: Retraite) {}
+}
+export class SupprimerRetraite {
+  static readonly type = "[Salaries] RETRAITE SUPPRIMER";
+
+  constructor(public id: number) {}
+}
+
 export class AddAvantage {
   static readonly type = "[Salaries] AVANTAGES ADD";
 
@@ -52,6 +63,11 @@ export class RetirerAvantages {
   constructor(public payload: AvantageNature[]) {}
 }
 
+export class SupprimerAvantage {
+  static readonly type = "[Avantage] SUPPRIMER";
+
+  constructor(public id: number) {}
+}
 export class ValiderRetraite {
   static readonly type = "[Salaries] RETRAITE VALIDER";
   constructor(public payload: { remarques: string }) {}
@@ -61,4 +77,16 @@ export class DeleteSalarie {
   static readonly type = "[Salaries] DELETE";
 
   constructor(public id: number, public payload: Salarie) {}
+}
+
+export class RepondreSelectedSalarieAbsence {
+  static readonly type = "[SelectedSalarie.Absences] REPONDRE";
+
+  constructor(public id: number, public avis: string) {}
+}
+
+export class DeleteSelectedSalarieAbsence {
+  static readonly type = "[SelectedSalarie.Absences] DELETE";
+
+  constructor(public id: number) {}
 }

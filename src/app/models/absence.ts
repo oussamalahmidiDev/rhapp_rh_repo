@@ -1,4 +1,4 @@
-import {Salarie} from './salarie';
+import { Salarie } from "./salarie";
 
 export interface Absence {
   type: string;
@@ -8,4 +8,5 @@ export interface Absence {
   // etat: string,
   salarie: Salarie;
   id?: number;
+  accepted?: boolean | undefined;
 }

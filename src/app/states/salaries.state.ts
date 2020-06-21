@@ -13,6 +13,10 @@ import {
   ModifierSalarie,
   RetirerAvantages,
   ValiderRetraite,
+  RepondreSelectedSalarieAbsence,
+  SupprimerAvantage,
+  ModifierRetraite,
+  SupprimerRetraite,
 } from "../actions/salaries.action";
 import { tap } from "rxjs/operators";
 import {
@@ -26,6 +30,7 @@ import { AvantagesService } from "../services/avantages.service";
 import { DeletePosteSalarie } from "../actions/postes.action";
 import { SetFetchingState } from "../actions/app.action";
 import { Salarie } from "../models/salarie";
+import { AbsencesService } from "../services/absences.service";
 
 @State<MainStore>({
   name: "salaries",
@@ -35,6 +40,7 @@ export class SalariesState {
     private service: SalariesService,
     private retraitesService: RetraitesService,
     private avantagesService: AvantagesService,
+    private absencesService: AbsencesService,
     private store: Store
   ) {}
 
@@ -171,6 +177,43 @@ export class SalariesState {
       );
   }
 
+  @Action(ModifierRetraite)
+  modifierRetraite(
+    ctx: StateContext<MainStore>,
+    { payload }: ModifierRetraite
+  ) {
+    const { type, reference, dateRetraite } = payload;
+    return this.retraitesService
+      .modifierRetraite(ctx.getState().selectedSalarie.id, {
+        type,
+        reference,
+        dateRetraite,
+      })
+      .pipe(
+        tap((retraite) =>
+          ctx.patchState({
+            selectedSalarie: { ...ctx.getState().selectedSalarie, retraite },
+          })
+        )
+      );
+  }
+
+  @Action(SupprimerRetraite)
+  supprimerRetraite(ctx: StateContext<MainStore>, { id }: SupprimerRetraite) {
+    return this.retraitesService
+      .supprimerRetraite(ctx.getState().selectedSalarie.id)
+      .pipe(
+        tap((retraite) =>
+          ctx.patchState({
+            selectedSalarie: {
+              ...ctx.getState().selectedSalarie,
+              retraite: undefined,
+            },
+          })
+        )
+      );
+  }
+
   @Action(RetirerAvantages)
   retirerAvantages(
     ctx: StateContext<MainStore>,
@@ -179,6 +222,20 @@ export class SalariesState {
     return this.avantagesService
       .retirerAvantage(ctx.getState().selectedSalarie.id, payload)
       .pipe(tap((res) => ctx.patchState({ selectedSalarie: res })));
+  }
+
+  @Action(SupprimerAvantage)
+  supprimerAvantage(ctx: StateContext<MainStore>, { id }: SupprimerAvantage) {
+    return this.avantagesService.supprimer(id).pipe(
+      tap(() => {
+        let avantages = ctx
+          .getState()
+          .selectedSalarie.avantages.filter((avantage) => avantage.id !== id);
+        ctx.patchState({
+          selectedSalarie: { ...ctx.getState().selectedSalarie, avantages },
+        });
+      })
+    );
   }
 
   @Action(ValiderRetraite)
@@ -208,5 +265,27 @@ export class SalariesState {
           )
         )
       );
+  }
+
+  @Action(RepondreSelectedSalarieAbsence)
+  repondreSelectedSalarie(
+    ctx: StateContext<MainStore>,
+    { id, avis }: RepondreSelectedSalarieAbsence
+  ) {
+    console.log("Dispatched", "RepondreSelectedSalarieAbsence");
+    return this.absencesService.repondre(id, avis).pipe(
+      tap((res) => {
+        let selectedSalarie: Salarie = this.store.selectSnapshot(
+          SalariesState.getSelectedSalarie
+        );
+        console.log("Selected salarie", selectedSalarie);
+        let absences = selectedSalarie.absences;
+        absences = absences.map((absence) =>
+          absence.id === res.id ? res : absence
+        );
+        console.log(absences);
+        ctx.patchState({ selectedSalarie: { ...selectedSalarie, absences } });
+      })
+    );
   }
 }

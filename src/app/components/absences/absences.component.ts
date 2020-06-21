@@ -14,7 +14,11 @@ import { Select, Store } from "@ngxs/store";
 import { AbsencesState } from "src/app/states/absences.state";
 import { Observable } from "rxjs";
 import { GetSalaries } from "src/app/actions/salaries.action";
-import { DeleteAbsence, GetAbsences } from "src/app/actions/absences.action";
+import {
+  DeleteAbsence,
+  GetAbsences,
+  RepondreAbsence,
+} from "src/app/actions/absences.action";
 import { DownloadService } from "../../services/download.service";
 
 import { saveAs } from "file-saver";
@@ -83,9 +87,7 @@ export class AbsencesComponent implements OnInit {
       disableClose: true,
     });
     dialogRef.afterClosed().subscribe((data) => {
-      if (data !== undefined) {
-        this.openSnackBar(`L'absence de  ${data.salarie.nom} a été enregistré`);
-      }
+      if (data) this.openSnackBar(`L'absence a été enregistré`);
     });
   }
 
@@ -119,6 +121,10 @@ export class AbsencesComponent implements OnInit {
           saveAs(blob, name);
         }
       });
+  }
+
+  repondre(absence: Absence, avis: string) {
+    this.store.dispatch(new RepondreAbsence(absence.id, avis));
   }
 
   deleteAbsence(absence: Absence) {

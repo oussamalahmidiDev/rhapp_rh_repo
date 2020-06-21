@@ -10,6 +10,7 @@ import {
   ValiderRetraite,
 } from "src/app/actions/salaries.action";
 import { SalariesState } from "../../../states/salaries.state";
+import { filter, map } from "rxjs/operators";
 
 @Component({
   selector: "app-avantage-rejet-form",
@@ -38,20 +39,26 @@ export class AvantageRejetFormComponent implements OnInit {
   }
 
   onSubmit() {
-    this.avantages.subscribe((avantages) => {
-      if (!avantages.length) {
-        alert("Aucun avantage à retirer");
-        this.dialogRef.close();
-        return;
-        // this.store.dispatch(new ValiderRetraite()).subscribe(() => this.dialogRef.close());
-      } else {
-        if (this.selectedAvantages.length) {
-          this.store
-            .dispatch(new RetirerAvantages(this.selectedAvantages))
-            .subscribe(() => this.dialogRef.close());
+    this.avantages
+      .pipe(
+        map((avantages) =>
+          avantages.filter((avantage) => avantage.retire === false)
+        )
+      )
+      .subscribe((avantages) => {
+        if (!avantages.length) {
+          alert("Aucun avantage à retirer");
+          this.dialogRef.close();
+          return;
+          // this.store.dispatch(new ValiderRetraite()).subscribe(() => this.dialogRef.close());
+        } else {
+          if (this.selectedAvantages.length) {
+            this.store
+              .dispatch(new RetirerAvantages(this.selectedAvantages))
+              .subscribe(() => this.dialogRef.close());
+          }
         }
-      }
-    });
+      });
   }
 
   handleCheckboxChange(event, avantage: AvantageNature) {

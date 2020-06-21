@@ -39,6 +39,7 @@
           (salarie | async).dateNaissance
             | date: "EEEE d MMMM y" || "Non précisé"
         }}
+        ({{ (salarie | async).properties?.age }} ans)
       </div>
     </div>
     <div class="detail-item">
@@ -112,7 +113,11 @@
           <p class="card-text" *ngIf="diplome.expDiplome">
             Expire le {{ diplome.expDiplome | date: "EEEE d MMMM y" }}
           </p>
-          <button mat-stroked-button color="primary">
+          <button
+            (click)="handleDownload($event, diplome.path)"
+            mat-stroked-button
+            color="primary"
+          >
             Télecharger le document
           </button>
         </div>
