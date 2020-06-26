@@ -53,7 +53,7 @@ export class CongesService {
     return this.http.get<Conge[]>(this.BASE_URL + "/api/conges/parametres");
   }
 
-  setParametres(request: { nombreMinJoursConge: number }): Observable<any> {
+  setParametres(request: { coeffConge: number }): Observable<any> {
     return this.http.post(this.BASE_URL + "/api/conges/parametres", request);
   }
 }

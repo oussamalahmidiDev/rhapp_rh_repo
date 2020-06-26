@@ -3,8 +3,10 @@
   <mat-divider></mat-divider>
   <mat-card class="dashboard-card mt-4 mb-5">
     <mat-card-content>
-      Le nombre minimal de jours de congé par défaut est
-      <strong>{{ (parametres | async)?.nombreMinJoursConge }} jours.</strong>
+      Le coefficient de mensualité de congé par défaut est
+      <strong>{{ (parametres | async)?.coeffConge }}.</strong>
+      Ce coefficient est utilisé pour calculer la durée maximale d'un congé
+      (durée = coefficent de mensualité x mois travaillés).
       <span
         class="ml-1 text-primary"
         (click)="changeParametres()"

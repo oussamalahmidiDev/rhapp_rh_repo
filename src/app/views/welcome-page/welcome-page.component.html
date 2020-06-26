@@ -1,105 +1,213 @@
 <div class="wrapper">
-    <nav class="nav">
-      <div class="logo">
+  <nav class="nav">
+    <img
+      src="../../../assets/images/logo.svg"
+      class="logo-svg"
+      alt="Akinobank Logo"
+    />
+    <!-- <div class="logo">
         Logo
-        </div>
-        <ul class="nav-items">
+        </div> -->
+    <!-- <ul class="nav-items">
           <li class="nav-link">Aide</li>
-        </ul>
-    </nav>
+        </ul> -->
+  </nav>
 
-    <div class="background">
+  <div class="background"></div>
 
-    </div>
-
-    <div class="container">
-      <div class="row">
-
-        <div class="col-8" style="color: white;">
-          <h1 class="landing-header">Bienvenue à Rehapp !</h1>
-          <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Recusandae dolorum quasi neque quae impedit, cum id, totam doloremque iure delectus consectetur vel optio voluptas deleniti magnam cupiditate esse expedita. Corrupti.</p>
-        </div>
-        <div class=" col-4">
-          <mat-card *ngIf="forgotPasswordFormHidden">
-            <mat-card-header>
-              <mat-card-title>
-                  <h3 style="font-weight: bold;margin-bottom: 15px;margin-top: 15px;">
-                      Se connecter
-                  </h3>
-                </mat-card-title>
-              <mat-card-subtitle>Veuillez entrer vos données</mat-card-subtitle>
-            </mat-card-header>
-            <mat-card-content>
-              <form class="sign-form" [formGroup] = "loginForm" (keyup.enter)="login()">
-                <mat-form-field appearance="outline" style="width: -moz-available; width: -webkit-fill-available ;" >
-                  <mat-label>Adresse éléctronique</mat-label>
-                  <input autofocus formControlName="email" matInput required trim="blur" type="email">
-                </mat-form-field>
-                <mat-form-field appearance="outline"  style="width: -moz-available; width: -webkit-fill-available ;" >
-                  <mat-label>Mot de passe</mat-label>
-                  <input formControlName = "password" type="password"  matInput required >
-                </mat-form-field>
-                <mat-error *ngIf="error || true">
-                  {{ error }}
-                </mat-error>
-              </form >
-
-              <div class="text-primary" *ngIf="!loggingIn" style="cursor: pointer" (click)="switchForms()">Récupérez votre mot de passe ?</div>
-              <div style="display: flex;" *ngIf="loggingIn">
-                  <mat-spinner class="mr-2" strokeWidth="2" [diameter]="20"></mat-spinner>
-                  <span>Connexion ...</span>
-              </div>
-            </mat-card-content>
-
-            <mat-card-actions *ngIf="!loggingIn">
-              <button type="submit"  style="background: #1379dc;width: -moz-available; width: -webkit-fill-available ;"  *ngIf = "loginForm.valid" mat-flat-button color="primary" (click)="login()">
+  <div class="container">
+    <div class="row">
+      <div class="col-8" style="color: white;">
+        <h1 class="landing-header">Bienvenue à Rehapp !</h1>
+        <p>
+          Lorem ipsum dolor sit amet consectetur adipisicing elit. Recusandae
+          dolorum quasi neque quae impedit, cum id, totam doloremque iure
+          delectus consectetur vel optio voluptas deleniti magnam cupiditate
+          esse expedita. Corrupti.
+        </p>
+      </div>
+      <div class="col-4">
+        <mat-card *ngIf="forgotPasswordFormHidden">
+          <mat-card-header>
+            <mat-card-title>
+              <h3
+                style="
+                  font-weight: bold;
+                  margin-bottom: 15px;
+                  margin-top: 15px;
+                "
+              >
                 Se connecter
+              </h3>
+            </mat-card-title>
+            <mat-card-subtitle>Veuillez entrer vos données</mat-card-subtitle>
+          </mat-card-header>
+          <mat-card-content>
+            <form
+              class="sign-form"
+              [formGroup]="loginForm"
+              (keyup.enter)="login()"
+            >
+              <mat-form-field
+                appearance="outline"
+                style="width: -moz-available; width: -webkit-fill-available;"
+              >
+                <mat-label>Adresse éléctronique</mat-label>
+                <input
+                  autofocus
+                  formControlName="email"
+                  matInput
+                  required
+                  trim="blur"
+                  type="email"
+                />
+              </mat-form-field>
+              <mat-form-field
+                appearance="outline"
+                style="width: -moz-available; width: -webkit-fill-available;"
+              >
+                <mat-label>Mot de passe</mat-label>
+                <input
+                  formControlName="password"
+                  type="password"
+                  matInput
+                  required
+                />
+              </mat-form-field>
+              <mat-error *ngIf="error || true">
+                {{ error }}
+              </mat-error>
+            </form>
+
+            <div
+              class="text-primary"
+              *ngIf="!loggingIn"
+              style="cursor: pointer;"
+              (click)="switchForms()"
+            >
+              Récupérez votre mot de passe ?
+            </div>
+            <div style="display: flex;" *ngIf="loggingIn">
+              <mat-spinner
+                class="mr-2"
+                strokeWidth="2"
+                [diameter]="20"
+              ></mat-spinner>
+              <span>Connexion ...</span>
+            </div>
+          </mat-card-content>
+
+          <mat-card-actions *ngIf="!loggingIn">
+            <button
+              type="submit"
+              style="
+                background: #1379dc;
+                width: -moz-available;
+                width: -webkit-fill-available;
+              "
+              *ngIf="loginForm.valid"
+              mat-flat-button
+              color="primary"
+              (click)="login()"
+            >
+              Se connecter
             </button>
-              <button  style="background: #c5c5c5;width: -moz-available; width: -webkit-fill-available ;"  *ngIf = "loginForm.invalid" mat-flat-button disabled>Se connecter</button>
-            </mat-card-actions>
-          </mat-card>
+            <button
+              style="
+                background: #c5c5c5;
+                width: -moz-available;
+                width: -webkit-fill-available;
+              "
+              *ngIf="loginForm.invalid"
+              mat-flat-button
+              disabled
+            >
+              Se connecter
+            </button>
+          </mat-card-actions>
+        </mat-card>
 
-          <mat-card *ngIf="!forgotPasswordFormHidden">
-                <button mat-icon-button (click)="switchForms()">
-                  <mat-icon>arrow_back</mat-icon>
-                </button>
-            <mat-card-header>
-              <mat-card-title>
-                <h3 style="font-weight: bold;margin-bottom: 15px;margin-top: 15px;">
-                  Récuperation du mot de passe
-                </h3>
-              </mat-card-title>
-              <mat-card-subtitle>Veuillez entrer votre email</mat-card-subtitle>
-            </mat-card-header>
-            <mat-card-content>
-              <form (keyup.enter)="sendPasswordRecovery()" [formGroup]="forgotPasswordForm" class="sign-form">
-                <mat-form-field appearance="outline" style="width: -moz-available; width: -webkit-fill-available ;">
-                  <mat-label>Adresse éléctronique</mat-label>
-                  <input formControlName="email" type="email" autofocus matInput required>
-                </mat-form-field>
-                <mat-error *ngIf="error">
-                  {{ error }}
-                </mat-error>
-              </form>
+        <mat-card *ngIf="!forgotPasswordFormHidden">
+          <button mat-icon-button (click)="switchForms()">
+            <mat-icon>arrow_back</mat-icon>
+          </button>
+          <mat-card-header>
+            <mat-card-title>
+              <h3
+                style="
+                  font-weight: bold;
+                  margin-bottom: 15px;
+                  margin-top: 15px;
+                "
+              >
+                Récuperation du mot de passe
+              </h3>
+            </mat-card-title>
+            <mat-card-subtitle>Veuillez entrer votre email</mat-card-subtitle>
+          </mat-card-header>
+          <mat-card-content>
+            <form
+              (keyup.enter)="sendPasswordRecovery()"
+              [formGroup]="forgotPasswordForm"
+              class="sign-form"
+            >
+              <mat-form-field
+                appearance="outline"
+                style="width: -moz-available; width: -webkit-fill-available;"
+              >
+                <mat-label>Adresse éléctronique</mat-label>
+                <input
+                  formControlName="email"
+                  type="email"
+                  autofocus
+                  matInput
+                  required
+                />
+              </mat-form-field>
+              <mat-error *ngIf="error">
+                {{ error }}
+              </mat-error>
+            </form>
 
-              <div style="display: flex;" *ngIf="loggingIn">
-                <mat-spinner class="mr-2" strokeWidth="2" [diameter]="20"></mat-spinner>
-                <span>Envoie d'email en cours ...</span>
-              </div>
-            </mat-card-content>
+            <div style="display: flex;" *ngIf="loggingIn">
+              <mat-spinner
+                class="mr-2"
+                strokeWidth="2"
+                [diameter]="20"
+              ></mat-spinner>
+              <span>Envoie d'email en cours ...</span>
+            </div>
+          </mat-card-content>
 
-            <mat-card-actions *ngIf="!loggingIn">
-              <button (click)="sendPasswordRecovery()" *ngIf="forgotPasswordForm.valid" color="primary" mat-flat-button
-                      style="background: #1379dc;width: -moz-available; width: -webkit-fill-available ;">
-                Envoyer
-              </button>
-              <button *ngIf="forgotPasswordForm.invalid"
-                      disabled mat-flat-button
-                      style="background: #c5c5c5;width: -moz-available; width: -webkit-fill-available ;">Envoyer
-              </button>
-            </mat-card-actions>
-          </mat-card>
-        </div>
+          <mat-card-actions *ngIf="!loggingIn">
+            <button
+              (click)="sendPasswordRecovery()"
+              *ngIf="forgotPasswordForm.valid"
+              color="primary"
+              mat-flat-button
+              style="
+                background: #1379dc;
+                width: -moz-available;
+                width: -webkit-fill-available;
+              "
+            >
+              Envoyer
+            </button>
+            <button
+              *ngIf="forgotPasswordForm.invalid"
+              disabled
+              mat-flat-button
+              style="
+                background: #c5c5c5;
+                width: -moz-available;
+                width: -webkit-fill-available;
+              "
+            >
+              Envoyer
+            </button>
+          </mat-card-actions>
+        </mat-card>
       </div>
     </div>
+  </div>
 </div>

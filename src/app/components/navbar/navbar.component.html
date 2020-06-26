@@ -1,6 +1,10 @@
 <mat-toolbar class="navbar sticky-top navb" color="primary">
   <!-- <mat-toolbar-row> -->
-  <span> REHAPP </span>
+  <img
+    src="../../../assets/images/logo.svg"
+    class="logo-svg"
+    alt="Akinobank Logo"
+  />
   <form class="example-form navbar-nav mr-auto">
     <div class="example-full-width">
       <!-- <mat-label>Favorite food</mat-label> -->
@@ -18,17 +22,6 @@
       >
         <mat-option *ngFor="let salarie of searchResults" [value]="salarie">
           {{ salarie.nom }} {{ salarie.prenom }}
-          <!-- <div class="account-inline" >
-            <div class="avatar" *ngIf="salarie.photo" [ngStyle]="{ 'background-image': 'url(' + salarie.photo + ')'}"></div>
-            <div class="avatar" *ngIf="!salarie.photo" [ngStyle]="{ 'background-image': 'url(' + 'assets/images/default.jpg' + ')'}"></div>
-
-            <div class="account-labels">
-              <div class="account-name"></div>
-              <div class="account-details">
-                {{salarie.numSomme}}
-              </div>
-            </div>
-          </div> -->
         </mat-option>
       </mat-autocomplete>
     </div>

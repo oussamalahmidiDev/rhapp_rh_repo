@@ -147,17 +147,17 @@ export class CongesComponent implements OnInit {
 
   changeParametres() {
     let value = prompt(
-      "Veuillez entrer le nombre minial de jours de congé (Il doit être supérieur à 18 jours)"
+      "Veuillez spécifier le coefficient de mensualité de congé (Il doit être supérieur à 1.5)"
     );
     if (!value) return;
 
-    let nombreMinJoursConge = parseInt(value);
-    if (nombreMinJoursConge == undefined || nombreMinJoursConge < 18) {
-      alert("Le nombre minimal doit être supérieur à 18 jours");
+    let coefficient = parseFloat(value);
+    if (coefficient == undefined || coefficient < 1.5) {
+      alert("Le coefficient de mensualité doit être supérieur à 1.5");
       return this.changeParametres();
     }
 
-    this.store.dispatch(new ChangeParametres({ nombreMinJoursConge }));
+    this.store.dispatch(new ChangeParametres({ coeffConge: coefficient }));
   }
 
   isCongeAchieved(conge: Conge): boolean {
