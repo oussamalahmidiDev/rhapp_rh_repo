@@ -14,6 +14,8 @@ import { AbsencesState } from "src/app/states/absences.state";
 import * as moment from "moment";
 import { Conge } from "src/app/models/conge";
 import { CongesState } from "src/app/states/conges.state";
+import * as moment from "moment";
+
 @Component({
   selector: "app-absence-form",
   templateUrl: "./absence-form.component.html",
@@ -119,8 +121,14 @@ export class AbsenceFormComponent implements OnInit {
   onSubmit($event) {
     const formData: FormData = new FormData();
     formData.append("salarie_id", this.absenceForm.get("salarieId").value);
-    formData.append("dateDebut", this.absenceForm.get("dateDebut").value);
-    formData.append("dateFin", this.absenceForm.get("dateFin").value);
+    formData.append(
+      "dateDebut",
+      moment(this.absenceForm.get("dateDebut").value).format("D-MM-YYYY")
+    );
+    formData.append(
+      "dateFin",
+      moment(this.absenceForm.get("dateFin").value).format("D-MM-YYYY")
+    );
     formData.append("type", this.absenceForm.get("type").value);
     if (this.justificatif) {
       formData.append("justificatif", this.justificatif);
