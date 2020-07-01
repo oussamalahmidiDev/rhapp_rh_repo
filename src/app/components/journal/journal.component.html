@@ -1,0 +1,79 @@
+<div class="mt-5 container" style="max-width: 85vw;">
+  <h1 class="mat-subheading">Journal d'évenements</h1>
+  <mat-divider></mat-divider>
+  <mat-card class="dashboard-card mt-4 mb-5">
+    <mat-card-header>
+      <mat-card-title>Liste d'activités des agents</mat-card-title>
+      <mat-form-field class="ml-auto mr-3" style="width: 500px;">
+        <input
+          (keyup)="search($event)"
+          matInput
+          placeholder="Rechercher dans le tableau"
+        />
+      </mat-form-field>
+      <!-- <button class="ml-auto" color="primary" mat-flat-button>Voir plus</button> -->
+    </mat-card-header>
+    <mat-card-content
+      (scroll)="onScroll($event)"
+      class="pr-5 container"
+      style="max-width: 85vw; height: 100vh; overflow: auto;"
+    >
+      <table
+        #table
+        (scroll)="onScroll($event)"
+        [dataSource]="activitiesDs"
+        class="accounts"
+        mat-table
+        matSort
+      >
+        <!--- Note that these columns can be defined in any order.
+  The actual rendered columns are set as a property on the row definition" -->
+
+        <!-- Position Column -->
+        <ng-container matColumnDef="evenement">
+          <th
+            *matHeaderCellDef
+            mat-header-cell
+            mat-sort-header
+            style="padding-left: 20px;"
+          >
+            Description d'évenement
+          </th>
+          <td
+            *matCellDef="let element"
+            mat-cell
+            style="max-width: 400px; white-space: break-spaces;"
+          >
+            {{ element.evenement }}
+          </td>
+        </ng-container>
+
+        <!-- Name Column -->
+        <ng-container matColumnDef="service">
+          <th *matHeaderCellDef mat-header-cell mat-sort-header>Service</th>
+          <td style="width: 300px;" *matCellDef="let element" mat-cell>
+            {{ element.service }}
+          </td>
+        </ng-container>
+
+        <ng-container matColumnDef="timestamp">
+          <th *matHeaderCellDef mat-header-cell mat-sort-header>Temps</th>
+          <td *matCellDef="let element" mat-cell>
+            {{ element.timestamp | date: "medium" }}
+          </td>
+        </ng-container>
+        <ng-container matColumnDef="user">
+          <th *matHeaderCellDef mat-header-cell mat-sort-header>
+            {{ (currentUser | async).role === "ADMIN" ? "Agent" : "Salarié" }}
+          </th>
+          <td *matCellDef="let element" mat-cell>
+            {{ element.user.nom }} {{ element.user.prenom }}
+          </td>
+        </ng-container>
+
+        <tr *matHeaderRowDef="activityCols" mat-header-row></tr>
+        <tr *matRowDef="let row; columns: activityCols" mat-row></tr>
+      </table>
+    </mat-card-content>
+  </mat-card>
+</div>

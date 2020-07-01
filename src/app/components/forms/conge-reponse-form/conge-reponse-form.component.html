@@ -1,24 +1,25 @@
 <div class="form">
-  <div class="mat-title">Répondre à le demande de congé de {{ data.salarie.nom }} {{ data.salarie.prenom }}</div>
+  <div class="mat-title">Répondre à le demande de congé
+    de {{ data.salarie?.nom || (selectedSalarie | async).nom }} {{ data.salarie?.prenom || (selectedSalarie | async).prenom }}</div>
   <!-- <p class="mat-body">Formualaire de virement. Verifiez bien les informations avant de valider !</p> -->
   <dt>Motif</dt>
-  <dd>{{ data.motif }}</dd>  
-    
+  <dd>{{ data.motif }}</dd>
+
   <dt>Type du congé</dt>
-  <dd *ngIf = "data.type.typeConge == 'CONGE_ANNUEL'">Congé annuel</dd>   
+  <dd *ngIf="data.type.typeConge == 'CONGE_ANNUEL'">Congé annuel</dd>
 
   <dt>Date de début</dt>
-  <dd>{{ data.dateDebut | date: 'dd/MM/yyyy' }}</dd>  
+  <dd>{{ data.dateDebut | date: 'dd/MM/yyyy' }}</dd>
 
   <dt>Date de fin</dt>
-  <dd>{{ data.dateFin | date: 'dd/MM/yyyy' }}</dd>  
+  <dd>{{ data.dateFin | date: 'dd/MM/yyyy' }}</dd>
 
   <dt>État</dt>
-  <dd>En attente d'une réponse</dd>  
+  <dd>En attente d'une réponse</dd>
 
   <form style="margin-top: 10px;" [formGroup] = "congeReponseForm">
     <mat-form-field style="width: -webkit-fill-available; width: -moz-available;">
-      
+
       <mat-label>Votre réponse :</mat-label>
       <mat-select formControlName = "etat">
         <mat-option  value="ACCEPTED">Accepter</mat-option>
@@ -35,4 +36,3 @@
       <button mat-raised-button style="width: 421px;" color="primary" (click)="onSubmit()" >Valider la réponse</button>
     </mat-card-actions>
   </div>
-  

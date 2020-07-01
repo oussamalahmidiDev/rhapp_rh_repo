@@ -1,0 +1,11 @@
+<app-navbar *ngIf="(currentUser | async)"></app-navbar>
+
+<div id="notfound">
+  <div class="notfound">
+    <div class="notfound-404"></div>
+    <h1>404</h1>
+    <h2>Oops! Page introuvable</h2>
+    <p>La page que vous recherchez est indisponible. Verifiez bien le lien.</p>
+    <a routerLink="/">Retour à la page d'accueil</a>
+  </div>
+</div>

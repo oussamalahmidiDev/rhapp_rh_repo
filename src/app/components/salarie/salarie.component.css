@@ -4,6 +4,11 @@
   align-items: center;
   justify-content: space-between;
 }
+
+.container {
+  max-width: 85vw;
+}
+
 .header-left {
   display: flex;
   align-items: center;
@@ -13,6 +18,7 @@ strong.detail-name {
   font-weight: bold;
   margin-right: 10px;
 }
+
 h3.sal-name {
   font-weight: bold;
   font-size: 35px;
@@ -46,6 +52,7 @@ h4.poste-name {
   opacity: 0.8;
   font-size: 20px;
 }
-.header-right > * {
+
+.header-right>* {
   text-align: end;
 }

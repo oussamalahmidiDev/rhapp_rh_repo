@@ -1,6 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {Router} from '@angular/router';
-import {UserService} from '../../services/user.service';
+import {ProfileService} from '../../services/user.service';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {CookieService} from '../../services/cookie.service';
 import {TokenService} from '../../services/token.service';
@@ -23,8 +23,8 @@ export class WelcomePageComponent implements OnInit {
 
   constructor(
     private router: Router,
-    private _snackBar: MatSnackBar,
-    private authService: UserService,
+    private snackBar: MatSnackBar,
+    private authService: ProfileService,
     private formGroup: FormBuilder,
     private cookieService: CookieService,
     private tokenService: TokenService
@@ -56,7 +56,7 @@ export class WelcomePageComponent implements OnInit {
     }
     this.error = null;
     this.loggingIn = true;
-    this.authService.login(this.loginForm.value.email, this.loginForm.value.password).subscribe(
+    this.authService.login(this.loginForm.value.email.toLocaleLowerCase(), this.loginForm.value.password).subscribe(
       data => {
         console.log(data);
         this.loggingIn = false;
@@ -64,20 +64,19 @@ export class WelcomePageComponent implements OnInit {
         this.router.navigate(['/home/dashboard']).then(() => this.router.navigate(['/home/dashboard'])).catch(err => console.log(err));
       },
       error => {
-        console.log(error);
         this.loggingIn = false;
         this.error = error.error.message;
       }
     );
   }
 
-  sendPasswordForgery() {
+  sendPasswordRecovery() {
     if (this.forgotPasswordForm.invalid || this.loggingIn) {
       return;
     }
     this.error = null;
     this.loggingIn = true;
-    this.authService.sendPasswordRecoveryRequest(this.forgotPasswordForm.value.email).subscribe(
+    this.authService.sendPasswordRecoveryRequest(this.forgotPasswordForm.value.email.toLocaleLowerCase().trim()).subscribe(
       data => {
         this.openSnackBar(data.message);
         this.forgotPasswordFormHidden = true;
@@ -91,7 +90,7 @@ export class WelcomePageComponent implements OnInit {
   }
 
   openSnackBar(message: string) {
-    this._snackBar.open(message, 'OK', {
+    this.snackBar.open(message, 'OK', {
       duration: 2000,
     });
   }

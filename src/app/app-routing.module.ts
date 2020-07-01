@@ -1,107 +1,122 @@
-import {NgModule} from '@angular/core';
-import {Routes, RouterModule} from '@angular/router';
-import {DashboardComponent} from './components/dashboard/dashboard.component';
-// import { RechargesComponent } from "./components/recharges/recharges.component";
-import {AuthenticatedGuard} from './guards/authenticated.guard';
-import {WelcomePageComponent} from './views/welcome-page/welcome-page.component';
-import {HomeComponent} from './views/home/home.component';
-
-import {AUTH_PROVIDERS} from './services/user.service';
-import {GuestGuard} from './guards/guest.guard';
-import {PostesComponent} from './components/postes/postes.component';
-import {CongesComponent} from './components/conges/conges.component';
-import {SalarieComponent} from './components/salarie/salarie.component';
-import {SalarieInfosComponent} from './components/salarie-infos/salarie-infos.component';
-import {SalarieAbsencesComponent} from './components/salarie-absences/salarie-absences.component';
-import {SalarieCongesComponent} from './components/salarie-conges/salarie-conges.component';
-import {AbsencesComponent} from './components/absences/absences.component';
-import {SalariesListComponent} from './components/salaries-list/salaries-list.component';
-import { PosteServiceResolver } from './resolvers/postes.service.resolver';
-import { ProfileServiceResolver } from './resolvers/profile.service.resolver';
-import {CongesServiceResolver} from './resolvers/conges.service.resolver';
-import {SalariesServiceResolver} from './resolvers/salaries.service.resolver';
-import {AbsencesServiceResolver} from './resolvers/absences.service.resolver';
-import {SalarieServiceResolver} from './resolvers/salarie.service.resolver';
-import {SalarieRetraiteComponent} from './components/salarie-retraite/salarie-retraite.component';
-import {SalarieAvantagesComponent} from './components/salarie-avantages/salarie-avantages.component';
+import { NgModule } from "@angular/core";
+import { RouterModule, Routes } from "@angular/router";
+import { DashboardComponent } from "./components/dashboard/dashboard.component";
+import { AuthenticatedGuard } from "./guards/authenticated.guard";
+import { WelcomePageComponent } from "./views/welcome-page/welcome-page.component";
+import { HomeComponent } from "./views/home/home.component";
+import { GuestGuard } from "./guards/guest.guard";
+import { PostesComponent } from "./components/postes/postes.component";
+import { CongesComponent } from "./components/conges/conges.component";
+import { SalarieComponent } from "./components/salarie/salarie.component";
+import { SalarieInfosComponent } from "./components/salarie-infos/salarie-infos.component";
+import { SalarieAbsencesComponent } from "./components/salarie-absences/salarie-absences.component";
+import { SalarieCongesComponent } from "./components/salarie-conges/salarie-conges.component";
+import { AbsencesComponent } from "./components/absences/absences.component";
+import { SalariesListComponent } from "./components/salaries-list/salaries-list.component";
+import { ProfileServiceResolver } from "./resolvers/profile.service.resolver";
+import { SalarieServiceResolver } from "./resolvers/salarie.service.resolver";
+import { SalarieRetraiteComponent } from "./components/salarie-retraite/salarie-retraite.component";
+import { SalarieAvantagesComponent } from "./components/salarie-avantages/salarie-avantages.component";
+import { NotFoundComponent } from "./views/not-found/not-found.component";
+import { UsersComponent } from "./components/utilisateurs/users.component";
+import { JournalComponent } from "./components/journal/journal.component";
+import { AdminGuard } from "./guards/admin.guard";
+import { JournalPersonnelComponent } from "./components/journal-personnel/journal-personnel.component";
 
 const routes: Routes = [
   {
-    path: 'home',
+    path: "home",
     component: HomeComponent,
     resolve: { profile: ProfileServiceResolver },
     canActivate: [AuthenticatedGuard],
     children: [
       {
-        path: 'dashboard',
+        path: "dashboard",
         component: DashboardComponent,
         canActivate: [AuthenticatedGuard],
       },
       {
-        path: 'postes',
+        path: "utilisateurs",
+        component: UsersComponent,
+        canActivate: [AuthenticatedGuard, AdminGuard],
+      },
+      {
+        path: "journal",
+        component: JournalComponent,
+        canActivate: [AuthenticatedGuard],
+      },
+      {
+        path: "journal_personnel",
+        component: JournalPersonnelComponent,
+        canActivate: [AuthenticatedGuard],
+      },
+      {
+        path: "postes",
         component: PostesComponent,
-        resolve: { postes: PosteServiceResolver },
+        // resolve: { postes: PosteServiceResolver },
         canActivate: [AuthenticatedGuard],
       },
       {
-        path: 'conges',
+        path: "conges",
         component: CongesComponent,
-        resolve: { conges: CongesServiceResolver },
+        // resolve: { conges: CongesServiceResolver },
         canActivate: [AuthenticatedGuard],
       },
       {
-        path: 'absences',
+        path: "absences",
         component: AbsencesComponent,
-        resolve: { absences: AbsencesServiceResolver },
+        // resolve: { absences: AbsencesServiceResolver },
         canActivate: [AuthenticatedGuard],
       },
       {
-        path: 'salaries',
+        path: "salaries",
         component: SalariesListComponent,
-        resolve: { salaries: SalariesServiceResolver }
+        canActivate: [AuthenticatedGuard],
+        // resolve: { salaries: SalariesServiceResolver }
       },
       {
-        path: 'salaries/:id',
+        path: "salaries/:id",
         component: SalarieComponent,
-        resolve: {salarie: SalarieServiceResolver },
+        canActivate: [AuthenticatedGuard],
+        resolve: { salarie: SalarieServiceResolver },
         children: [
-          {path: '', redirectTo: 'infos', pathMatch: 'full'},
+          { path: "", redirectTo: "infos", pathMatch: "full" },
           {
-            path: 'infos',
-            component: SalarieInfosComponent
+            path: "infos",
+            canActivate: [AuthenticatedGuard],
+            component: SalarieInfosComponent,
           },
           {
-            path: 'absences',
-            component: SalarieAbsencesComponent
+            path: "absences",
+            canActivate: [AuthenticatedGuard],
+            component: SalarieAbsencesComponent,
           },
           {
-            path: 'conges',
-            component: SalarieCongesComponent
+            path: "conges",
+            canActivate: [AuthenticatedGuard],
+            component: SalarieCongesComponent,
           },
           {
-            path: 'retraites',
+            path: "retraites",
+            canActivate: [AuthenticatedGuard],
             component: SalarieRetraiteComponent,
-            // canActivate: [AuthenticatedGuard],
           },
           {
-            path: 'avantages',
+            path: "avantages",
+            canActivate: [AuthenticatedGuard],
             component: SalarieAvantagesComponent,
-            // canActivate: [AuthenticatedGuard],
           },
-        ]
-
-
+        ],
       },
     ],
   },
-  {path: '', component: WelcomePageComponent, canActivate: [GuestGuard]},
-
+  { path: "", component: WelcomePageComponent, canActivate: [GuestGuard] },
+  { path: "**", component: NotFoundComponent },
+  { path: "error", component: NotFoundComponent },
 ];
-
 
 @NgModule({
   imports: [RouterModule.forRoot(routes)],
   exports: [RouterModule],
 })
-export class AppRoutingModule {
-}
+export class AppRoutingModule {}

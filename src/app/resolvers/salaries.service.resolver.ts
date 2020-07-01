@@ -1,12 +1,11 @@
-import { Injectable } from '@angular/core';
-import { Resolve, ActivatedRouteSnapshot, RouterStateSnapshot } from '@angular/router';
-import { catchError } from 'rxjs/operators'; import { empty, Observable } from 'rxjs';
-import { PosteService } from '../services/poste.service';
-import { Poste } from '../models/poste';
-import { User } from '../models/user';
-import { UserService } from '../services/user.service';
+import {Injectable} from '@angular/core';
+import {ActivatedRouteSnapshot, Resolve, RouterStateSnapshot} from '@angular/router';
+import {map} from 'rxjs/operators';
+import {Observable} from 'rxjs';
 import {Salarie} from '../models/salarie';
-import {SalariesService} from '../services/salaries.service';
+import {Store} from '@ngxs/store';
+import {GetSalaries} from '../actions/salaries.action';
+import {SalariesState} from '../states/salaries.state';
 
 
 @Injectable({
@@ -15,10 +14,13 @@ import {SalariesService} from '../services/salaries.service';
 
 export class SalariesServiceResolver implements Resolve<Salarie[]> {
 
-  constructor(private service: SalariesService) { }
+  constructor(private store: Store) {
+  }
 
   resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<Salarie[]> {
-    return this.service.getSalaries();
+    return this.store.dispatch(new GetSalaries()).pipe(
+      map(() => this.store.selectSnapshot(SalariesState))
+    );
   }
 
 }

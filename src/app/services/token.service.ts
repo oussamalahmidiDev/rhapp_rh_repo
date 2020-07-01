@@ -1,43 +1,43 @@
-import { Injectable } from '@angular/core';
-import * as jwt_decode from 'jwt-decode';
-import { CookieService } from './cookie.service';
-import { TokenizeResult } from '@angular/compiler/src/ml_parser/lexer';
+import { Injectable } from "@angular/core";
+import * as jwt_decode from "jwt-decode";
+import { CookieService } from "./cookie.service";
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: "root",
 })
 export class TokenService {
-
   token: string;
   decodedToken: any;
 
+  constructor(private cookieService: CookieService) {
+    this.setToken();
+  }
+
   getToken() {
-    return this.token;
+    return localStorage.getItem("token");
   }
 
   setNewToken(token) {
-    this.cookieService.remove('token');
-    this.cookieService.set('token', token);
+    localStorage.removeItem("token");
+    localStorage.setItem("token", token);
     this.token = token;
   }
 
-
   setToken() {
-    const token = this.cookieService.get('token');
+    const token = localStorage.getItem("token");
     if (token) {
       this.token = token;
     }
   }
 
   unsetToken() {
-    this.cookieService.remove('token');
+    localStorage.removeItem("token");
     this.token = this.decodedToken = null;
   }
 
   decodeToken() {
     if (this.token) {
-    this.decodedToken = jwt_decode(this.token);
-    console.log("DECODED TOKEN", this.decodedToken);
+      this.decodedToken = jwt_decode(this.token);
     }
   }
 
@@ -47,7 +47,6 @@ export class TokenService {
 
   getUser() {
     this.decodeToken();
-    console.log('TOKEN USER', this.decodedToken);
     return this.decodedToken;
   }
 
@@ -64,11 +63,9 @@ export class TokenService {
   isTokenExpired(): boolean {
     const expiryTime: number = this.getExpiryTime();
     if (expiryTime) {
-      return ((1000 * expiryTime) - (new Date()).getTime()) < 5000;
+      return 1000 * expiryTime - new Date().getTime() < 5000;
     } else {
       return false;
     }
   }
-
-  constructor(private cookieService: CookieService) { this.setToken() }
 }

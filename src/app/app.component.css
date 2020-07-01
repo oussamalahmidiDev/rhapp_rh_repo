@@ -2,7 +2,7 @@
 .sidenav-container {
       height: 100%;
     }
-    
+
     .sidenav {
       width: 300px;
     }
@@ -12,34 +12,47 @@
       align-items: center;
       margin-bottom: 20px;
   }
-    
-    .sidenav .mat-toolbar {
-      background: inherit;
-    }
-    .logout {
-          color: red;
-    }
-    .navb {
-      display: flex;
-      justify-content: flex-end;
-    }
-    
-  
-    .avatar {
-      background-image: url("https://picsum.photos/300");
-      background-size: contain;
-      height: 150px;
-      width: 150px;
-      border-radius: 90px;
-      margin: 15px 0 20px 0;
-  }
 
-  a.mat-list-item.active {
-      background: #9fcdff61;
-      color: #007bff;
-      /* margin: 5px; */
-  }
+.sidenav .mat-toolbar {
+  background: inherit;
+}
 
-  body {
-        font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
-  }
+.logout {
+  color: red;
+}
+
+.navb {
+  display: flex;
+  justify-content: flex-end;
+}
+
+
+.avatar {
+  background-image: url("https://picsum.photos/300");
+  background-size: contain;
+  height: 150px;
+  width: 150px;
+  border-radius: 90px;
+  margin: 15px 0 20px 0;
+}
+
+a.mat-list-item.active {
+  background: #9fcdff61;
+  color: #007bff;
+  /* margin: 5px; */
+}
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+}
+
+.offline-snackbar {
+  background: #ff9307;
+  padding: 15px 20px;
+  color: white;
+  font-weight: 600;
+  position: sticky;
+  top: 0;
+  right: 0;
+  z-index: 999999;
+}

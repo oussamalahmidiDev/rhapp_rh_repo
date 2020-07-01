@@ -1,28 +1,36 @@
 <div class="form">
-  <div class="mat-title">Créer un nouveau poste</div>
-  <p class="mat-body">Formualaire de création de poste. Verifiez bien les informations avant de valider !</p>
-    <mat-vertical-stepper   linear>
-      <mat-step [stepControl]="firstFormGroup" >
-        <form [formGroup]="firstFormGroup" >
-          <ng-template matStepLabel>Préciser la direction, la division et le service</ng-template>
-          <mat-form-field  [style.width.px]=327>
-            <mat-label>Préciser la direction</mat-label>
-            <input  matInput placeholder="Ex : 678951948581479" formControlName="direction" (change)="handleDirectionChange()" [matAutocomplete]="autoDirection" required>
-            <mat-autocomplete #autoDirection="matAutocomplete">
-              <mat-option *ngFor="let direction of directions" (click)="handleDirectionSelect(direction)" [value]="direction.id">{{ direction.nom }}</mat-option>
-            </mat-autocomplete>
-          </mat-form-field>
+  <div *ngIf="!this.editForm" class="mat-title">Créer un nouveau poste</div>
+  <p *ngIf="!this.editForm" class="mat-body">Formualaire de création de poste. Verifiez bien les informations avant de
+    valider !</p>
+  <div *ngIf="this.editForm" class="mat-title">Modifier le poste de {{ data.nom }}</div>
+  <p *ngIf="this.editForm" class="mat-body">Formualaire de modification du poste. Verifiez bien les informations avant
+    de valider !</p>
+  <mat-vertical-stepper [linear]="this.editForm">
+    <mat-step [stepControl]="firstFormGroup">
+      <form [formGroup]="firstFormGroup">
+        <ng-template matStepLabel>Préciser la direction, la division et le service</ng-template>
+        <mat-form-field [style.width.px]=327>
+          <mat-label>Préciser la direction</mat-label>
+          <input matInput placeholder="Direction des RH" formControlName="direction"
+                 (change)="handleDirectionChange()" [matAutocomplete]="autoDirection" required>
+          <mat-autocomplete #autoDirection="matAutocomplete" [displayWith]="showNom">
+            <mat-option *ngFor="let direction of directions | async"
+                        [value]="direction">{{ direction.nom }}</mat-option>
+          </mat-autocomplete>
+        </mat-form-field>
           <mat-form-field [style.width.px]=327>
             <mat-label>Préciser la division</mat-label>
-            <input  matInput placeholder="Ex : 678951948581479" formControlName="division" required>
+            <input  matInput placeholder="Division B" formControlName="division" required>
           </mat-form-field>
-          <mat-form-field [style.width.px]=327>
-            <mat-label>Préciser la service</mat-label>
-            <input  matInput placeholder="Ex : 678951948581479" formControlName="service" (change)="handleServiceChange()" [matAutocomplete]="autoService" required>
-            <mat-autocomplete #autoService="matAutocomplete">
-              <mat-option *ngFor="let service of services" (click)="handleServiceSelect(service)" [value]="service">{{ service.nom }}</mat-option>
-            </mat-autocomplete>
-          </mat-form-field>
+        <mat-form-field [style.width.px]=327>
+          <mat-label>Préciser la service</mat-label>
+          <input matInput  placeholder="Service d'achats" formControlName="service" (change)="handleServiceChange()"
+                 [matAutocomplete]="autoService" required>
+          <mat-autocomplete #autoService="matAutocomplete" [displayWith]="showNom">
+            <mat-option *ngFor="let service of services | async"
+                        [value]="service">{{ service.nom }}</mat-option>
+          </mat-autocomplete>
+        </mat-form-field>
           <div>
             <button type="submit"  mat-button matStepperNext>Suivant</button>
           </div>
@@ -33,7 +41,7 @@
           <ng-template matStepLabel>informations sur le poste</ng-template>
           <mat-form-field [style.width.px]=327>
             <mat-label>Le nom du poste</mat-label>
-            <input matInput  formControlName="posteName" placeholder="Ex : 678951948581479"
+            <input matInput  formControlName="posteName" placeholder="Poste de gestion des RH"
                    required>
           </mat-form-field>
             <!-- <mat-form-field
@@ -49,7 +57,7 @@
               <mat-label>Les competences requises</mat-label>
               <mat-chip-list #competencesList aria-label="Competence du poste">
                 <mat-chip *ngFor="let comp of competences"
-                         removable=true (removed)="remove(fruit)">
+                          (removed)="remove(comp)" removable=true>
                   {{comp}}
                   <mat-icon matChipRemove>cancel</mat-icon>
                 </mat-chip>
@@ -62,7 +70,7 @@
 
           <div>
             <button mat-button matStepperPrevious>Retour</button>
-            <button mat-button matStepperNext (click)="submitForm()" [disabled]="!secondFormGroup.valid" >Enregistrer</button>
+            <button mat-button matStepperNext (click)="submitForm($event)" [disabled]="!secondFormGroup.valid" >Enregistrer</button>
           </div>
         </form>
       </mat-step>

@@ -2,7 +2,12 @@
   <div class="mat-title">Enregistrer une absence d'un salarié</div>
   <p class="mat-body">
     Formualaire d'enregistrement d'absence de salariés. Verifiez bien les
-    informations avant de valider !
+    informations avant de valider ! <br /><strong
+      style="opacity: 0.7; color: #0091fa;"
+      >Notez-bien que certaines dates ne peuvent pas être sélectionnées
+      parcequ'il peut y exister une absence déjà enregistrée ou le salarié est
+      en congé et aussi les week-ends.</strong
+    >
   </p>
   <mat-vertical-stepper linear>
     <mat-step [stepControl]="absenceForm">
@@ -16,12 +21,13 @@
           ></mat-spinner>
           <span>Chargement de liste de salariés</span>
         </div>
-        <mat-form-field [style.width.px]="327" *ngIf="salariesLoaded">
+        <mat-form-field [style.width.px]="327" *ngIf="!data">
           <mat-label>Selectionner le salarié</mat-label>
           <mat-select formControlName="salarieId">
             <mat-option
               class="account-inline"
-              *ngFor="let salarie of salaries"
+              [disabled]="salarie.deleted"
+              *ngFor="let salarie of salaries | async"
               [value]="salarie.id"
             >
               <span
@@ -57,6 +63,8 @@
               matInput
               formControlName="dateDebut"
               [matDatepicker]="dateDebutPicker"
+              [matDatepickerFilter]="dateFilter"
+              (dateChange)="dateFinFilter()"
             />
             <mat-datepicker-toggle
               matSuffix
@@ -71,6 +79,7 @@
               formControlName="dateFin"
               [min]="absenceForm.value.dateDebut"
               [matDatepicker]="dateFinPicker"
+              [matDatepickerFilter]="dateFinFilter"
             />
             <mat-datepicker-toggle
               matSuffix
@@ -90,7 +99,11 @@
             <div class="upload-btn-wrapper" *ngIf="!uploading">
               <button class="mr-2" mat-stroked-button>
                 <mat-icon class="mr-2">backup</mat-icon>
-                {{ justificatif ? 'Modifier le fichier' : 'Attacher un justificatif' }}
+                {{
+                  justificatif
+                    ? "Modifier le fichier"
+                    : "Attacher un justificatif"
+                }}
               </button>
               <input
                 type="file"
@@ -113,13 +126,16 @@
             </div>
           </div>
 
-          <div *ngIf="justificatif" class="text-primary mt-2">{{ justificatif.name }}</div>
+          <div *ngIf="justificatif" class="text-primary mt-2">
+            {{ justificatif.name }}
+          </div>
           <div class="mt-3">
             <button
               type="submit"
-              (click)="onSubmit()"
+              (click)="onSubmit($event)"
               mat-button
               matStepperNext
+              [disabled]="absenceForm.invalid"
             >
               Enregistrer
             </button>

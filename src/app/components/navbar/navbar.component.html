@@ -1,0 +1,88 @@
+<mat-toolbar class="navbar sticky-top navb" color="primary">
+  <!-- <mat-toolbar-row> -->
+  <img
+    src="../../../assets/images/logo.svg"
+    class="logo-svg"
+    alt="Akinobank Logo"
+  />
+  <form class="example-form navbar-nav mr-auto">
+    <div class="example-full-width">
+      <!-- <mat-label>Favorite food</mat-label> -->
+      <input
+        #searchField
+        [matAutocomplete]="auto"
+        class="search"
+        name="searchQuery"
+        placeholder="Rechercher par nom de salarié, divison, direction"
+      />
+      <mat-autocomplete
+        #auto="matAutocomplete"
+        (optionSelected)="redirect($event.option.value.id)"
+        [displayWith]="showSalarieNom"
+      >
+        <mat-option *ngFor="let salarie of searchResults" [value]="salarie">
+          {{ salarie.nom }} {{ salarie.prenom }}
+        </mat-option>
+      </mat-autocomplete>
+    </div>
+  </form>
+  <div class="right-items">
+    <button (click)="openNotificationDrawer()" class="mr-2" mat-icon-button>
+      <mat-icon
+        [matBadge]="notificationsCount"
+        [matBadgeHidden]="notificationsCount == 0"
+        matBadgeColor="warn"
+        >notifications</mat-icon
+      >
+    </button>
+    <div
+      [matMenuTriggerData]="{ name: 'Sally' }"
+      [matMenuTriggerFor]="appMenu"
+      class="inline-avatar"
+    >
+      <div
+        *ngIf="(currentUser | async).photo"
+        [ngStyle]="{
+          'background-image': (currentUser | async).photo | blob | async | url
+        }"
+        class="avatar"
+      ></div>
+      <div
+        *ngIf="!(currentUser | async).photo"
+        [ngStyle]="{
+          'background-image': 'url(' + 'assets/images/default.jpg' + ')'
+        }"
+        class="avatar"
+      ></div>
+      <div class="user-name">
+        {{ (currentUser | async).nom }} {{ (currentUser | async).prenom }}
+        <span
+          *ngIf="(currentUser | async).role === 'ADMIN'"
+          style="display: block; font-size: 13px; line-height: normal;"
+          >(Administeur)</span
+        >
+        <span
+          *ngIf="(currentUser | async).role === 'RH'"
+          style="display: block; font-size: 13px; line-height: normal;"
+          >(Agent RH)</span
+        >
+      </div>
+    </div>
+    <mat-menu #appMenu="matMenu" class="top-menu" xPosition="before">
+      <ng-template let-name="name" matMenuContent>
+        <button (click)="openProfileModal()" mat-menu-item>
+          Voir votre profil
+        </button>
+        <a routerLink="journal_personnel" mat-menu-item
+          >Voir mon journal d'activités
+        </a>
+        <!-- <button mat-menu-item>Historique d'activités</button> -->
+        <mat-divider></mat-divider>
+        <button (click)="logout()" class="text-danger" mat-menu-item>
+          Deconnexion
+        </button>
+      </ng-template>
+    </mat-menu>
+  </div>
+  <!-- </mat-toolbar-row> -->
+</mat-toolbar>

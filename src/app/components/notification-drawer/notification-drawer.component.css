@@ -1,0 +1,49 @@
+.modal-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 3rem;
+}
+
+h4 {
+  font-weight: bold;
+}
+
+.notifications-list {
+  margin-top: 1rem;
+  max-height: 70vh;
+  overflow: auto;
+}
+
+.notification-item {
+  display: flex;
+  justify-content: space-between;
+  /* height: 50px; */
+  align-items: center;
+  padding: 0.5rem;
+}
+
+.unseen {
+  font-weight: bold;
+  background: #f2f2f2;
+
+}
+
+.content {
+  width: 20rem;
+  font-size: 10pt;
+}
+
+.notification-item:not(:last-child) {
+  border-bottom: 1px silver solid;
+}
+
+.timestamp {
+  font-weight: normal;
+  font-size: 10pt;
+  text-align: end;
+}
+
+hr {
+  margin: 0 !important
+}

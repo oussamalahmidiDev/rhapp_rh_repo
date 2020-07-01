@@ -1,12 +1,11 @@
-import { Injectable } from '@angular/core';
-import { Resolve, ActivatedRouteSnapshot, RouterStateSnapshot } from '@angular/router';
-import { catchError } from 'rxjs/operators'; import { empty, Observable } from 'rxjs';
-import { PosteService } from '../services/poste.service';
-import { Poste } from '../models/poste';
-import { User } from '../models/user';
-import { UserService } from '../services/user.service';
+import {Injectable} from '@angular/core';
+import {ActivatedRouteSnapshot, Resolve, RouterStateSnapshot} from '@angular/router';
+import {map} from 'rxjs/operators';
+import {Observable} from 'rxjs';
 import {Conge} from '../models/conge';
-import {CongesService} from '../services/conges.service';
+import {Store} from '@ngxs/store';
+import {GetConges} from '../actions/conges.action';
+import {CongesState} from '../states/conges.state';
 
 
 @Injectable({
@@ -15,10 +14,13 @@ import {CongesService} from '../services/conges.service';
 
 export class CongesServiceResolver implements Resolve<Conge[]> {
 
-  constructor(private service: CongesService) { }
+  constructor(private store: Store) {
+  }
 
-  resolve (route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<Conge[]> {
-    return this.service.getConges();
+  resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<Conge[]> {
+    return this.store.dispatch(new GetConges()).pipe(
+      map(() => this.store.selectSnapshot(CongesState))
+    );
   }
 
 }

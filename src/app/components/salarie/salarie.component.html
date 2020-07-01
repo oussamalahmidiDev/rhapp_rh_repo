@@ -4,7 +4,7 @@
     <span>Chargement des Informations du salarié</span>
   </div>
 </div>
-<div class="mt-5 container" *ngIf="salarieLoaded">
+<div *ngIf="salarieLoaded" class="mt-5 container" style="height: 100vh;">
   <a class="row mb-4" (click)="goBack()">
     <button mat-icon-button>
       <mat-icon>arrow_back</mat-icon>
@@ -12,93 +12,190 @@
   </a>
   <div class="salarie-header">
     <div class="header-left">
-      <div class="avatar" *ngIf="salarie.photo" [ngStyle]="{ 'background-image': salarie.photo | url: 'salarie' : salarie.id | async }"></div>
-      <div class="avatar" *ngIf="!salarie.photo"
-           [ngStyle]="{ 'background-image': 'url(' + 'assets/images/default.jpg' + ')'}"></div>
+      <div
+        *ngIf="(salarie | async).photo"
+        [ngStyle]="{
+          'background-image':
+            (salarie | async).photo
+            | blob: 'salarie':(salarie | async).id
+            | async
+            | url
+        }"
+        class="avatar"
+      ></div>
+      <div
+        *ngIf="!(salarie | async).photo"
+        class="avatar"
+        [ngStyle]="{
+          'background-image': 'url(' + 'assets/images/default.jpg' + ')'
+        }"
+      ></div>
       <div class="pers-infos">
-        <h3 class="sal-name">{{ salarie.nom }} {{ salarie.prenom }}</h3>
+        <h3 class="sal-name">
+          {{ (salarie | async).nom }} {{ (salarie | async).prenom }}
+        </h3>
         <mat-chip-list style="display: inline-block;">
-          <mat-chip color="accent" selected *ngIf="salarie.retraite">Retraité</mat-chip>
-          <mat-chip  *ngIf = "salarie.retraite && salarie.retraite.etat === 'PENDING_RT_AVTG'">En attente de retraite des avantages</mat-chip>
-          <mat-chip *ngIf = "salarie.retraite && salarie.retraite.etat === 'PENDING_VALID'">En attente de validation</mat-chip>
+          <mat-chip *ngIf="(salarie | async).retraite" color="accent" selected
+            >{{
+              (salarie | async).retraite.etat !== "SCHEDULED"
+                ? "Retraité"
+                : "Il reste moins de six mois pour la retraite"
+            }}
+          </mat-chip>
+          <mat-chip
+            *ngIf="
+              (salarie | async).retraite &&
+              (salarie | async).retraite.etat === 'PENDING_RT_AVTG'
+            "
+            >En attente de retraite des avantages
+          </mat-chip>
+          <mat-chip
+            *ngIf="
+              (salarie | async).retraite &&
+              (salarie | async).retraite.etat === 'PENDING_VALID'
+            "
+            >En attente de validation
+          </mat-chip>
         </mat-chip-list>
         <div class="sal-contacts">
           <div class="detail-item">
             <strong class="detail-name">CIN :</strong>
-            <span>{{ salarie.cin }}</span>
+            <span>{{ (salarie | async).cin || "Non précisé" }}</span>
           </div>
           <div class="detail-item">
             <strong class="detail-name">Numéro de somme :</strong>
-            <span>{{ salarie.numSomme }}</span>
+            <span>{{ (salarie | async).numSomme }}</span>
           </div>
           <div class="detail-item">
             <strong class="detail-name">Email :</strong>
-            <span>{{ salarie.email }}</span>
+            <span>{{ (salarie | async).email }}</span>
           </div>
+          <div class="detail-item">
+            <strong class="detail-name">Date de recrutement :</strong>
+            <span>{{
+              (salarie | async).dateRecrutement | date: "EEEE d MMMM y"
+            }}</span>
+          </div>
+          <div class="detail-item">
+            <strong class="detail-name">Nombre de jours de travail :</strong>
+            <span
+              >{{ (salarie | async).properties?.jours_travail || 0 }} jours ({{
+                (salarie | async).properties?.mois_travail || 0
+              }}
+              mois)</span
+            >
+          </div>
+          <div class="detail-item">
+            <strong class="detail-name">Nombre de jours d'absence :</strong>
+            <span
+              >{{
+                (salarie | async).properties?.jours_absence || 0
+              }}
+              jours</span
+            >
+          </div>
+          <div class="detail-item">
+            <strong class="detail-name">Nombre de jours de congés :</strong>
+            <span
+              >{{ (salarie | async).properties?.jours_conge || 0 }} jours</span
+            >
+          </div>
+          <div
+            class="detail-item text-danger"
+            *ngIf="(salarie | async).deleted"
+          >
+            <strong class="detail-name">Supprimé pour la raison :</strong>
+            <span>{{
+              (salarie | async).raisonSuppression || "Pas spécifiée"
+            }}</span>
+          </div>
+          <button
+            *ngIf="(salarie | async).cv"
+            class="mt-2"
+            (click)="handleDownload($event)"
+            mat-stroked-button
+            color="primary"
+          >
+            Télecharger le CV
+          </button>
         </div>
       </div>
     </div>
-    <div class="header-right" *ngIf="!salarie.poste">
-      Aucun poste affecté. <span class="text-primary">Cliquer pour à un poste</span>
+    <div *ngIf="!(salarie | async).poste" class="header-right">
+      Aucun poste affecté.
+      <!-- <span class="text-primary">Cliquer pour à un poste</span> -->
     </div>
-    <div class="header-right" *ngIf="salarie.poste">
+    <div *ngIf="(salarie | async).poste" class="header-right">
       <div class="poste-top">
         <h3 class="poste-header">Poste affecté</h3>
-        <h4 class="poste-name">{{ salarie.poste.nom }}</h4>
+        <h4 class="poste-name">{{ (salarie | async).poste.nom }}</h4>
       </div>
       <div class="poste-details">
         <div class="detail-item">
           <strong class="detail-name">Direction :</strong>
-          <span>{{ salarie.poste.direction.nom }}</span>
+          <span>{{ (salarie | async).poste.direction.nom }}</span>
         </div>
         <div class="detail-item">
           <strong class="detail-name">Division :</strong>
-          <span>{{ salarie.poste.division }}</span>
+          <span>{{ (salarie | async).poste.division }}</span>
         </div>
         <div class="detail-item">
           <strong class="detail-name">Service :</strong>
-          <span>{{ salarie.poste.service.nom }}</span>
+          <span>{{ (salarie | async).poste.service.nom }}</span>
         </div>
         <span class="text-primary">Modifier</span> •
-        <span class="text-danger">Dettacher</span>
+        <span (click)="deletePoste()" class="text-danger">Dettacher</span>
       </div>
     </div>
   </div>
   <nav mat-tab-nav-bar class="mb-3">
-    <a mat-tab-link
-       routerLinkActive #infos="routerLinkActive"
-       routerLink="./infos"
-       [active]="infos.isActive">
+    <a
+      mat-tab-link
+      routerLinkActive
+      #infos="routerLinkActive"
+      routerLink="./infos"
+      [active]="infos.isActive"
+    >
       Informations personnelles
     </a>
 
-    <a mat-tab-link
-       routerLink="./absences"
-       routerLinkActive #abs="routerLinkActive"
-       [active]="abs.isActive">
+    <a
+      mat-tab-link
+      routerLink="./absences"
+      routerLinkActive
+      #abs="routerLinkActive"
+      [active]="abs.isActive"
+    >
       Historique d'absences
     </a>
-    <a mat-tab-link
-       routerLink="./conges"
-       routerLinkActive #conges="routerLinkActive"
-       [active]="conges.isActive">
+    <a
+      mat-tab-link
+      routerLink="./conges"
+      routerLinkActive
+      #conges="routerLinkActive"
+      [active]="conges.isActive"
+    >
       Demandes de congés
     </a>
-    <a mat-tab-link
-       routerLink="./retraites"
-       routerLinkActive #retraites="routerLinkActive"
-       [active]="retraites.isActive">
+    <a
+      mat-tab-link
+      routerLink="./retraites"
+      routerLinkActive
+      #retraites="routerLinkActive"
+      [active]="retraites.isActive"
+    >
       Informations sur la retraite
     </a>
 
-    <a mat-tab-link
-       routerLink="./avantages"
-       routerLinkActive #avantages="routerLinkActive"
-       [active]="avantages.isActive">
+    <a
+      mat-tab-link
+      routerLink="./avantages"
+      routerLinkActive
+      #avantages="routerLinkActive"
+      [active]="avantages.isActive"
+    >
       Les avantages en nature
     </a>
-
-
   </nav>
   <router-outlet></router-outlet>
 </div>

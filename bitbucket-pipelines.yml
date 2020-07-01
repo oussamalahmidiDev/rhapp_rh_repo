@@ -27,3 +27,28 @@ pipelines:
                 HEROKU_API_KEY: $HEROKU_API_KEY
                 HEROKU_APP_NAME: $HEROKU_APP_NAME
                 ZIP_FILE: "application.tgz"
+    redux-test:
+      - step:
+          name: 'Build app -redux'
+          caches:
+            - node
+          script:
+            - npm install --quiet
+            - npm run prod
+          artifacts:
+            - dist/**
+      - step:
+          name: 'Create zip'
+          script:
+            - tar czfv application.tgz dist -C server .
+          artifacts:
+            - application.tgz
+      - step:
+          name: 'Deploy to Heroku in production'
+          deployment: production
+          script:
+            - pipe: atlassian/heroku-deploy:0.1.1
+              variables:
+                HEROKU_API_KEY: $HEROKU_API_KEY
+                HEROKU_APP_NAME: $HEROKU_APP_NAME
+                ZIP_FILE: "application.tgz"

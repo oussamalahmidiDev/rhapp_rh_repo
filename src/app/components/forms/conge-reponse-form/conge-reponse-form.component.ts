@@ -1,10 +1,15 @@
-import {Component, OnInit, Inject, EventEmitter, Output} from '@angular/core';
-import {Validators, FormGroup, FormBuilder} from '@angular/forms';
-import {MatDialogRef, MAT_DIALOG_DATA} from '@angular/material';
+import {Component, Inject, OnInit} from '@angular/core';
+import {FormBuilder, FormGroup} from '@angular/forms';
+import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material';
 
 import {Conge} from '../../../models/conge';
 
-import { CongesService } from '../../../services/conges.service';
+import {CongesService} from '../../../services/conges.service';
+import {Select, Store} from '@ngxs/store';
+import {RepondreConge} from '../../../actions/conges.action';
+import {Observable} from 'rxjs';
+import {Salarie} from '../../../models/salarie';
+import {SalariesState} from '../../../states/salaries.state';
 
 @Component({
   selector: 'app-conge-reponse-form',
@@ -13,35 +18,27 @@ import { CongesService } from '../../../services/conges.service';
 })
 export class CongeReponseFormComponent implements OnInit {
 
-  isLinear = false;
-  firstFormGroup: FormGroup;
-  secondFormGroup: FormGroup;
-  formIsValid = false;
-  formIsApproved = false;
+  @Select(SalariesState.getSelectedSalarie)
+  selectedSalarie: Observable<Salarie>;
 
-  compteExp: string = '';
-  compteDest: string = '';
-  montant: string = '';
 
   congeReponseForm: FormGroup;
 
 
   competences: string[] = [];
-  // poste: Poste = {
-  //   nom: "Gestion de RH", direction: "Direction X", division: "Div X", service: "Service RH", competences: ["Cmp 1", "Comp2"], salarie: this.salarie
-  // }
 
 
   constructor(
-    private _formBuilder: FormBuilder,
+    private formBuilder: FormBuilder,
     public dialogRef: MatDialogRef<CongeReponseFormComponent>,
     @Inject(MAT_DIALOG_DATA) public data: Conge,
+    private store: Store,
     private congeService: CongesService) {
     console.log(data);
   }
 
   ngOnInit() {
-    this.congeReponseForm = this._formBuilder.group({
+    this.congeReponseForm = this.formBuilder.group({
       reponse: [''],
       etat: ['']
     });
@@ -49,10 +46,14 @@ export class CongeReponseFormComponent implements OnInit {
 
   onSubmit() {
     console.log(this.congeReponseForm.value);
-    this.congeService.repondreConge(this.data.id, this.congeReponseForm.value).subscribe(
-      data => this.dialogRef.close(data),
-      error => {}
-    );
+    this.store.dispatch(new RepondreConge(this.data.id, this.congeReponseForm.value))
+      .subscribe(() => this.dialogRef.close());
+
+    // this.congeService.repondreConge(this.data.id, this.congeReponseForm.value).subscribe(
+    //   data => this.dialogRef.close(data),
+    //   error => {
+    //   }
+    // );
   }
 
 }

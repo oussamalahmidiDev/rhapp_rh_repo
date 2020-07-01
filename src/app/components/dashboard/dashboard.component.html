@@ -1,14 +1,38 @@
-<div class="mt-5 container">
-  <h1 class="mat-subheading">Bienvenue sur la plateforme</h1>
-  <mat-divider></mat-divider>
-  <div class="cards container mt-3">
-    <div class="row row-cols-3">
+<div class="container">
+  <h1 *ngIf="(profile | async).role === 'ADMIN'" class="mat-subheading mt-5">Côté administratif</h1>
+  <mat-divider *ngIf="(profile | async).role === 'ADMIN'"></mat-divider>
+  <div *ngIf="(profile | async).role === 'ADMIN'" class="cards container mt-3">
       <div class="card col-sm mr-4 mb-4">
         <div class="card-body">
-          <h5 class="card-title">Gestion des postes</h5>
+          <h5 class="card-title font-weight-bold">Gestion des utilisateurs</h5>
           <p class="card-text">
-            Some quick example text to build on the card title and make up the
-            bulk of the card's content.
+            Créer, modifier, supprimer les adminsitrateurs et les agents de resources humaines. 
+          </p>
+          <a routerLink="../utilisateurs">
+            <button mat-stroked-button color="primary">Voir plus</button>
+          </a>
+        </div>
+      </div>
+      <div class="card col-sm mr-4 mb-4">
+        <div class="card-body">
+          <h5 class="card-title font-weight-bold">Journal d'évenements de l'application</h5>
+          <p class="card-text">
+            Suivre toutes les activités et les évenements de toutes les utilisateurs de l'application.
+          </p>
+          <a routerLink="../journal">
+            <button mat-stroked-button color="primary">Voir plus</button>
+          </a>
+        </div>
+      </div>
+  </div>
+  <h1 class="mat-subheading mt-5 ">Côté gestion des resources humaines</h1>
+  <mat-divider></mat-divider>
+  <div class="cards container mt-3">
+      <div class="card col-sm mr-4 mb-4">
+        <div class="card-body">
+          <h5 class="card-title font-weight-bold">Gestion des postes</h5>
+          <p class="card-text">
+            Voir, créer, modifier, affecter, supprimer les postes.
           </p>
           <a routerLink="../postes">
             <button mat-stroked-button color="primary">Voir plus</button>
@@ -18,10 +42,9 @@
 
       <div class="card col-sm mr-4 mb-4">
         <div class="card-body">
-          <h5 class="card-title">Gestion des congés</h5>
+          <h5 class="card-title font-weight-bold">Gestion demandes de congés</h5>
           <p class="card-text">
-            Some quick example text to build on the card title and make up the
-            bulk of the card's content.
+            Voir, répondre à les demandes de congés envoyés par les salariés. Vous pouvez aussi créer des demandes de congés de maladie pour les salariés.
           </p>
           <a routerLink="../conges">
             <button mat-stroked-button color="primary">Voir plus</button>
@@ -30,57 +53,38 @@
       </div>
       <div class="card col-sm mr-4 mb-4">
         <div class="card-body">
-          <h5 class="card-title">Gestion des absences</h5>
+          <h5 class="card-title font-weight-bold">Gestion des absences</h5>
           <p class="card-text">
-            Some quick example text to build on the card title and make up the
-            bulk of the card's content.
+            Voir, enregistrer les informations des absences des salariés, télecharger les justificatifs.
           </p>
           <a routerLink="../absences">
             <button mat-stroked-button color="primary">Voir plus</button>
           </a>
         </div>
       </div>
-    </div>
-
-    <div class="row row-cols-3">
 
       <div class="card col-sm mr-4 mb-4">
         <div class="card-body">
-          <h5 class="card-title">Gestion des retraites</h5>
+          <h5 class="card-title font-weight-bold">Gestion des salariés</h5>
           <p class="card-text">
-            Some quick example text to build on the card title and make up the
-            bulk of the card's content.
-          </p>
-          <a routerLink="../retraites">
-            <button mat-stroked-button color="primary">Voir plus</button>
-          </a>
-        </div>
-      </div>
-      <div class="card col-sm mr-4 mb-4">
-        <div class="card-body">
-          <h5 class="card-title">Gestion des avantages de nature</h5>
-          <p class="card-text">
-            Some quick example text to build on the card title and make up the
-            bulk of the card's content.
-          </p>
-          <a routerLink="../">
-            <button mat-stroked-button color="primary">Voir plus</button>
-          </a>
-        </div>
-      </div>
-      <div class="card col-sm mr-4 mb-4">
-        <div class="card-body">
-          <h5 class="card-title">Gestion des salariés</h5>
-          <p class="card-text">
-            Some quick example text to build on the card title and make up the
-            bulk of the card's content.
+            Voir, créer, modifier, supprimer les salariés au sein de l'entreprise. Voir toutes leurs informations personnelles et professionnelles, 
+            ainsi gérer leurs retraites et leurs avantages en nature.
           </p>
           <a routerLink="../salaries">
             <button mat-stroked-button color="primary">Voir plus</button>
           </a>
         </div>
       </div>
-
-    </div>
+      <div *ngIf="(profile | async).role === 'RH'" class="card col-sm mr-4 mb-4">
+        <div class="card-body">
+          <h5 class="card-title font-weight-bold">Journal d'évenements de salariés</h5>
+          <p class="card-text">
+            Suivre toutes les activités et les évenements des salariés.
+          </p>
+          <a routerLink="../journal">
+            <button color="primary" mat-stroked-button>Voir plus</button>
+          </a>
+        </div>
+      </div>
   </div>
 </div>

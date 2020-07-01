@@ -1,13 +1,24 @@
 <div class="form">
-  <div class="mat-title">Enregistrer un congé de maladie d'un salarié</div>
-  <p class="mat-body">
-    Formualaire d'enregistrement congé de maladie des salariés. Verifiez bien les
-    informations avant de valider !
+  <div *ngIf="!editForm" class="mat-title">
+    Enregistrer un congé de maladie d'un salarié
+  </div>
+  <div *ngIf="editForm" class="mat-title">
+    Modifier les informations du congé de maladie de {{ data.salarie.nom }}
+    {{ data.salarie.prenom }}
+  </div>
+  <p *ngIf="!editForm" class="mat-body">
+    Formualaire d'enregistrement congé de maladie des salariés. Verifiez bien
+    les informations avant de valider ! <br /><strong
+      style="opacity: 0.7; color: #0091fa;"
+      >Notez-bien que certaines dates ne peuvent pas être sélectionnées
+      parcequ'il peut y exister une absence déjà enregistrée ou le salarié est
+      en congé.</strong
+    >
   </p>
   <mat-vertical-stepper linear>
     <mat-step [stepControl]="congeMaladieForm">
       <form [formGroup]="congeMaladieForm">
-        <ng-template matStepLabel>Selectionner le salarié concerné</ng-template>
+        <ng-template matStepLabel>Informations sur la demande</ng-template>
         <div class="row" *ngIf="!salariesLoaded">
           <mat-spinner
             class="mr-2"
@@ -16,12 +27,16 @@
           ></mat-spinner>
           <span>Chargement de liste de salariés</span>
         </div>
-        <mat-form-field [style.width.px]="327" *ngIf="salariesLoaded">
+        <mat-form-field
+          *ngIf="salariesLoaded && !editForm"
+          [style.width.px]="327"
+        >
           <mat-label>Selectionner le salarié</mat-label>
           <mat-select formControlName="salarieId">
             <mat-option
               class="account-inline"
-              *ngFor="let salarie of salaries"
+              [disabled]="salarie.deleted"
+              *ngFor="let salarie of salaries | async"
               [value]="salarie.id"
             >
               <span
@@ -39,11 +54,7 @@
         <div *ngIf="salariesLoaded">
           <mat-form-field [style.width.px]="327">
             <mat-label>Préciser le motif de maladie</mat-label>
-            <input
-              type="text"
-              matInput
-              formControlName="motif"
-            />
+            <input type="text" matInput formControlName="motif" />
           </mat-form-field>
           <mat-form-field [style.width.px]="327">
             <mat-label>Date de début</mat-label>
@@ -51,6 +62,7 @@
               matInput
               formControlName="dateDebut"
               [matDatepicker]="dateDebutPicker"
+              [matDatepickerFilter]="dateFilter"
             />
             <mat-datepicker-toggle
               matSuffix
@@ -65,6 +77,7 @@
               formControlName="dateFin"
               [min]="congeMaladieForm.value.dateDebut"
               [matDatepicker]="dateFinPicker"
+              [matDatepickerFilter]="dateFinFilter"
             />
             <mat-datepicker-toggle
               matSuffix
@@ -78,6 +91,7 @@
               (click)="onSubmit()"
               mat-button
               matStepperNext
+              [disabled]="congeMaladieForm.invalid"
             >
               Enregistrer
             </button>

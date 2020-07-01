@@ -4,15 +4,17 @@
     <mat-icon  class="close-btn" (click) = "closeModal()">cancel</mat-icon>
   </div>
   <div class="profil-top">
-    <div class="avatar"  *ngIf="currentUser.photo"  [ngStyle]="{ 'background-image': currentUser.photo | url | async }"></div>
-    <div class="avatar" *ngIf="!currentUser.photo" [ngStyle]="{ 'background-image': 'url(' + 'assets/images/default.jpg' + ')'}"></div>
-    <h5 style="margin-top: 10px;">{{ currentUser.nom }} {{ currentUser.prenom }}</h5>
+    <div *ngIf="(currentUser | async).photo"
+         [ngStyle]="{ 'background-image': (currentUser | async).photo | blob | async | url }" class="avatar"></div>
+    <div *ngIf="!(currentUser | async).photo"
+         [ngStyle]="{ 'background-image': 'url(' + 'assets/images/default.jpg' + ')'}" class="avatar"></div>
+    <h5 style="margin-top: 10px;">{{ (currentUser | async).nom }} {{ (currentUser | async).prenom }}</h5>
     <div class="buttons-row">
       <mat-progress-spinner
-          *ngIf = "uploading"
-          mode="determinate"
-          strokeWidth="3" [diameter]="25"
-          [value]="uploadProgress">
+        *ngIf="uploading"
+        [diameter]="25"
+        [value]="uploadProgress" mode="determinate"
+        strokeWidth="3">
       </mat-progress-spinner>
       <div class="upload-btn-wrapper" *ngIf="!uploading">
         <button class="mr-2" mat-stroked-button>
@@ -22,8 +24,8 @@
         <input type="file" (change)="handlePhotoUpload($event)" name="avatar" accept="jpg,jpeg,png">
       </div>
       <div class="upload-btn-wrapper" *ngIf="!uploading">
-        <button mat-stroked-button color="warn"  *ngIf="currentUser.photo"
-          (click)="deletePhoto()">
+        <button (click)="deletePhoto()" *ngIf="(currentUser | async).photo" color="warn"
+                mat-stroked-button>
           <mat-icon>delete</mat-icon>
           Supprimer
         </button>
