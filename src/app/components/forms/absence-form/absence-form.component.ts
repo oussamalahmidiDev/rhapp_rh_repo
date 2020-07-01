@@ -14,7 +14,6 @@ import { AbsencesState } from "src/app/states/absences.state";
 import * as moment from "moment";
 import { Conge } from "src/app/models/conge";
 import { CongesState } from "src/app/states/conges.state";
-import * as moment from "moment";
 
 @Component({
   selector: "app-absence-form",

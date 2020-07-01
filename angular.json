@@ -3,7 +3,7 @@
   "$schema": "./node_modules/@angular/cli/lib/config/schema.json",
   "newProjectRoot": "projects",
   "projects": {
-    "ebank": {
+    "rehapp": {
       "root": "",
       "sourceRoot": "src",
       "projectType": "application",
@@ -112,21 +112,21 @@
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
           "options": {
-            "browserTarget": "ebank:build"
+            "browserTarget": "rehapp:build"
           },
           "configurations": {
             "production": {
-              "browserTarget": "ebank:build:production"
+              "browserTarget": "rehapp:build:production"
             },
             "heroku": {
-              "browserTarget": "ebank:build:heroku"
+              "browserTarget": "rehapp:build:heroku"
             }
           }
         },
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "ebank:build"
+            "browserTarget": "rehapp:build"
           }
         },
         "test": {
@@ -180,7 +180,7 @@
         }
       }
     },
-    "ebank-e2e": {
+    "rehapp-e2e": {
       "root": "e2e/",
       "projectType": "application",
       "prefix": "",
@@ -189,11 +189,11 @@
           "builder": "@angular-devkit/build-angular:protractor",
           "options": {
             "protractorConfig": "e2e/protractor.conf.js",
-            "devServerTarget": "ebank:serve"
+            "devServerTarget": "rehapp:serve"
           },
           "configurations": {
             "production": {
-              "devServerTarget": "ebank:serve:production"
+              "devServerTarget": "rehapp:serve:production"
             }
           }
         },
@@ -209,5 +209,5 @@
       }
     }
   },
-  "defaultProject": "ebank"
+  "defaultProject": "rehapp"
 }
