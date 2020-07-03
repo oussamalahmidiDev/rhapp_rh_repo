@@ -122,11 +122,11 @@ export class AbsenceFormComponent implements OnInit {
     formData.append("salarie_id", this.absenceForm.get("salarieId").value);
     formData.append(
       "dateDebut",
-      moment(this.absenceForm.get("dateDebut").value).format("D-MM-YYYY")
+      moment(this.absenceForm.get("dateDebut").value).format("DD-MM-YYYY")
     );
     formData.append(
       "dateFin",
-      moment(this.absenceForm.get("dateFin").value).format("D-MM-YYYY")
+      moment(this.absenceForm.get("dateFin").value).format("DD-MM-YYYY")
     );
     formData.append("type", this.absenceForm.get("type").value);
     if (this.justificatif) {

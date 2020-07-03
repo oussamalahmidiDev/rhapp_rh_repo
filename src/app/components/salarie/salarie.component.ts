@@ -33,7 +33,8 @@ export class SalarieComponent implements OnInit {
   ngOnInit() {}
 
   deletePoste() {
-    this.store.dispatch(new DeleteSalariePoste());
+    if (confirm("Voulez-vous continuez ?"))
+      this.store.dispatch(new DeleteSalariePoste());
   }
 
   goBack() {

@@ -106,19 +106,28 @@
         <ng-container matColumnDef="actions">
           <th *matHeaderCellDef mat-header-cell></th>
           <td *matCellDef="let element" mat-cell>
-            <button
-              [matMenuTriggerFor]="menu"
-              *ngIf="!element.deleted"
-              mat-icon-button
-            >
+            <button [matMenuTriggerFor]="menu" mat-icon-button>
               <mat-icon>more_horiz</mat-icon>
             </button>
             <mat-menu #menu="matMenu">
-              <button (click)="openSalarieModifForm(element)" mat-menu-item>
+              <button
+                *ngIf="element.deleted"
+                (click)="restore(element)"
+                mat-menu-item
+              >
+                <mat-icon>restore</mat-icon>
+                <span>Restaurer</span>
+              </button>
+              <button
+                *ngIf="!element.deleted"
+                (click)="openSalarieModifForm(element)"
+                mat-menu-item
+              >
                 <mat-icon>edit</mat-icon>
                 <span>Modifier</span>
               </button>
               <button
+                *ngIf="!element.deleted"
                 (click)="deleteSalarie(element)"
                 class="text-danger"
                 mat-menu-item

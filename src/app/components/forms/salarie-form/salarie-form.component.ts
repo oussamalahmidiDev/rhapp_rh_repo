@@ -54,7 +54,6 @@ export class SalarieFormComponent implements OnInit {
 
     this.thirdFormGroup = this.formBuilder.group({
       dateRecrutement: ["", Validators.required],
-      solde: ["", [Validators.required, Validators.min(1)]],
     });
 
     if (this.data) {

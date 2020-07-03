@@ -51,6 +51,12 @@ export class SupprimerRetraite {
   constructor(public id: number) {}
 }
 
+export class RestoreSalarie {
+  static readonly type = "[Salaries] RESTORE";
+
+  constructor(public id: number) {}
+}
+
 export class AddAvantage {
   static readonly type = "[Salaries] AVANTAGES ADD";
 
