@@ -83,8 +83,15 @@
       <div class="detail-content">{{ (salarie | async).service.nom }}</div>
     </div>
     <div class="detail-item">
-      <div class="detail-name">Nombre de jours de congés</div>
-      <div class="detail-content">{{ (salarie | async).solde }}</div>
+      <div
+        class="detail-name"
+        matTooltip="Le nombre de jours maximale de congé que le salarié puisse bénificier"
+      >
+        Nombre de jours de congés
+      </div>
+      <div class="detail-content">
+        {{ (salarie | async).properties.max_jours_conge }} jours
+      </div>
     </div>
   </mat-expansion-panel>
 

@@ -1,49 +1,50 @@
-import {Component, Injectable, OnInit, ViewChild} from '@angular/core';
-import {MatDialog, MatSnackBar, MatSort, MatTableDataSource} from '@angular/material';
-import {SalariesService} from '../../services/salaries.service';
-import {User} from '../../models/user';
-import {UserFormComponent} from '../forms/user-form/user-form.component';
-import {UserUpdateFormComponent} from '../forms/user-updateform/user-update-form.component';
-import {UsersService} from '../../services/users.service';
-import {Select, Store} from '@ngxs/store';
-import {DeleteUser, GetUsers} from '../../actions/users.action';
-import {UsersState} from '../../states/users.state';
-import {Observable} from 'rxjs';
-
+import { Component, Injectable, OnInit, ViewChild } from "@angular/core";
+import {
+  MatDialog,
+  MatSnackBar,
+  MatSort,
+  MatTableDataSource,
+} from "@angular/material";
+import { SalariesService } from "../../services/salaries.service";
+import { User } from "../../models/user";
+import { UserFormComponent } from "../forms/user-form/user-form.component";
+import { UserUpdateFormComponent } from "../forms/user-updateform/user-update-form.component";
+import { UsersService } from "../../services/users.service";
+import { Select, Store } from "@ngxs/store";
+import { DeleteUser, GetUsers } from "../../actions/users.action";
+import { UsersState } from "../../states/users.state";
+import { Observable } from "rxjs";
 
 @Injectable()
 @Component({
-  selector: 'app-users',
-  templateUrl: './users.component.html',
-  styleUrls: ['./users.component.css']
+  selector: "app-users",
+  templateUrl: "./users.component.html",
+  styleUrls: ["./users.component.css"],
 })
 export class UsersComponent implements OnInit {
-
-
   @Select(UsersState.getUsers)
   users: Observable<User[]>;
 
   usersDs: MatTableDataSource<User>;
-  userCols: string[] = ['nomcomplet', 'email', 'role', 'date', 'actions'];
+  userCols: string[] = ["nomcomplet", "email", "role", "date", "actions"];
 
   // @ts-ignore
-  @ViewChild(MatSort, {static: true}) sort: MatSort;
+  @ViewChild(MatSort, { static: true }) sort: MatSort;
 
   constructor(
     private store: Store,
     private service: UsersService,
     private snackBar: MatSnackBar,
     private dialog: MatDialog,
-    private salariesService: SalariesService) {
+    private salariesService: SalariesService
+  ) {
     this.usersDs = new MatTableDataSource<User>();
-
-
   }
 
   // dataSource: MatTableDataSource < Element[] > ;
   ngOnInit() {
     this.store.dispatch(new GetUsers());
-    this.users.subscribe(data => {
+    this.users.subscribe((data) => {
       this.usersDs = new MatTableDataSource<User>(data);
       this.usersDs.filterPredicate = (data: any, filter) => {
         const dataStr = JSON.stringify(data).toLowerCase();
@@ -51,30 +52,29 @@ export class UsersComponent implements OnInit {
       };
       this.usersDs.sortingDataAccessor = (item, property) => {
         switch (property) {
-          case 'date':
+          case "date":
             return new Date(item.dateCreation);
           default:
             return item[property];
         }
       };
-
     });
   }
 
   deleteUser(id) {
-    if (confirm('Voulez vous supprimer cet utilisateur ?')) {
+    if (confirm("Voulez vous supprimer cet utilisateur ?")) {
       this.store.dispatch(new DeleteUser(id));
     }
   }
 
   modifyUser(user: User) {
     const dialogRef = this.dialog.open(UserUpdateFormComponent, {
-      width: '500px',
+      width: "500px",
       data: user,
-      disableClose: true
+      disableClose: true,
     });
-    dialogRef.afterClosed().subscribe(() => {
-      this.openSnackBar('Utilisateur modifié avec succès');
+    dialogRef.afterClosed().subscribe((data) => {
+      if (data) this.openSnackBar("Utilisateur modifié avec succès");
       //
       // if (data !== undefined) {
       //   console.log('Subtask Dialog output:', data);
@@ -87,20 +87,20 @@ export class UsersComponent implements OnInit {
   }
 
   openSnackBar(message: string) {
-    this.snackBar.open(message, 'OK', {
+    this.snackBar.open(message, "OK", {
       duration: 2000,
     });
   }
 
   openUserForm(): void {
     const dialogRef = this.dialog.open(UserFormComponent, {
-      width: '500px',
-      disableClose: true
+      width: "500px",
+      disableClose: true,
     });
 
-    dialogRef.afterClosed().subscribe(() => {
+    dialogRef.afterClosed().subscribe((data) => {
       // console.log('Subtask Dialog output:', data);
-      this.openSnackBar('Utilisateur ajouté avec succès');
+      if (data) this.openSnackBar("Utilisateur ajouté avec succès");
       // if (data !== undefined) {
       //   if (data.id !== null || data.id !== undefined) {
       //     // this.users.unshift(data);
@@ -109,13 +109,10 @@ export class UsersComponent implements OnInit {
       //   }
       // }
     });
-
   }
 
   search($event) {
     const filterValue = (event.target as HTMLInputElement).value;
     this.usersDs.filter = filterValue.trim().toLowerCase();
   }
-
-
 }

@@ -143,8 +143,13 @@
           <strong class="detail-name">Service :</strong>
           <span>{{ (salarie | async).poste.service.nom }}</span>
         </div>
-        <span class="text-primary">Modifier</span> •
-        <span (click)="deletePoste()" class="text-danger">Dettacher</span>
+        <!-- <span class="text-primary">Modifier</span> • -->
+        <span
+          (click)="deletePoste()"
+          style="cursor: pointer;"
+          class="text-danger"
+          >Dettacher</span
+        >
       </div>
     </div>
   </div>

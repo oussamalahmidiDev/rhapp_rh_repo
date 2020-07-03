@@ -17,6 +17,7 @@ import {
   SupprimerAvantage,
   ModifierRetraite,
   SupprimerRetraite,
+  RestoreSalarie,
 } from "../actions/salaries.action";
 import { tap } from "rxjs/operators";
 import {
@@ -47,6 +48,14 @@ export class SalariesState {
   @Selector()
   static getSelectedSalarie(store: MainStore) {
     return store.selectedSalarie;
+  }
+
+  @Selector()
+  static nonRetiredSalaries(store: MainStore) {
+    return store.salaries.filter(
+      (salarie) =>
+        salarie.retraite === undefined || salarie.retraite.etat !== "VALID"
+    );
   }
 
   @Selector()
@@ -133,7 +142,10 @@ export class SalariesState {
       .dispatch(new DeletePosteSalarie(ctx.getState().selectedSalarie.poste.id))
       .subscribe(() =>
         ctx.patchState({
-          selectedSalarie: { ...ctx.getState().selectedSalarie, poste: null },
+          selectedSalarie: {
+            ...ctx.getState().selectedSalarie,
+            poste: undefined,
+          },
         })
       );
   }
@@ -258,6 +270,19 @@ export class SalariesState {
   deleteSalarie(ctx: StateContext<MainStore>, { id, payload }: DeleteSalarie) {
     return this.service
       .deleteSalarie(id, { raisonSuppression: payload.raisonSuppression })
+      .pipe(
+        tap((res) =>
+          ctx.setState(
+            patch({ salaries: updateItem((item) => item.id === id, res) })
+          )
+        )
+      );
+  }
+
+  @Action(RestoreSalarie)
+  restoreSalarie(ctx: StateContext<MainStore>, { id }: RestoreSalarie) {
+    return this.service
+      .restore(id)
       .pipe(
         tap((res) =>
           ctx.setState(

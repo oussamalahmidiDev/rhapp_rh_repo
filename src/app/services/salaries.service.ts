@@ -76,6 +76,13 @@ export class SalariesService {
     );
   }
 
+  restore(id: number): Observable<any> {
+    return this.http.request<any>(
+      "DELETE",
+      `${this.BASE_URL}/api/salaries/${id}/restore`
+    );
+  }
+
   modifierSalarie(id: number, salarie: Salarie): Observable<Salarie> {
     return this.http.put<Salarie>(
       `${this.BASE_URL}/api/salaries/${id}/modifier`,

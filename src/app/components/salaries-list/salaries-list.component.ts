@@ -14,7 +14,11 @@ import { SalarieFormComponent } from "../forms/salarie-form/salarie-form.compone
 import { ActivatedRoute } from "@angular/router";
 import { Select, Store } from "@ngxs/store";
 import { Observable } from "rxjs";
-import { DeleteSalarie, GetSalaries } from "src/app/actions/salaries.action";
+import {
+  DeleteSalarie,
+  GetSalaries,
+  RestoreSalarie,
+} from "src/app/actions/salaries.action";
 import { SalariesState } from "../../states/salaries.state";
 import { GetServices } from "../../actions/services.action";
 import { GetDirections } from "../../actions/directions.action";
@@ -112,6 +116,10 @@ export class SalariesListComponent implements OnInit {
     this.store.dispatch(
       new DeleteSalarie(salarie.id, { ...salarie, raisonSuppression })
     );
+  }
+
+  restore(salarie: Salarie) {
+    this.store.dispatch(new RestoreSalarie(salarie.id));
   }
 
   search($event) {
